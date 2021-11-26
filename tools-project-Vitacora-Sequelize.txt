@@ -1,0 +1,23 @@
+Instalación módulos principales:
+
+ceación del packaje                     : npm init -y
+instalación de express                  : npm install express
+Instalacion modulo mysql                : npm install mysql2 --save
+instalación del ORM                     : npm install sequelize
+instalación de cli						: npm install -g sequelize-cli
+ver peticiones que llegan al server     : npm install morgan
+Interactuar entre los dos servidores    : npm install core
+para escribir codigo moderno javascript : npm install @babel/polyfill
+
+Instalación módulos complementarios:
+npm install --save-dev @babel/core @babel/cli @babel/preset-env
+
+reiniciar el código                     : npm install nodemon -D
+                                        : npm install @babel/node -D
+Para instalar la CLI de Sequelize:      : npm install --save-dev sequelize-cli
+Creación de MVC							: npx sequelize-cli init
+
+
+El archivo .bablrc le dice ababel que es lo que va a traducir
+
+

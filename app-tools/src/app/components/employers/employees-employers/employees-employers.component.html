@@ -1,0 +1,48 @@
+   <p-table  #mydt
+     [columns]="cols"
+     [value]="results"
+     responsiveLayout="scroll"
+     [paginator]="true"
+     currentPageReportTemplate = "Mostrando {first} a {last} de {totalRecords} entradas"
+     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+     styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-customers"
+     [scrollable]="true"
+     scrollHeight="350px"
+     [autoLayout]="true"
+     >
+     <ng-template pTemplate="caption">
+         <div class="flex justify-content-between flex-wrap card-container purple-container">
+             <div class="flex align-items-center justify-content-center m-2">
+                 <span class = "font-sub-title">Catálogo de trabajadores</span>
+             </div>
+             <div class="flex align-items-center justify-content-center">
+                 <div class="p-field mb-3 ml-3" *ngIf="results">
+                    <p-progressSpinner *ngIf="showSpinner" [style]="{width: '30px', height: '30px'}" styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                 </div>
+                <div class="p-field mb-3 ml-3" *ngIf="results?.length">
+                    <button type="button" label="Exportar a Excel" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-sm"  tooltip="XLS" tooltipPosition="bottom"></button>
+                </div>
+             </div>
+         </div>
+     </ng-template>
+     <ng-template pTemplate="header" let-columns>
+         <tr>
+             <th *ngFor="let col of columns" [ngStyle]="{color:'var(--green-400)'}" class="font-title-column" style="text-align:center;">
+                 {{col.header}}
+             </th>
+         </tr>
+     </ng-template>
+     <ng-template pTemplate="body" let-rowData let-columns="columns">
+         <tr class="p-selectable-row font-table">
+             <td *ngFor="let col of columns">
+                 {{rowData[col.field]}}
+             </td>
+         </tr>
+      </ng-template>
+      <ng-template let-item pTemplate="paginatordropdownitem">
+        {{item.value}} -por página
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <span class = "font-sub-title">Total registros en esta vista: {{results?.length | number}} </span>
+      </ng-template>
+ </p-table>

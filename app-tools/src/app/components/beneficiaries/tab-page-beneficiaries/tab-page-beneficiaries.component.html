@@ -1,0 +1,15 @@
+<p-card
+class="flex flex-wrap align-items-center justify-content-center mt-3"
+styleClass=""
+[style]="{width: '1300px'}">
+<div class="card font-mini" [style]="{height: '100%'}">
+    <p-tabView class="card font-mini">
+        <p-tabPanel header="Detalles" leftIcon="" tooltip="Detalles de trabajador" class = "font-content">
+             <app-details-beneficiarie></app-details-beneficiarie>
+        </p-tabPanel>
+        <p-tabPanel header="Subsidios" leftIcon="pi pi-money-bill" tooltip="Beneficiarios" class = "font-content">
+             <app-monetary-subsidy-beneficiarie></app-monetary-subsidy-beneficiarie>
+        </p-tabPanel>
+    </p-tabView>
+ </div>
+</p-card>

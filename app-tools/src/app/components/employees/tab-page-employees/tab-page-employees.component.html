@@ -1,0 +1,25 @@
+<p-card
+class="flex flex-wrap align-items-center justify-content-center mt-3"
+styleClass=""
+[style]="{width: '1300px'}">
+<div class="card font-mini" [style]="{height: '100%'}">
+    <p-tabView class="card font-mini">
+        <p-tabPanel header="Detalles" leftIcon="" tooltip="Detalles de trabajador" class = "font-content">
+            <app-details-employees></app-details-employees>
+        </p-tabPanel>
+        <p-tabPanel header="Beneficiarios" leftIcon="pi pi-user" tooltip="Beneficiarios" class = "font-content">
+           <app-beneficiaries-employee></app-beneficiaries-employee>
+        </p-tabPanel>
+        <p-tabPanel header="Trayectoria nomina" leftIcon="pi pi-money-bill" tooltip="Registro de nómina" class = "font-content">
+             <app-payroll-history-employee></app-payroll-history-employee>
+        </p-tabPanel>
+        <p-tabPanel header="Trayectoria de pila" leftIcon="pi pi-file" tooltip="Planilla única" class = "font-content">
+            <app-payroll-history-up-employee></app-payroll-history-up-employee>
+        </p-tabPanel>
+        <p-tabPanel header="Subsidios" leftIcon="pi pi-money-bill" tooltip="Listado de aportes" class = "font-content">
+             <app-monetary-subsidy-employee></app-monetary-subsidy-employee>
+        </p-tabPanel>
+    </p-tabView>
+ </div>
+</p-card>
+

@@ -1,0 +1,160 @@
+AFILIACIONES Y APORTES
+ 
+	 - ACTUALIZACIONS
+
+		 - Actualización masiva de formas de pago
+		 - Actualización masiva de estados de trabajadores
+		 - Cambio de empleador
+		 
+	 - INFORMES Y CERTIFICADOS
+	 
+		 - Certificados de afilaición - Trabajadores
+		 - Certificado de aportes - Empresas
+		 - Consulta de novedades de afiliado
+		 - Listado de empresas
+		 - Listado de afiliados
+		 - Listado de beneficiarios
+ 
+CREDITO Y CARTERA
+
+	 - Construcción de archivo de pagos de pignoración
+	 - Encriptar archivo de pagos por pignoración	
+	 
+
+ Fornt-end ------------------------------------------------------
+ 
+ ng generate component components/menu-bar
+ ng generate component components/update-status
+ ng generate component components/footer
+ ng generate component components/check-worker-status
+
+ Angular 10 – Exportar Tablas de Angular Material a Excel, Json y Archivos de texto con mat-table-exporter
+ https://amoelcodigo.com/angular-material-table-excel/
+
+
+ Angular Excel read Table Stack
+ https://stackblitz.com/edit/angular-excel-read-table?file=src%2Fapp%2Fsheet.component.html
+
+
+ Angular Grid: Get Started with AG Grid
+ https://www.ag-grid.com/angular-grid/getting-started/
+
+
+ DevExtreme Angular Data Grid
+ https://js.devexpress.com/Demos/WidgetsGallery/Demo/DataGrid/Overview/Angular/Light/
+
+
+ Angular Data Grid Overview
+ https://www.telerik.com/kendo-angular-ui/components/grid/
+
+
+ PrimeNG Table (*) - This is the best
+ https://www.primefaces.org/primeng/showcase/#/table
+ https://www.primefaces.org/primeng/showcase/#/table
+
+
+
+ iconClasses = {
+  error: 'toast-error',
+  info: 'toast-info',
+  success: 'toast-success',
+  warning: 'toast-warning',
+};
+ 
+ 
+ Back-End -------------------------------------------------------
+ 
+ referencia: 
+ desarrollaremos un CRUD de una REST API usando Nodejs, Typescript y Mysql a traves de un ORM llamado TypeORM.
+ https://www.faztweb.com/curso/typeorm-crud-restapi-ejemplo
+
+ Nota importante: para crear un proyecto automáticamente:
+ npm install typeorm -g
+ typeorm init --name Typeorm-project --database mysql
+
+ En este ejemplo lo haremos de forma manual:
+ Creación del package										: npm init -y
+ Instalación de expressnpm									: install express
+ instalación de typescript									: npm install typescript -D
+ instalación de tipos de datos de espress					: npm i @types/express -D
+ Instalación de módulo para ver peticiones de servidor		: npm install morgan
+ Instalación de Cors para comunicar los servidores			: npm install cors
+ Intalación para que reconozca tipos de datos				: npm install @types/morgan -D
+ Intalación para que reconozca tipos de datos				: npm install @types/cors -D
+ Instalación de type ORM									: npm install typeorm -g
+ Para crear archivo de configuracion de oremconfug.json		: npx tsc --init
+
+
+
+ Módulo que permite cifrar dato                  			: npm install bcryptjs
+ Módulo para crear variables de entorno          			: npm install dotenv
+ Módulo para el manejo de token                  			: npm install jsonwebtoken
+ Para validaciones                               			: npm install helmet
+ Para usar ultimas características de node       			: npm install @babel/core @babel/cli @babel/node @babel/preset-env nodemon -D
+ 
+
+
+
+
+
+
+
+		En este archivo de configuración, descomentar:
+		
+		"lib": ["ES5", "ES6", "DOM"],
+		"outDir": "./dist",
+		"rootDir": "./src", 
+		"moduleResolution": "node",
+		"experimentalDecorators": true, 
+		"emitDecoratorMetadata": true,
+		"strictPropertyInitialization": false,
+		
+Instalación del driver de Mysql								: npm install mysql
+Con el driver de mysql se recomienda						: npm install reflect-metadata
+Instalación del módulo node									: npm install @types/node -D
+
+==========================================================================================
+
+ROLES
+id
+rol_name
+description
+
+id			rol_name				description
+1			Super user				Acces to all modules
+2			administrator			Access to all modules, except to assign roles or permissions	
+3			modifier				Access to modify the status of the records
+4			advanced consultant		Access to modify the status of the records
+5			basic consultant		Access to query, but cannot export information
+6			invited				 	Access without password only to consult without exporting information (*)
+
+------------------------------------------------------------------------------
+
+USERS
+id
+identification
+name
+email
+token
+
+------------------------------------------------------------------------------
+USERS_ROLES
+id
+fk_id_user
+fk_id_rol
+
+------------------------------------------------------------------------------
+MENU
+id
+description
+is_header
+order
+id_father
+
+==============================================================================
+
+
+
+
+
+ 

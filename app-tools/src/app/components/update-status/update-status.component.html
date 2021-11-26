@@ -1,0 +1,120 @@
+<!-- class="flex flex-wrap align-items-center justify-content-center" -->
+
+<p-card
+     class = "flex"
+     [style]="{width: '100%'}" >
+     <ng-template pTemplate="header" >
+         <div class="font-title ml-3 mt-2" [ngStyle]="{color:'var(--green-600)'}">Actualización de estados</div>
+         <p-divider></p-divider>
+         <p *ngIf="selectedCodeAction == 'B' " class="font-content ml-3" style="color: red;">IMPORTANTE: Relacione los Códigos de Beneficiarios, en la lista. El estado de los beneficiarios se actualiza mediante el <strong><em>CÓDIGO DE BENEFICIARIO</em></strong> más no mediante el <strong><em>DOCUMENTO DE IDENTIFICACIÓN.</em></strong></p>
+         <P *ngIf="selectedCodeAction == 'T' && selectedStatus == 'A'" class="font-content ml-3" style="color: red;">OPCIONALMENTE, puede activar a los trabajadores con el empleador que elija de la lista.</P>
+
+     </ng-template>
+     <!-- Begin content ---------------------------------------------------------------------------->
+     <p-confirmDialog
+         [style]="{width: '50vw'}"
+         header="Confirmation"
+         icon="pi pi-exclamation-triangle"
+         rejectButtonStyleClass="p-button-outlined"
+         [baseZIndex]="10000"
+         acceptLabel="Si">
+     </p-confirmDialog>
+     <p-toast position="top-center"></p-toast>
+     <p-card styleClass="p-card-shadow" class = "">
+         <ng-template pTemplate="header">
+             <!-- <div class="font-sub-title ml-3 mt-1" style="color: red;">Acción:{{selectedAction}}</div> -->
+         </ng-template>
+
+         <div class="grid">
+             <div class="col-3" >
+                 <p class="font-content">Acción a realizar</p>
+                 <p-dropdown [options]="stateType" placeholder="Seleccione acción" [(ngModel)]="selectedCodeAction" optionLabel="name" [showClear]="true" optionValue="code" (onChange)="handleChange()"></p-dropdown>
+                 <p class="font-content">Números de identificación</p>
+                 <textarea [rows]="15" [cols]="30" pInputTextarea [(ngModel)] = "textAreaContent"></textarea>
+                 <div *ngIf="selectedStatus != 'A'">
+                     <p class="font-content">Motivo de inactivación</p>
+                     <p-dropdown emptyMessage="No hay resultados para mostrar" [options]="reasonsForInactivationOptions" placeholder="Seleccione motivo" [(ngModel)]="selectedReason" optionLabel="MOTIVO" [showClear]="true" optionValue="CODIGO_ESTADO" (onChange)="test()"></p-dropdown>
+                 </div>
+             </div>
+
+             <div class="col-9" >
+                 <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="A" [(ngModel)]="selectedStatus" label="Asignar estado Activo"></p-radioButton>
+                 <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="I" [(ngModel)]="selectedStatus" label="Asignar estado Inactivo"></p-radioButton>
+                 <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="M" [(ngModel)]="selectedStatus" label="Asignar estado Muerto" *ngIf="selectedCodeAction != 'E'"></p-radioButton>
+                  <div class="grid" *ngIf="selectedCodeAction == 'T' && selectedStatus == 'A'">
+                       <div class="col-6">
+                          <app-get-employer (idEmployer) = "getIdEmployer($event)"></app-get-employer>
+                       </div>
+                       <div class="col-2">
+                             <p class="font-content" [ngStyle]="{color:'var(--green-600)'}" >Nit: {{idEmployer}}</p>
+                       </div>
+                       <div class="col-2" style="align-items:flex-start;">
+
+                       </div>
+
+                 </div>
+                 <p-table #dt
+                     [columns]="cols"
+                     [value]="results"
+                     responsiveLayout="scroll"
+                     [paginator]="true"
+                     currentPageReportTemplate = "Mostrando {first} a {last} de {totalRecords} entradas"
+                     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                     [totalRecords]="totalRecords"
+                     styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-customers"
+                     [scrollable]="true"
+                     scrollHeight="300px"
+                     [autoLayout]="true"
+                 >
+                     <ng-template pTemplate="caption">
+                         <div class="flex justify-content-between flex-wrap card-container purple-container">
+                             <div class="flex align-items-center justify-content-center m-2">
+                                 <span class = "font-sub-title">{{reportTitle}}</span>
+                             </div>
+                             <div class="flex align-items-center justify-content-center">
+                                 <span class="p-input-icon-left p-ml-auto">
+                                     <i class="pi pi-search"></i>
+                                     <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
+                                 </span>
+                             </div>
+                         </div>
+                     </ng-template>
+                     <ng-template pTemplate="header" let-columns>
+                         <tr>
+                             <th *ngFor="let col of columns" [ngStyle]="{color:'var(--green-400)'}" class="font-title-column" style="text-align:center;">
+                                 {{col.header}}
+                             </th>
+                         </tr>
+                     </ng-template>
+                     <ng-template pTemplate="body" let-rowData let-columns="columns">
+                         <tr class="p-selectable-row font-table">
+                             <td *ngFor="let col of columns">
+                                 {{rowData[col.field]}}
+                             </td>
+                         </tr>
+                     </ng-template>
+                     <ng-template let-item pTemplate="paginatordropdownitem">
+                         {{item.value}} -por página
+                     </ng-template>
+                     <ng-template pTemplate="summary">
+                         <span class = "font-sub-title">Total registros en esta vista: {{results?.length | number}} </span>
+                     </ng-template>
+                 </p-table>
+             </div>
+          </div>
+         <ng-template pTemplate="footer">
+              <!-- <p *ngIf="selectedCodeAction == 'B' " class="font-content">El estado de los beneficrios no cónyuges, se actualizará tomando como criterio el <strong><em>Código</em></strong> más no el <strong><em>Documento de identidad</em></strong> </p>
+              <P *ngIf="selectedCodeAction == 'T' && selectedStatus == 'A'" class="font-content" [ngStyle]="{color:'var(--green-600)'}">Opconalmente, puede activar a los trabajadores con el aportante que elija de la lista</P> -->
+             <div  class="flex flex-row-reverse flex-wrap card-container yellow-container">
+                 <p-button label="Actualizar" icon="pi pi-check" (onClick) = "validate(2)"></p-button>
+                 <p-button label="Consultar" icon="pi pi-list" styleClass="p-button-secondary" [style]="{'margin-right': '.5em'}" (onClick) = "validate(1)"></p-button>
+             </div>
+         </ng-template>
+     </p-card>
+
+     <!-- End content ----------------------------------------------------------------------------->
+     <ng-template pTemplate="footer" >
+         <p-divider></p-divider>
+         <p class="font-mini">CAJA DE COMPENSACIÓN FAMILIAR DE CARTAGENA - COMFAMILIAR </p>
+     </ng-template>
+ </p-card>

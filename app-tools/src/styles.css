@@ -1,0 +1,52 @@
+ @font-face {
+   font-family: Monserrat-black;
+   src: url(./assets/fonts/monserrat/Montserrat-Black.ttf) format("truetype");
+
+ }
+ @font-face {
+   font-family: Montserrat-ExtraLight;
+   src: url(./assets/fonts/monserrat/Montserrat-ExtraLight.ttf) format("truetype");
+ }
+
+ .font-title {
+   font-family: Montserrat-ExtraLight;
+   font-weight: bold;
+   font-size: 30px;
+ }
+ .font-sub-title {
+   font-family: Montserrat-ExtraLight;
+   font-weight: bold;
+   font-size: 15px;
+ }
+ .font-content {
+  font-family: Montserrat-ExtraLight;
+  font-weight: bold;
+  font-size: 14px;
+ }
+ .font-mini {
+  font-family: Montserrat-ExtraLight;
+  font-weight: bold;
+  font-size: 10px;
+ }
+
+ .font-table {
+  font-family: Montserrat-ExtraLight;
+  font-weight: bold;
+  font-size: 10px;
+ }
+ .font-title-column{
+   font-family: Montserrat-ExtraLight;
+   font-weight: bold;
+   font-size: 12px;
+ }
+ .footer {
+  height:70px;
+  line-height:50px;
+
+  color:white;
+  text-align:center;
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+ }

@@ -1,0 +1,45 @@
+<p-card header="Test component" subheader="Card Subheader" [style]="{width: '1500px'}" styleClass="p-card-shadow" class="flex flex-wrap align-items-center justify-content-center mt-3">
+  <ng-template pTemplate="header">
+  </ng-template>
+      <div class="grid">
+         <div class="col-fixed" style="width:200px">
+           <span class="p-float-label">
+             <input id="float-input" class="p-inputtext-sm" type="text" pInputText>
+             <label for="float-input">Identificación</label>
+           </span>
+           <p-button label="Submit"></p-button>
+           <span class="p-float-label mt-5">
+               <textarea id="float-input" rows="20" cols="25" pInputTextarea></textarea>
+               <label for="float-input">Listado</label>
+            </span>
+         </div>
+
+
+<div class="card">
+    <h5>Programmatic</h5>
+    <div style="padding: .5em 0 1em 0">
+        <p-button (click)="activeIndex = 0" styleClass="p-button-text" label="Activate 1rd"></p-button>
+        <p-button (click)="activeIndex = 1" styleClass="p-button-text" label="Activate 2rd" [style]="{'margin-left': '.5em'}"></p-button>
+        <p-button (click)="activeIndex = 2" styleClass="p-button-text" label="Activate 3rd" [style]="{'margin-left': '.5em'}"></p-button>
+    </div>
+    <p-tabView [(activeIndex)]="activeIndex">
+        <p-tabPanel header="Header I">
+            <p>Header1.</p>
+        </p-tabPanel>
+        <p-tabPanel header="Header II">
+            <p>HeaderII</p>
+        </p-tabPanel>
+        <p-tabPanel header="Header III">
+            <p>Header3</p>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+
+
+     </div>
+  <ng-template pTemplate="footer">
+      <p-button label="Save" icon="pi pi-check"></p-button>
+      <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button>
+  </ng-template>
+</p-card>

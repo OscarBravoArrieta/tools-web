@@ -1,0 +1,30 @@
+ {
+     "development": {
+         "username": "soportesys",
+         "password": "soporte123.",
+         "database": "app_tools",
+         "host": "192.168.21.21",
+         "dialect": "mysql"
+     },
+     "test": {
+         "username": "root",
+         "password": null,
+         "database": "database_test",
+         "host": "127.0.0.1",
+         "dialect": "mysql"
+     },
+     "production": {
+         "username": "root",
+         "password": null,
+         "database": "database_production",
+         "host": "127.0.0.1",
+          "dialect": "mysql"
+     },
+         "sisu_db": {
+          "username": "root",
+          "password": null,
+          "database": "sequelize_associations",
+          "host": "127.0.0.1",
+          "dialect": "mysql"
+    }     
+ }
