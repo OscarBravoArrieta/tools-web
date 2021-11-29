@@ -1,34 +1,48 @@
-<p-card styleClass="p-card-shadow"
-     class="flex flex-wrap align-items-center justify-content-center mt-3"
-     [style]="{width: '500px'}">
-     <ng-template pTemplate="header" >
-         <div class="font-title ml-3 mt-2" [ngStyle]="{color:'var(--orange-600)'}">Iniciar sesión</div>
-         <p-divider></p-divider>
-     </ng-template>
-     <div class="font-content"  [style]="{height: '100px'}">
-        <div class="formgrid grid" [style]="{width: '480px'}">
-          <div class="field col" >
-              <label for="tipo_id">Número de identificación</label>
-              <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" autofocus>
-              <label for="tipo_id">Password</label>
-              <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" type="password">
+<div>
+  <p-toast position="top-center"></p-toast>
+  <form [formGroup]="loginForm"
+      (ngSubmit)="sendUser()"
+      novalidate>
+      <p-card styleClass="p-card-shadow"
+          class="flex flex-wrap align-items-center justify-content-center mt-3"
+          [style]="{width: '450px'}">
+          <ng-template pTemplate="header" >
+              <div class="font-title ml-3 mt-2" [ngStyle]="{color:'var(--orange-600)'}">Iniciar sesión</div>
+              <p-divider></p-divider>
+          </ng-template>
+              <div class="font-content"  [style]="{height: '100px'}">
+              <div class="formgrid grid" [style]="{width: '480px'}">
+                  <div class="col">
+                      <div class="p-float-label">
+                          <input type="text" id="idEmployee" pInputText formControlName="idEmployee" style="width: 400px;" autofocus>
+                          <label for="idEmployee">Número de identificación</label>
+                          <span class="p-error" *ngIf="this.loginForm.get('idEmployee')?.errors?.required && statusForm">
+                              Identificación es requerido
+                          </span>
+                      </div>
+
+                      <div class="p-float-label mt-4 mb-3">
+                           <input type="password" id="password" pInputText formControlName="password" style="width: 400px;">
+                           <label for="idEmployee">Password</label>
+                           <span class="p-error" *ngIf="this.loginForm.get('password')?.errors?.required && statusForm">
+                                Password es requerido
+                           </span>
+                      </div>
+                 </div>
+             </div>
+         </div>
+         <ng-template pTemplate="footer" class="mt-5">
+            <div class="p-field mb-3 ml-3 mt-5">
+                <p-button type = 'submit' label="Enviar" icon="pi pi-check" [style]="{'margin-left': '.5em'}"></p-button>
           </div>
-        </div>
-     </div>
-     <ng-template pTemplate="footer" >
-         <p-divider></p-divider>
-      <div class="card">
-        <div class="flex justify-content-between flex-wrap card-container">
-            <div class="flex align-items-center justify-content-center w-10rem font-bold text-white border-round m-2">
-                 <p-button label="Crear cuenta" icon="pi pi-user-plus" styleClass="p-button-secondary"  [routerLink]="['/signup']"></p-button>
-            </div>
-            <!-- <div class="flex align-items-center justify-content-center w-10rem font-bold text-white border-round m-2">
-               <p-button label="Olvidé mi contraseña" icon="pi pi-user-plus" styleClass="p-button-secondary"  [routerLink]="['/signup']"></p-button>
-            </div> -->
-            <div class="flex align-items-center justify-content-center w-10rem font-bold text-white border-round m-2">
-                 <p-button label="Login" icon="pi pi-check" [style]="{'margin-left': '.5em'}"></p-button>
-            </div>
-        </div>
-    </div>
-     </ng-template>
-</p-card>
+             <p-divider></p-divider>
+             <div class="flex flex-row-reverse flex-wrap card-container m-2">
+                 <div class="p-field mb-3 ml-3" >
+                    <p-button label="Crear cuenta" icon="pi pi-user-plus" styleClass="p-button-secondary"  [routerLink]="['/signup']"></p-button>
+                    <!-- <p-button label="Restaurar contraseña" icon="pi pi-user-plus" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"  [routerLink]="['/signup']"></p-button> -->
+                 </div>
+             </div>
+         </ng-template>
+      </p-card>
+  </form>
+</div>

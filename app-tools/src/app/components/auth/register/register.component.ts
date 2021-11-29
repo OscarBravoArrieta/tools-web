@@ -1,5 +1,6 @@
  import { Component, OnInit } from '@angular/core'
- import { AbstractControl, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms'
+ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+ import { Router, CanActivate } from '@angular/router';
 
  import { AuthService } from 'src/app/services/auth.service'
  import { MessageService} from 'primeng/api';
@@ -18,8 +19,9 @@
      nameUser: string = ''
 
      constructor(public messageService: MessageService,
-                 public authService:
-                 AuthService, public fb: FormBuilder) {
+                 public authService: AuthService,
+                 public router: Router,
+                 public fb: FormBuilder) {
                      this.registerForm = this.fb.group({
                          idEmployee: [null, [Validators.required]],
                          name: [null, [Validators.required]],
@@ -69,13 +71,17 @@
                  reset_date_password: new Date(),
                  createdAt: new Date(),
                  updatedAt: new Date()
-
              }
 
-             //console.log("Todos los datos son válidos", newUser)
              this.authService.signUp(newUser).subscribe((data: any) => {
-                console.log('Respuesta de sigup',data)
-             } )
+                 console.log('Respuesta de sigup',data)
+
+             })
+             this.customToast('success', 'Usuario ', newUser.name + ', Ha sido creado')
+             setTimeout(()=>{
+                 this.router.navigate(['/signin'])
+             }, 3000);
+
          }
          else {
              console.log("Hay datos inválidos en el formulario")

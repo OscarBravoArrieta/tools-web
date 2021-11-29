@@ -8,10 +8,6 @@
 export class AuthService {
 
      constructor(private http: HttpClient) { }
-     // --------------------------------------------------------------------------------------------
-     signIn(parameters: any): any{
-         return this.http.post(`${environment.serverUrl}/api/auth/signup/`, parameters);
-     }
      // -----------------------------------------------------------------------------------------------
      getDataForUser(idEmployee: any): any{
          return this.http.post(`${environment.serverUrl}/api/auth/getDataForUser/`, idEmployee);
@@ -20,5 +16,10 @@ export class AuthService {
      signUp(newUser: any): any {
          return this.http.post(`${environment.serverUrl}/api/auth/signUp/`, newUser);
      }
+     // -----------------------------------------------------------------------------------------------
+     signIn(loginUser: any): any {
+         return this.http.post(`${environment.serverUrl}/api/auth/signIn/`, loginUser);
+     }
+     // -----------------------------------------------------------------------------------------------
 
 }

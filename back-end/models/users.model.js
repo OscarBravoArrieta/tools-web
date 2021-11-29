@@ -10,13 +10,7 @@
          reset_date_password: DataTypes.DATEONLY
          },{}, 
              {hooks: {
-                 beforeCreate: async (Users) => {
-                     console.log('Hoooooooooook')
-                     if (Users.password) {
-                         const salt = await bcrypt.genSaltSync(10, 'a');
-                         User.password = bcrypt.hashSync(Users.password, salt);
-                    }
-                 }
+
              }  
          })   
      return Users
