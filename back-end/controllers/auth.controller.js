@@ -1,13 +1,12 @@
- //import User from '../models/users.model'
  import Employess from '../models_single/employees.model'
  const { QueryTypes } = require ( 'sequelize' )
  import bcrypt from 'bcryptjs'
  import jwt from 'jsonwebtoken'
  import config from '../config'
  const db = require ('../models')
- //------------------------------------------------------------------------------------------------
+ //--------------------------------/----------------------------------------------------------------
  export const signUp = async (req, res) => {
-     const {id_number, name, email, password, status, creation_date, reset_date_password, createdAt, updatedAt} = req.body 
+     const {id_number, name, email, password, status, creation_date, token, reset_date_password, createdAt, updatedAt} = req.body
      const salt = await bcrypt.genSalt(10)
      const encryptedPassword = await bcrypt.hash(password, salt)
      try {
@@ -17,7 +16,8 @@
              email, 
              password: encryptedPassword, 
              status,
-             creation_date, 
+             creation_date,
+             token,
              reset_date_password,
              createdAt,
              updatedAt},{
@@ -28,7 +28,8 @@
                  'email', 
                  'password', 
                  'status',
-                 'creation_date', 
+                 'creation_date',
+                 'token',
                  'reset_date_password',
                  'createdAt',
                  'updatedAt'
@@ -61,7 +62,15 @@
                  id_number: req.body.id_number
              }
          })
-         if (userToLog){            
+         if (userToLog){
+
+             if (!userToLog.status){ //If user.status is inactive   
+                 return res.json({
+                     message: 'Acceso denegado. Usuario está inactivo',
+                     data: null,
+                     token: null
+                 })
+             }
              const matchPassword = await bcrypt.compare(req.body.password, userToLog.password)
              if (matchPassword) {
                  const token = jwt.sign({id: userToLog.id}, config.SECRET, {
@@ -74,11 +83,18 @@
                      token: token
                  })
              } else {
-                 return res.json({onlyPass: false, token: null}) 
+                 return res.json({
+                     message: 'Error en el password',
+                     data: null,
+                     token: null
+                 }) 
              }
          }
          else {
-             res.json({userFound: false})
+             res.json({
+                 message: 'No se encontraron coincidencias con: ' + req.body.id_number,
+                 data: null,
+                 token: null})
          }
      } catch (error) {
          console.log(error);
@@ -90,22 +106,28 @@
  }
  //------------------------------------------------------------------------------------------------
  export async function getDataForUser(req, res) {
-     const idEmployee = req.body.idEmployee
+     const id_number = req.body.id_number
      const { fn, col } = Employess.sequelize
      try {
          const nameEmployee = await Employess.findAll({
              attributes: [ ['cedtra', 'IDENTIFICACION'],
-                           [fn('CONCAT', col('priape'), ' ', col('segape'), ' ', col('prinom'), ' ',col('segnom')),"NOMBRE"], 
+                           [fn('CONCAT',
+                                 fn('COALESCE',col('prinom'),''),
+                                 ' ',
+                                 fn('COALESCE',col('segnom'),''), 
+                                 ' ',
+                                 fn('COALESCE',col('priape'),''),
+                                 ' ',
+                                 fn('COALESCE',col('segape'),'')),"NOMBRE"],
                            ['nit','NIT'],
                            ['estado', 'ESTADO'],
                            ['email', 'EMAIL']
                          ],
              where: {
-                 cedtra: idEmployee
+                 cedtra: id_number
              }
          })
         if (nameEmployee){
-            console.log('Nombre...', nameEmployee)
              res.json(nameEmployee)
         }         
      } catch (error) {

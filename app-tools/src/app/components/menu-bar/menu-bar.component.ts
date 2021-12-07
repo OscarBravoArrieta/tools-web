@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem, MegaMenuItem } from 'primeng/api';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-menu-bar',
@@ -9,11 +10,13 @@ import { MenuItem, MegaMenuItem } from 'primeng/api';
 export class MenuBarComponent implements OnInit {
 
 
-  constructor() { }
+  constructor(public authService: AuthService) { }
   //items: menuItem[];
   items: any = [];
+  showMenu: boolean = false;
   ngOnInit(): void {
 
+     this.showMenu = this.authService.loggIn()
      this.items = [
       {
           label: 'Afiliacion y aportes',

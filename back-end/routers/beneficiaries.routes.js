@@ -1,7 +1,9 @@
  import { Router } from 'express'
  const router = Router() 
  import * as beneficiariesCtrl from '../controllers/beneficiaries.controller'
+ import * as authjwt from '../middlewares/authjwt'
 
+ //router.put('/', [authjwt.verifyToken], beneficiariesCtrl.getAll)
  router.put('/', beneficiariesCtrl.getAll)
  router.put('/beneficiaryMonetarySubsidy', beneficiariesCtrl.beneficiaryMonetarySubsidy)
  router.put('/getBeneficiariesToCheckStatus', beneficiariesCtrl.getBeneficiariesToCheckStatus)

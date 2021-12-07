@@ -1,3 +1,4 @@
+ DROP DATABASE app_tools;
  CREATE DATABASE app_tools;
  USE app_tools;
  CREATE TABLE users(
@@ -8,6 +9,7 @@
 	 password VARCHAR (100) NOT NULL,
      status BOOLEAN,
      creation_date DATE,
+	 token VARCHAR (200),
      reset_date_password DATE,
 	 createdAt DATETIME,
 	 updatedAt DATETIME,

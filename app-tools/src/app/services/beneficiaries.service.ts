@@ -1,6 +1,7 @@
- import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+ import { HttpClient, HttpHeaders } from '@angular/common/http';
+ import { Injectable } from '@angular/core';
  import { environment } from 'src/environments/environment';
+ import { AuthService } from './auth.service';
 
 
  @Injectable({
@@ -8,10 +9,14 @@ import { Injectable } from '@angular/core';
  })
  export class BeneficiariesService {
 
-     constructor(private http: HttpClient) { }
+     constructor(private http: HttpClient,
+                 private authServce: AuthService ) { }
      //--------------------------------------------------------------------------------------------
      getBeneficiaries(filter: any): any{
-         return this.http.put(`${environment.serverUrl}/api/beneficiaries/`, filter);
+         const token = new HttpHeaders({
+              'x-access-token': this.authServce.getToken()
+         })
+         return this.http.put(`${environment.serverUrl}/api/beneficiaries/`, filter );
      }
      //--------------------------------------------------------------------------------------------
      getBeneficiaryMonetarySubsidy(filter: any): any{

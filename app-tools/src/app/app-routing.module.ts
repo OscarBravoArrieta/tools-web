@@ -1,7 +1,6 @@
  import { NgModule } from '@angular/core';
  import { RouterModule, Routes } from '@angular/router';
  import { RegisterComponent } from './components/auth/register/register.component';
- import { TestComponent } from './components/test/test.component'
  import { LoginComponent } from './components/auth/login/login.component';
 
  import { GridEmployersComponent } from './components/employers/grid-employers/grid-employers.component';

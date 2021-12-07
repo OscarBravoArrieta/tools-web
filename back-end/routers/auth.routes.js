@@ -1,17 +1,11 @@
 import { Router } from 'express'
 const router = Router()
-
+import * as verifySignUp from '../middlewares/verifySignUp'
 import * as authCtrl from '../controllers/auth.controller'
+import * as authjwt from '../middlewares/authjwt'
 
-//import * as authCtrl from '../controllers/auth.controller'
-//import { verifySignUp } from  '../middlewares/verifySignUp'
-
-//router.post('/signup', [verifySignUp.checkDuplicteUsernameOrEmail, verifySignUp.checkRolesExist], authCtrl.signUp)
-//router.post('/signin', authCtrl.signIn)
-router.post('/getDataForUser', authCtrl.getDataForUser)
-router.post('/signup', authCtrl.signUp)
+router.post('/getDataForUser', [verifySignUp.userFound], authCtrl.getDataForUser)
+router.post('/signup', [verifySignUp.userFound], authCtrl.signUp)
 router.post('/signin', authCtrl.signIn)
-
-
 
 export default router

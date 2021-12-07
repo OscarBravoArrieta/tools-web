@@ -20,7 +20,7 @@
                  public router: Router,
                  public fb: FormBuilder) {
                   this.loginForm = this.fb.group({
-                       idEmployee: [null, [Validators.required]],
+                       id_number: [null, [Validators.required]],
                        password: [ null, Validators.compose([Validators.minLength(6), Validators.required])],
                   })
      }
@@ -32,18 +32,30 @@
       this.statusForm = this.loginForm.invalid
       if (this.loginForm.valid) {
           let loginUser = {
-               id_number: this.loginForm.value.idEmployee,
+               id_number: this.loginForm.value.id_number,
                password: this.loginForm.value.password,
           }
-          this.authService.signIn(loginUser).subscribe((data:any)=>{
-               console.log('respuesta de login', data)
+          this.authService.signIn(loginUser).subscribe((res:any)=>{
+               console.log('respuesta de login', res)
+               if (res.token == null){
+                   this.customToast('error', 'Error', res.message)
+               } else {
+                   localStorage.setItem('toolsToken', res.token);
+                   localStorage.setItem('toolsCurrentUser', res.data.id);
+                   this.router.navigate(['']);
+                   window.location.reload();
+               }
+
           })
       }
       else {
-           console.log("Hay datos inválidos en el formulario")
+           console.log("There is invalid data in loginForm")
       }
      }
      //--------------------------------------------------------------------------------------------
+     customToast(severity: string, summary: string, detail: string) {
+         this.messageService.add({severity: severity, summary: summary, detail: detail});
+     }
      //--------------------------------------------------------------------------------------------
      //--------------------------------------------------------------------------------------------
      //--------------------------------------------------------------------------------------------

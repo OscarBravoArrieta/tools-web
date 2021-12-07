@@ -1,8 +1,10 @@
-<p-menubar [model]="items" class="font-content">
-   <!-- <input type="text" pInputText placeholder="Search"> -->
-   <button pButton label="Iniciar sesión" icon="pi pi-sign-in" class="font-content mr-2" [routerLink]="['/signin']" ></button>
-   <button pButton label="Cerrar sesión" icon="pi pi-power-off" class="font-content"></button>
+<p-menubar [model]="items" class="font-content" *ngIf="showMenu">
+   <button pButton label="Cerrar sesión" icon="pi pi-power-off" class="font-content" (click)="this.authService.logout()"></button>
 
 </p-menubar>
+<p-menubar class="font-content" *ngIf="!showMenu">
+   <button pButton label="Iniciar sesión" icon="pi pi-sign-in" class="font-content mr-2" [routerLink]="['/signin']" ></button>
+</p-menubar>
+
 
 

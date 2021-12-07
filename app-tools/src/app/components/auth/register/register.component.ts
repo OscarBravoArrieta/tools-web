@@ -23,7 +23,7 @@
                  public router: Router,
                  public fb: FormBuilder) {
                      this.registerForm = this.fb.group({
-                         idEmployee: [null, [Validators.required]],
+                         id_number: [null, [Validators.required]],
                          name: [null, [Validators.required]],
                          email: [null, Validators.compose([Validators.email, Validators.required])],
                          password:
@@ -62,12 +62,13 @@
          this.statusForm = this.registerForm.invalid
          if (this.registerForm.valid) {
              let newUser = {
-                 id_number: this.registerForm.value.idEmployee,
+                 id_number: this.registerForm.value.id_number,
                  name: this.registerForm.value.name,
                  email: this.registerForm.value.email,
                  password: this.registerForm.value.password,
                  status: true,
                  creation_date: new Date(),
+                 token: 'myToken',
                  reset_date_password: new Date(),
                  createdAt: new Date(),
                  updatedAt: new Date()
@@ -89,12 +90,25 @@
      }
      //---------------------------------------------------------------------------------------------
      getDataForUser () {
-         const idEmployee = { idEmployee: this.registerForm.value.idEmployee}
-         this.authService.getDataForUser(idEmployee).subscribe((data: any) => {
-             console.log(data)
+         const id_number = { id_number: this.registerForm.value.id_number}
+         this.authService.getDataForUser(id_number).subscribe((data: any) => {
+              console.log('Datos del usuario a crear...', data)
+              if (!this.registerForm.value.id_number){
+                   this.customToast('error', 'Error', 'Escriba el número de identificación')
+                   return
+              }
+              if (data.userFound){
+                  this.customToast('error', 'Error', data.message)
+                     //this.registerForm.controls.id_number.setValue('')
+                     this.registerForm.controls.name.setValue('')
+                     this.registerForm.controls.email.setValue('')
+
+                  return
+              }
+
              if(data.length == 0){
-                 this.customToast('error', 'Error', 'No se encontraron coincidencias con ' + this.registerForm.value.idEmployee)
-                 this.registerForm.controls.idEmployee.setValue('')
+                 this.customToast('error', 'Error', 'No se encontraron coincidencias con ' + this.registerForm.value.id_number)
+                 //this.registerForm.controls.id_number.setValue('')
                  this.registerForm.controls.name.setValue('')
                  this.registerForm.controls.email.setValue('')
                  return
@@ -102,7 +116,7 @@
              if (data.length > 0) {
                  if(data[0].ESTADO != 'A'){
                      this.customToast('error', 'Error', data[0].NOMBRE + ', Está inactivo')
-                     this.registerForm.controls.idEmployee.setValue('')
+                     //this.registerForm.controls.id_number.setValue('')
                      this.registerForm.controls.name.setValue('')
                      this.registerForm.controls.email.setValue('')
                      return
