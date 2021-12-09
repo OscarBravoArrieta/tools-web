@@ -144,10 +144,6 @@
                    })
                    break;
          }
-        //  if (!this.results) {
-        //      this.customToast('error', 'Error', 'La consulta no produjo resultados')
-        //      this.results = null
-        //  }
      }
      // ----------------------------------------------------------------------------------------------
      sendToUpdate():void {
@@ -220,6 +216,4 @@
 
 
      }
-
-
  }

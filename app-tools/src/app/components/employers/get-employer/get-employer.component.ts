@@ -1,6 +1,7 @@
  import { Component, OnInit, Output, EventEmitter} from '@angular/core';
  import { EmployersService } from 'src/app/services/employers.service';
  import { DatePipe } from '@angular/common'
+ import { Router } from '@angular/router';
 
 @Component({
      selector: 'app-get-employer',
@@ -16,6 +17,7 @@ export class GetEmployerComponent implements OnInit {
 
      constructor(
          private httpEmployers: EmployersService,
+         private router: Router,
          public datepipe: DatePipe
      ) {
 

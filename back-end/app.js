@@ -2,7 +2,8 @@
  const cors = require ( 'cors' )
  const bodyParser = require ( 'body-parser' )
  import morgan from 'morgan'
-
+ 
+ 
  
  // Importing Routes
  import employers from './routers/employers.routes'
@@ -35,7 +36,7 @@
  app.use('/api/users', users)
  app.use('/api/roles', roles)
  
-
+ //console.log('Aleatorio: ',cryptoRandomString({length: 10}))
  
 
  export default app;

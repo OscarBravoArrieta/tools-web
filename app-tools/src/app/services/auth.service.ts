@@ -17,18 +17,18 @@ export class AuthService {
      getDataForUser(id_number: any): any{
          return this.http.post(`${environment.serverUrl}/api/auth/getDataForUser/`, id_number );
      }
+     // -----------------------------------------------------------------------------------------------
 
      signUp(newUser: any): any {
          return this.http.post(`${environment.serverUrl}/api/auth/signUp/`, newUser);
      }
      // -----------------------------------------------------------------------------------------------
      signIn(loginUser: any): any {
-         return this.http.post(`${environment.serverUrl}/api/auth/signIn/`, loginUser, {headers: this.headers});
+         return this.http.post(`${environment.serverUrl}/api/auth/signIn/`, loginUser);
      }
      // -----------------------------------------------------------------------------------------------
      loggIn(): any {
          return !!localStorage.getItem('toolsToken');
-
      }
      // -----------------------------------------------------------------------------------------------
      getToken(): any{

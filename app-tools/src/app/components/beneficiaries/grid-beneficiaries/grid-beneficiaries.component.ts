@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BeneficiariesService } from 'src/app/services/beneficiaries.service';
+import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common'
 import * as FileSaver from 'file-saver';
 import { PrimeNGConfig } from 'primeng/api';
@@ -27,6 +28,7 @@ export class GridBeneficiariesComponent implements OnInit {
   constructor(
       private httpBeneficiaries: BeneficiariesService,
       private primengConfig: PrimeNGConfig,
+      private router: Router,
       public messageService: MessageService,
       public dialogService: DialogService,
       public datepipe: DatePipe) { }
@@ -59,6 +61,8 @@ export class GridBeneficiariesComponent implements OnInit {
       this.httpBeneficiaries.getBeneficiaries(filter).subscribe((data: any) => {
           this.results = data.beneficiaries
           this.showSpinner = false
+      }, (err: any) => {
+          this.router.navigate(['/signin'])
       })
   }
   //--------------------------------------------------------------------------------------------

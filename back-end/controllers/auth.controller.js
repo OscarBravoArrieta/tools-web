@@ -4,8 +4,42 @@
  import jwt from 'jsonwebtoken'
  import config from '../config'
  const db = require ('../models')
+ const randomstring = require("randomstring");
+ //import cryptoRandomString from 'crypto-random-string'
  //--------------------------------/----------------------------------------------------------------
  export const signUp = async (req, res) => {
+
+    // app.post('/auth/v1/register', async function (req, res) {
+    //     try {
+    //         let { username, password, email } = req.body;
+    //         password = bcrypt.hashSync(password, 10);
+    //         const user = await User.create({ username: username, password: password, email: email });
+    //         const verificationToken = await VerificationToken.create(
+    //               { 
+    //                  username: user.dataValues.username, 
+    //                  token: cryptoRandomString({ length: 20, type:  }), createdat: new Date(), updatedat: new Date() 
+    //               }
+    //         )
+    //         let jwtTokenEmailVerify = jwt.sign({ email: user.dataValues.email }, 'secret', { expiresIn: "1h" });
+    //         await verificationService.sendVerificationEmail(user.dataValues.email, verificationToken.dataValues.token, jwtTokenEmailVerify)
+    //         return res.status(200).send(`You have Registered Successfully, Activation link sent to: ${user.dataValues.email}`)
+
+    //     } catch (err) {
+    //         console.log("err1 ", err)
+    //         return res.status(500);
+    //     }
+    // })
+
+
+
+
+
+
+
+
+
+
+
      const {id_number, name, email, password, status, creation_date, token, reset_date_password, createdAt, updatedAt} = req.body
      const salt = await bcrypt.genSalt(10)
      const encryptedPassword = await bcrypt.hash(password, salt)
@@ -39,6 +73,7 @@
              const token = jwt.sign({id: newUser.id}, config.SECRET, {
                  expiresIn: 7200 // Two Hours
              })
+             await verificationService.sendVerificationEmail(email, verificationToken.dataValues.token, token)
              return res.json({
                  message: 'User created succefully',
                  data: newUser,
@@ -55,7 +90,10 @@
  }
  //------------------------------------------------------------------------------------------------
  export const signIn = async (req, res) => {
-  
+
+     //console.log(randomstring.generate({length: 6, charset: 'url-safe'}))
+     //return
+    
      try {
          const userToLog = await db.users.findOne({
              where: {

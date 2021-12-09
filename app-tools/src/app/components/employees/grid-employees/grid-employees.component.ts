@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common'
 import { EmployeesService } from 'src/app/services/employees.service';
+import { Router, CanActivate } from '@angular/router';
 
 import { TabPageEmployeesComponent } from '../tab-page-employees/tab-page-employees.component';
 import { ConfirmationService, MessageService} from 'primeng/api';
@@ -33,6 +34,7 @@ export class GridEmployeesComponent implements OnInit {
       public dialogService: DialogService,
       public messageService: MessageService,
       public datepipe: DatePipe,
+      public router: Router
 
       ) {
       this.status = [
@@ -57,6 +59,9 @@ export class GridEmployeesComponent implements OnInit {
           this.results = data.employees
           this.getCols(7)
           this.showSpinner = false
+      }, (err: any) => {
+          if (!this.results) {this.customToast('error', 'Error', 'No ha iniciado sesión')}
+          this.router.navigate(['/signin'])
       })
   }
 

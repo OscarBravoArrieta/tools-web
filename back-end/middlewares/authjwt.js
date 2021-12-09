@@ -7,7 +7,8 @@
          console.log('Token recived:...', token);
          if (!token) return res.status(403).json({tokenReceived: false, message: "No hemos recibido un token"})
                  
-         const decoded = jwt.verify(token, config.SECRET)   
+         const decoded = jwt.verify(token, config.SECRET) 
+         req.userId = decoded.id //Hará que el id de usuario este disponible en todas las funicones que tienen request que están escritas debajo de ésta
          console.log('DECODED....', decoded)  
          const user = await db.users.findOne({
              where: {
@@ -19,7 +20,7 @@
          next()           
      } catch (error) {
              console.log('This is the error.....',error)
-             return res.status(401).json({message: 'No autorizado...'})        
+             return res.status(401).json({tokenIsValid: false, message: 'No autorizado...'})        
      }
 }
 

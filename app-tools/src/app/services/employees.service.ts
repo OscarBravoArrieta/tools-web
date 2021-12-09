@@ -1,16 +1,22 @@
  import { Injectable } from '@angular/core';
  import { environment } from 'src/environments/environment';
- import { HttpClient } from '@angular/common/http'
+ import { HttpClient, HttpHeaders } from '@angular/common/http'
+ import { AuthService } from './auth.service';
 
  @Injectable({
       providedIn: 'root'
  })
  export class EmployeesService {
 
-     constructor(private http: HttpClient) { }
+     headers = new HttpHeaders({
+         'x-access-token': this.authServce.getToken(),
+     });
+
+
+     constructor(private http: HttpClient, private authServce: AuthService) { }
      //--------------------------------------------------------------------------------------------
      getEmployees(filter: any): any{
-         return this.http.put( `${environment.serverUrl}/api/employees/`, filter);
+         return this.http.put( `${environment.serverUrl}/api/employees/`, filter, {headers: this.headers});
      }
      //--------------------------------------------------------------------------------------------
      getBeneficiariesEmployee(filter: any) {

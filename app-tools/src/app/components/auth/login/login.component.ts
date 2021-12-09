@@ -29,6 +29,7 @@
      }
      //--------------------------------------------------------------------------------------------
      sendUser () {
+
       this.statusForm = this.loginForm.invalid
       if (this.loginForm.valid) {
           let loginUser = {
@@ -40,13 +41,16 @@
                if (res.token == null){
                    this.customToast('error', 'Error', res.message)
                } else {
+
                    localStorage.setItem('toolsToken', res.token);
                    localStorage.setItem('toolsCurrentUser', res.data.id);
-                   this.router.navigate(['']);
-                   window.location.reload();
+                   this.router.navigate(['/'])
+
+                   //window.location.reload();
                }
 
           })
+
       }
       else {
            console.log("There is invalid data in loginForm")

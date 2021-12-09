@@ -1,8 +1,9 @@
  import { Router } from 'express'
  const router = Router() 
  import * as employeesCtrl from '../controllers/employees.controller'
+ import * as authjwt from '../middlewares/authjwt'
 
- router.put('/', employeesCtrl.getAll)
+ router.put('/', [authjwt.verifyToken], employeesCtrl.getAll)
  router.put('/getBeneficiariesEmployee', employeesCtrl.getBeneficiariesEmployee)
  router.put('/getPayrollHistory', employeesCtrl.getPayrollHistory)
  router.put('/getPayrollHistoryUp', employeesCtrl.getPayrollHistoryUp)

@@ -1,13 +1,15 @@
 Instalación módulos principales:
 
-ceación del packaje                     : npm init -y
-instalación de express                  : npm install express
-Instalacion modulo mysql                : npm install mysql2 --save
-instalación del ORM                     : npm install sequelize
-instalación de cli						: npm install -g sequelize-cli
-ver peticiones que llegan al server     : npm install morgan
-Interactuar entre los dos servidores    : npm install core
-para escribir codigo moderno javascript : npm install @babel/polyfill
+ceación del packaje                         : npm init -y
+instalación de express                      : npm install express
+Instalacion modulo mysql                    : npm install mysql2 --save
+instalación del ORM                         : npm install sequelize
+instalación de cli						    : npm install -g sequelize-cli
+ver peticiones que llegan al server         : npm install morgan
+Interactuar entre los dos servidores        : npm install core
+para escribir codigo moderno javascript     : npm install @babel/polyfill
+Genera códigos de verificación aleatorios   : npm install crypto-random-string
+Para emnvío de correos                      : npm install nodemailer
 
 Instalación módulos complementarios:
 npm install --save-dev @babel/core @babel/cli @babel/preset-env

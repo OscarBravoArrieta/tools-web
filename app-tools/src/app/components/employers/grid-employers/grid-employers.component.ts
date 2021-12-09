@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common'
+import { Router } from '@angular/router';
 import { EmployersService } from 'src/app/services/employers.service'
 import { TabPageEmployersComponent } from '../tab-page-employers/tab-page-employers.component';
 import { ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
@@ -30,6 +31,7 @@ export class GridEmployersComponent implements OnInit {
      constructor(
          private httpEmployers: EmployersService,
          private confirmationService: ConfirmationService,
+         private router: Router,
          private primengConfig: PrimeNGConfig,
          public dialogService: DialogService,
          public messageService: MessageService,
@@ -68,7 +70,9 @@ export class GridEmployersComponent implements OnInit {
              this.results = data.employers
              this.getCols(7)
              this.showSpinner = false
-         })
+         },(err: any) => {
+             this.router.navigate(['/signin'])
+          })
      }
      // -------------------------------------------------------------------------------------------
      test(e:any):void{ }
