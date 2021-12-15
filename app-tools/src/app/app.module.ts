@@ -29,6 +29,8 @@ import { ListboxModule } from 'primeng/listbox';
 import { PanelModule } from 'primeng/panel';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 
 
 
@@ -63,6 +65,7 @@ import { DetailsBeneficiarieComponent } from './components/beneficiaries/details
 import { RegisterComponent } from './components/auth/register/register.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { PasswordModule } from 'primeng/password';
+import { VerifyTokenFromEmailComponent } from './components/verify-token-from-email/verify-token-from-email.component';
 
 
 @NgModule({
@@ -93,7 +96,8 @@ import { PasswordModule } from 'primeng/password';
     GridEmployersComponent,
     DetailsBeneficiarieComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    VerifyTokenFromEmailComponent
   ],
   imports: [
     BrowserModule,
@@ -125,7 +129,9 @@ import { PasswordModule } from 'primeng/password';
     PanelModule,
     SelectButtonModule,
     RadioButtonModule,
-    PasswordModule
+    PasswordModule,
+    MessagesModule,
+    MessageModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

@@ -1,9 +1,11 @@
  import { Component, OnInit } from '@angular/core'
  import { FormBuilder, FormGroup, Validators } from '@angular/forms'
  import { Router, CanActivate } from '@angular/router';
+ import { PrimeNGConfig } from 'primeng/api';
+
 
  import { AuthService } from 'src/app/services/auth.service'
- import { MessageService} from 'primeng/api';
+ import { Message, MessageService} from 'primeng/api';
 
  @Component({
      selector: 'app-register',
@@ -17,9 +19,12 @@
      registerForm: FormGroup
      statusForm: boolean = false
      nameUser: string = ''
+     displayDialog: boolean = false
+     msgInfo: string = ''
 
      constructor(public messageService: MessageService,
                  public authService: AuthService,
+                 private primengConfig: PrimeNGConfig,
                  public router: Router,
                  public fb: FormBuilder) {
                      this.registerForm = this.fb.group({
@@ -56,6 +61,8 @@
      //---------------------------------------------------------------------------------------------
      ngOnInit(): void {
          this.statusForm = !this.registerForm.invalid
+         this.primengConfig.ripple = true
+
      }
      //---------------------------------------------------------------------------------------------
      sendUser () {
@@ -66,7 +73,7 @@
                  name: this.registerForm.value.name,
                  email: this.registerForm.value.email,
                  password: this.registerForm.value.password,
-                 status: true,
+                 status: false,
                  creation_date: new Date(),
                  token: 'myToken',
                  reset_date_password: new Date(),
@@ -78,10 +85,14 @@
                  console.log('Respuesta de sigup',data)
 
              })
-             this.customToast('success', 'Usuario ', newUser.name + ', Ha sido creado')
-             setTimeout(()=>{
-                 this.router.navigate(['/signin'])
-             }, 3000);
+             this.msgInfo = `Usuario ${newUser.name} ha sido creado satisfactoriamente.
+                             Se envió un link de confirmación a su de correo electrónico ${newUser.email}.
+                             Por favor confirme su cuenta.`
+             this.displayDialog = true
+
+            //  setTimeout(()=>{
+            //      this.router.navigate(['/signup'])
+            //  }, 3000);
 
          }
          else {
@@ -131,4 +142,9 @@
          this.messageService.add({severity: severity, summary: summary, detail: detail});
      }
      //---------------------------------------------------------------------------------------------
-}
+     closeDialog(){
+         this.displayDialog=false
+         this.router.navigate(['/signin'])
+     }
+
+  }

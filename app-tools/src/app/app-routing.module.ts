@@ -2,6 +2,7 @@
  import { RouterModule, Routes } from '@angular/router';
  import { RegisterComponent } from './components/auth/register/register.component';
  import { LoginComponent } from './components/auth/login/login.component';
+ import { VerifyTokenFromEmailComponent } from './components/verify-token-from-email/verify-token-from-email.component';
 
  import { GridEmployersComponent } from './components/employers/grid-employers/grid-employers.component';
  import { GridEmployeesComponent } from './components/employees/grid-employees/grid-employees.component';
@@ -15,6 +16,8 @@
      { path: 'update-status', component: UpdateStatusComponent },
      { path: 'signup', component: RegisterComponent },
      { path: 'signin', component: LoginComponent },
+     { path: 'verify-token-from-email/:token', component: VerifyTokenFromEmailComponent}
+
  ];
 
  @NgModule({

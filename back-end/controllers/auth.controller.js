@@ -5,41 +5,9 @@
  import config from '../config'
  const db = require ('../models')
  const randomstring = require("randomstring");
- //import cryptoRandomString from 'crypto-random-string'
- //--------------------------------/----------------------------------------------------------------
+ const nodemailer = require("nodemailer");
+ //-------------------------------------------------------------------------------------------------
  export const signUp = async (req, res) => {
-
-    // app.post('/auth/v1/register', async function (req, res) {
-    //     try {
-    //         let { username, password, email } = req.body;
-    //         password = bcrypt.hashSync(password, 10);
-    //         const user = await User.create({ username: username, password: password, email: email });
-    //         const verificationToken = await VerificationToken.create(
-    //               { 
-    //                  username: user.dataValues.username, 
-    //                  token: cryptoRandomString({ length: 20, type:  }), createdat: new Date(), updatedat: new Date() 
-    //               }
-    //         )
-    //         let jwtTokenEmailVerify = jwt.sign({ email: user.dataValues.email }, 'secret', { expiresIn: "1h" });
-    //         await verificationService.sendVerificationEmail(user.dataValues.email, verificationToken.dataValues.token, jwtTokenEmailVerify)
-    //         return res.status(200).send(`You have Registered Successfully, Activation link sent to: ${user.dataValues.email}`)
-
-    //     } catch (err) {
-    //         console.log("err1 ", err)
-    //         return res.status(500);
-    //     }
-    // })
-
-
-
-
-
-
-
-
-
-
-
      const {id_number, name, email, password, status, creation_date, token, reset_date_password, createdAt, updatedAt} = req.body
      const salt = await bcrypt.genSalt(10)
      const encryptedPassword = await bcrypt.hash(password, salt)
@@ -73,12 +41,34 @@
              const token = jwt.sign({id: newUser.id}, config.SECRET, {
                  expiresIn: 7200 // Two Hours
              })
-             await verificationService.sendVerificationEmail(email, verificationToken.dataValues.token, token)
+
+             const transporter = nodemailer.createTransport({
+                 service: 'Gmail',
+                 auth: {
+                     user: 'comfa.edusoft@comfamiliar.org.co',
+                     pass: 'Edusoft2021***'
+                }
+              })
+              
+              transporter.sendMail({
+                  from: 'comfa.edusoft@comfamiliar.org.co',
+                  to: newUser.email,
+                  subject: 'Por favor confirme su cuenta',
+                  html: `<h1>Confirmación de cuenta.</h1>
+                  <h2>Hola, ${name}</h2>
+                  <p>Gracias por suscribirte. Confirma tu cuenta haciendo clic en el siguiente enlace</p>
+                  <a href=http://localhost:4200/verify-token-from-email/${token}> Confirmar cuenta</a>
+                  <br>
+                  </div>`,
+              }).catch(err => console.log('Error al enviar email', err));             
+
              return res.json({
                  message: 'User created succefully',
                  data: newUser,
                  token: token
              })
+
+
          }           
      } catch (error) {
          console.log('Error->', error);
@@ -87,6 +77,10 @@
              data:{}
          })                  
      }
+ }
+ //------------------------------------------------------------------------------------------------
+ export const verifyTokenFromEmail = async (req, res) => {
+     //This method uses the authjwt.verifyTokenFromEmail from middlewares
  }
  //------------------------------------------------------------------------------------------------
  export const signIn = async (req, res) => {

@@ -7,7 +7,7 @@
 	 name VARCHAR(100) NOT NULL,
 	 email VARCHAR (100) NOT NULL UNIQUE,
 	 password VARCHAR (100) NOT NULL,
-     status BOOLEAN,
+     status BOOLEAN DEFAULT FALSE,
      creation_date DATE,
 	 token VARCHAR (200),
      reset_date_password DATE,

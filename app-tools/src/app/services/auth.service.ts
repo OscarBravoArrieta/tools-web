@@ -18,9 +18,13 @@ export class AuthService {
          return this.http.post(`${environment.serverUrl}/api/auth/getDataForUser/`, id_number );
      }
      // -----------------------------------------------------------------------------------------------
-
      signUp(newUser: any): any {
          return this.http.post(`${environment.serverUrl}/api/auth/signUp/`, newUser);
+     }
+     // -----------------------------------------------------------------------------------------------
+     verifyTokenFromEmail(token: any): any {
+
+         return this.http.get(`${environment.serverUrl}/api/auth/verifyTokenFromEmail/${token}`);
      }
      // -----------------------------------------------------------------------------------------------
      signIn(loginUser: any): any {
