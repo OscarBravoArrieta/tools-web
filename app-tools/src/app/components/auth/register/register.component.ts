@@ -2,10 +2,11 @@
  import { FormBuilder, FormGroup, Validators } from '@angular/forms'
  import { Router, CanActivate } from '@angular/router';
  import { PrimeNGConfig } from 'primeng/api';
+ import { Message, MessageService} from 'primeng/api';
 
 
  import { AuthService } from 'src/app/services/auth.service'
- import { Message, MessageService} from 'primeng/api';
+
 
  @Component({
      selector: 'app-register',
@@ -34,13 +35,14 @@
                          password:
                              [
                                  null,
-                                 Validators.compose([Validators.minLength(6),
-                                 Validators.required] )
+                                 Validators.compose([Validators.minLength(8),
+                                 Validators.required,
+                                 Validators.pattern('(?=\\D*\\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}')])
                              ],
                          passwordConfirm:
                             [
                                  null,
-                                 Validators.compose([Validators.minLength(6),
+                                 Validators.compose([Validators.minLength(8),
                                  Validators.required])]
                      },
                      {
@@ -87,13 +89,8 @@
              })
              this.msgInfo = `Usuario ${newUser.name} ha sido creado satisfactoriamente.
                              Se envió un link de confirmación a su de correo electrónico ${newUser.email}.
-                             Por favor confirme su cuenta.`
+                             Por favor confirme su cuenta. Dispone de dos horas para la activacón.`
              this.displayDialog = true
-
-            //  setTimeout(()=>{
-            //      this.router.navigate(['/signup'])
-            //  }, 3000);
-
          }
          else {
              console.log("Hay datos inválidos en el formulario")
@@ -103,11 +100,11 @@
      getDataForUser () {
          const id_number = { id_number: this.registerForm.value.id_number}
          this.authService.getDataForUser(id_number).subscribe((data: any) => {
-              console.log('Datos del usuario a crear...', data)
-              if (!this.registerForm.value.id_number){
-                   this.customToast('error', 'Error', 'Escriba el número de identificación')
-                   return
-              }
+
+              // if (!this.registerForm.value.id_number){
+              //      this.customToast('error', 'Error', 'Escriba el número de identificación')
+              //      return
+              // }
               if (data.userFound){
                   this.customToast('error', 'Error', data.message)
                      //this.registerForm.controls.id_number.setValue('')
@@ -126,7 +123,7 @@
              }
              if (data.length > 0) {
                  if(data[0].ESTADO != 'A'){
-                     this.customToast('error', 'Error', data[0].NOMBRE + ', Está inactivo')
+                     this.customToast('error', 'Error', data[0].NOMBRE + ', No está Activo en SISU')
                      //this.registerForm.controls.id_number.setValue('')
                      this.registerForm.controls.name.setValue('')
                      this.registerForm.controls.email.setValue('')

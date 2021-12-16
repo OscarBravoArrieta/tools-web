@@ -19,6 +19,7 @@
      }
      // --------------------------------------------------------------------------------------------
      getEmployeesEmployer(filter: any): any { //Get All active employees from a emloyer
+
          return this.http.put( `${environment.serverUrl}/api/employers/getEmployeesEmployer/`, filter);
      }
      // --------------------------------------------------------------------------------------------
@@ -35,12 +36,12 @@
      }
      // --------------------------------------------------------------------------------------------
      getEmployersToCheckStatus(valuesToConsult: any) {
-         return this.http.put( `${environment.serverUrl}/api/employers/getEmployersToCheckStatus/`, valuesToConsult);
+         return this.http.put( `${environment.serverUrl}/api/employers/getEmployersToCheckStatus/`, valuesToConsult, {headers: this.headers});
      }
      // --------------------------------------------------------------------------------------------
     updateEmployerStatus(parameters: any) {
          //console.log(parameters)
-         return this.http.post(`${environment.serverUrl}/api/employers/updateEmployerStatus/`, parameters);
+         return this.http.post(`${environment.serverUrl}/api/employers/updateEmployerStatus/`, parameters, {headers: this.headers});
      }
      // --------------------------------------------------------------------------------------------
 

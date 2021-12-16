@@ -1,0 +1,12 @@
+ <p-card class="flex flex-wrap align-items-center justify-content-center mt-3">
+     <div>
+         <div *ngIf="accountConfirmed">
+             <p-messages [(value)]="msgsSucces" [enableService]="false"></p-messages>
+             <!-- <button pButton label="Iniciar sesión" icon="pi pi-sign-in" class="font-content mr-2" [routerLink]="['/signin']" ></button> -->
+     </div>
+     <div *ngIf="!accountConfirmed">
+         <p-messages [(value)]="msgsError" [enableService]="false"></p-messages>
+     </div>
+     </div>
+ </p-card>
+

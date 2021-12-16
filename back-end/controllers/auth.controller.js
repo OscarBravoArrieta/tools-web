@@ -1,4 +1,4 @@
- import Employess from '../models_single/employees.model'
+ import Employees from '../models_single/employees.model'
  const { QueryTypes } = require ( 'sequelize' )
  import bcrypt from 'bcryptjs'
  import jwt from 'jsonwebtoken'
@@ -54,12 +54,13 @@
                   from: 'comfa.edusoft@comfamiliar.org.co',
                   to: newUser.email,
                   subject: 'Por favor confirme su cuenta',
-                  html: `<h1>Confirmación de cuenta.</h1>
-                  <h2>Hola, ${name}</h2>
-                  <p>Gracias por suscribirte. Confirma tu cuenta haciendo clic en el siguiente enlace</p>
-                  <a href=http://localhost:4200/verify-token-from-email/${token}> Confirmar cuenta</a>
-                  <br>
-                  </div>`,
+                  html: `<div>
+                             <h1>Confirmación de cuenta.</h1>
+                             <h2>Hola, ${name}</h2>
+                             <p>Gracias por suscribirte. Por favor, confirma tu cuenta haciendo clic en el siguiente enlace</p>
+                             <a href=http://localhost:4200/verify-token-from-email/${token}> Confirmar cuenta</a>
+                             <br>
+                         </div>`,
               }).catch(err => console.log('Error al enviar email', err));             
 
              return res.json({
@@ -67,8 +68,6 @@
                  data: newUser,
                  token: token
              })
-
-
          }           
      } catch (error) {
          console.log('Error->', error);
@@ -89,16 +88,17 @@
      //return
     
      try {
-         const userToLog = await db.users.findOne({
+          const userToLog = await db.users.findOne({
              where: {
                  id_number: req.body.id_number
              }
          })
+    
          if (userToLog){
 
              if (!userToLog.status){ //If user.status is inactive   
                  return res.json({
-                     message: 'Acceso denegado. Usuario está inactivo',
+                     message: 'Acceso denegado. Cuenta no ha sido confirmada.',
                      data: null,
                      token: null
                  })
@@ -139,9 +139,9 @@
  //------------------------------------------------------------------------------------------------
  export async function getDataForUser(req, res) {
      const id_number = req.body.id_number
-     const { fn, col } = Employess.sequelize
+     const { fn, col } = Employees.sequelize
      try {
-         const nameEmployee = await Employess.findAll({
+         const nameEmployee = await Employees.findAll({
              attributes: [ ['cedtra', 'IDENTIFICACION'],
                            [fn('CONCAT',
                                  fn('COALESCE',col('prinom'),''),
@@ -163,7 +163,55 @@
              res.json(nameEmployee)
         }         
      } catch (error) {
-         console.log(error);
+         console.log('Method -> getDataForUser...', error);
      }
  }
  //------------------------------------------------------------------------------------------------
+ export async function resetPassword(req, res){
+     const {id_number, name, email} = req.body
+     try {
+         const user = await db.users.findOne({
+             where: {
+                 id_number: id_number
+             }
+         })
+         
+         if (user){
+
+             const token = jwt.sign({id: user.id}, config.SECRET, {
+                 expiresIn: 7200 // Two Hours
+             })
+
+             const transporter = nodemailer.createTransport({
+                 service: 'Gmail',
+                 auth: {
+                     user: 'comfa.edusoft@comfamiliar.org.co',
+                     pass: 'Edusoft2021***'
+                 }
+             })
+             
+             transporter.sendMail({
+                 from: 'comfa.edusoft@comfamiliar.org.co',
+                 to: user.email,
+                 subject: 'Por favor confirme la restauración de su password.',
+                 html: `<div>
+                             <h1>Confirmar restauración password.</h1>
+                             <h2>Hola, ${name}</h2>
+                             <p>Para confirmar la restauración de tu password, por favor haz click en el siguiente link</p>
+                             <a href=http://localhost:4200/set-new-password/${token}> Confirmar solicitud</a>
+                             <br>
+                         </div>`,
+             }).catch(err => console.log('Error al enviar email', err));             
+
+
+         }
+     } catch (error) {
+         console.log('resetPassword->',error)         
+     }
+ }
+ //------------------------------------------------------------------------------------------------
+ export async function verifyTokenToRestorePassword(req, res){
+     //This method uses the authjwt.verifyTokenToRestorePassword from middlewares
+
+ }
+ 

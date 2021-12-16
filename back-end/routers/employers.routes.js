@@ -3,14 +3,12 @@
  import * as employersCtrl from '../controllers/employers.controller'
  import * as authjwt from '../middlewares/authjwt'
  
- router.put('/', employersCtrl.getAll)
- router.put('/getEmployeesEmployer',  [authjwt.verifyToken], employersCtrl.getEmployeesEmployer)
+ router.put('/',  [authjwt.verifyToken], employersCtrl.getAll)
+ router.put('/getEmployeesEmployer', employersCtrl.getEmployeesEmployer)
  router.put('/getBeneficiariesEmployer', employersCtrl.getBeneficiariesEmployer)
  router.put('/getPaymentsEmployer', employersCtrl.getPaymentsEmployer)
  router.put('/getPayrollEmployer', employersCtrl.getPayrollEmployer)
- router.put('/getEmployersToCheckStatus', employersCtrl.getEmployersToCheckStatus)
- router.put('/getEmployersToCheckStatus', employersCtrl.getEmployersToCheckStatus)
-  
- router.post('/updateEmployerStatus', employersCtrl.updateEmployerStatus)
+ router.put('/getEmployersToCheckStatus', [authjwt.verifyToken], employersCtrl.getEmployersToCheckStatus)
+ router.post('/updateEmployerStatus', [authjwt.verifyToken], employersCtrl.updateEmployerStatus)
   
  export default router

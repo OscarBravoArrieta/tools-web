@@ -26,15 +26,15 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
      }
     //--------------------------------------------------------------------------------------------
      getBeneficiariesToCheckStatus(valuesToConsult: any): any{
-        return this.http.put(`${environment.serverUrl}/api/beneficiaries/getBeneficiariesToCheckStatus/`, valuesToConsult);
+        return this.http.put(`${environment.serverUrl}/api/beneficiaries/getBeneficiariesToCheckStatus/`, valuesToConsult, {headers: this.headers});
      }
     //--------------------------------------------------------------------------------------------
      getSpousesToCheckStatus(valuesToConsult: any): any{
-         return this.http.put(`${environment.serverUrl}/api/beneficiaries/getSpousesToCheckStatus/`, valuesToConsult);
+         return this.http.put(`${environment.serverUrl}/api/beneficiaries/getSpousesToCheckStatus/`, valuesToConsult, {headers: this.headers});
      }
    //--------------------------------------------------------------------------------------------
     updateBeneficiariesStatus(parameters: any): any{
-       return this.http.put(`${environment.serverUrl}/api/beneficiaries/updateBeneficiariesStatus/`, parameters);
+       return this.http.put(`${environment.serverUrl}/api/beneficiaries/updateBeneficiariesStatus/`, parameters, {headers: this.headers});
     }
     //--------------------------------------------------------------------------------------------
 

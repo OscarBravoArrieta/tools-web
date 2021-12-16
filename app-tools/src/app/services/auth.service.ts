@@ -31,6 +31,15 @@ export class AuthService {
          return this.http.post(`${environment.serverUrl}/api/auth/signIn/`, loginUser);
      }
      // -----------------------------------------------------------------------------------------------
+     resetPassword(user: any): any {
+         return this.http.post(`${environment.serverUrl}/api/auth/resetPassword/`, user);
+     }
+     // -----------------------------------------------------------------------------------------------
+     verifyTokenToRestorePassword(token: any): any {
+
+         return this.http.get(`${environment.serverUrl}/api/auth/verifyTokenToRestorePassword/${token}`);
+     }
+  // -----------------------------------------------------------------------------------------------
      loggIn(): any {
          return !!localStorage.getItem('toolsToken');
      }
@@ -47,8 +56,7 @@ export class AuthService {
 
          localStorage.removeItem('toolsToken');
          localStorage.removeItem('toolsCurrentUser');
-         window.location.reload();
-         this.router.navigate(['']);
+         this.router.navigate(['signin']);
 
      }
      // -----------------------------------------------------------------------------------------------

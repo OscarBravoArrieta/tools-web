@@ -65,7 +65,9 @@ import { DetailsBeneficiarieComponent } from './components/beneficiaries/details
 import { RegisterComponent } from './components/auth/register/register.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { PasswordModule } from 'primeng/password';
-import { VerifyTokenFromEmailComponent } from './components/verify-token-from-email/verify-token-from-email.component';
+import { VerifyTokenFromEmailComponent } from './components/auth/verify-token-from-email/verify-token-from-email.component';
+import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
+import { SetNewPasswordComponent } from './components/auth/set-new-password/set-new-password.component';
 
 
 @NgModule({
@@ -97,7 +99,9 @@ import { VerifyTokenFromEmailComponent } from './components/verify-token-from-em
     DetailsBeneficiarieComponent,
     RegisterComponent,
     LoginComponent,
-    VerifyTokenFromEmailComponent
+    VerifyTokenFromEmailComponent,
+    ResetPasswordComponent,
+    SetNewPasswordComponent
   ],
   imports: [
     BrowserModule,

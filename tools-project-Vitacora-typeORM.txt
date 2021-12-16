@@ -136,6 +136,7 @@ identification
 name
 email
 token
+type
 
 ------------------------------------------------------------------------------
 USERS_ROLES
@@ -153,6 +154,19 @@ id_father
 
 ==============================================================================
 
+Refrescar la barra de menu
+
+Programar un restaurador de contraseña
+Establecer de cuales NIT, son los empleados que pueden acceder al aplicativo
+Revisar los campos de edición porque algunos cambiaron de nombre
+Crear el perfil básico junto con la creación del usuario
+Crear el módulo de acualización de usuarios para asignar/quitar perfiles
+Cuando se loguea el usuario, validar que a los 45 dias debe cambiar de contraseña
+
+Validar que cuando el token valide falso, se capture el error y se mande eun mensaje-LISTO-
+Codificar la complejudad del password. -LISTO-
+Validar que el usuario esté activo en SISU al iniciar sesión. -LISTO-
+Valida lo de los middlewares con las rutas. -LISTO-
 
 
 

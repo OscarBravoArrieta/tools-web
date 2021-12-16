@@ -4,19 +4,16 @@
          <div class="surface-card p-4 shadow-2 border-round lg:w-50 font-content">
              <div class="text-center mb-5">
                  <div class="text-900 text-3xl mb-3 font-title" [ngStyle]="{color:'var(--orange-600)'}">Nuevo usuario</div>
-
              </div>
              <div class="p-float-label">
-                 <input type="text" id="id_number" pInputText formControlName="id_number" style="width: 460px;" autofocus (blur)="getDataForUser()">
+                 <input type="text" id="id_number" pInputText formControlName="id_number" style="width: 400px;" autofocus (blur)="getDataForUser()">
                  <label for="id_number">Número de identificación</label>
                  <span class="p-error flex align-items-center" *ngIf="this.registerForm.get('id_number')?.errors?.required && statusForm">
                      Identificación es requerido
                  </span>
              </div>
-
-
              <div class="p-float-label mt-5">
-                 <input type="text" id="name" pInputText formControlName="name" style="width: 460px;" readonly>
+                 <input type="text" id="name" pInputText formControlName="name" style="width: 400px;" readonly>
                  <label for="name">Nombre de usuario</label>
                  <span class="p-error flex align-items-center" *ngIf="this.registerForm.get('name')?.errors?.required && statusForm">
                      Nombre es requerido
@@ -24,7 +21,7 @@
              </div>
 
              <div class="p-float-label mt-5">
-                 <input id="email" type="text" pInputText formControlName="email" style="width: 460px;" type="email" >
+                 <input id="email" type="text" pInputText formControlName="email" style="width: 400px;" type="email" readonly>
                  <label for="email">Email</label>
                  <span class="p-error flex align-items-center" *ngIf="this.registerForm.get('email')?.errors?.required && statusForm">
                      Email es requerido
@@ -41,7 +38,10 @@
                      Password es requerido
                  </span>
                  <span class="p-error flex align-items-center" *ngIf="this.registerForm.get('password')?.errors?.minlength && statusForm">
-                     Longitud mínima 6 caracteres
+                     Longitud mínima 8 caracteres
+                 </span>
+                 <span class="p-error flex align-items-center" *ngIf="this.registerForm.get('password')?.errors?.pattern && statusForm">
+                     Password poco seguro
                  </span>
              </div>
 
@@ -52,7 +52,7 @@
                      Confirmación es requerido
                  </span>
                  <span class="p-error" *ngIf="this.registerForm.get('passwordConfirm')?.errors?.minlength && statusForm">
-                     Longitud mínima 6 caracteres
+                     Longitud mínima 8 caracteres
                  </span>
                  <span class="p-error flex align-items-center" *ngIf="this.registerForm.get('passwordConfirm')?.errors?.NoPassswordMatch && statusForm">
                      Passwords no coinciden
@@ -68,7 +68,6 @@
              <div>
                  {{msgInfo}}
              </div>
-
          <ng-template pTemplate="footer">
              <p-button icon="pi pi-check" (click)="closeDialog()" label="Cerrar" styleClass="p-button-text"></p-button>
          </ng-template>

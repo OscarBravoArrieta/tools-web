@@ -36,11 +36,11 @@
      }
      // --------------------------------------------------------------------------------------------
      getEmployeesToCheckStatus(valuesToConsult: any) {
-       return this.http.put( `${environment.serverUrl}/api/employees/getEmployeesToCheckStatus/`, valuesToConsult);
+       return this.http.put( `${environment.serverUrl}/api/employees/getEmployeesToCheckStatus/`, valuesToConsult, {headers: this.headers});
      }
      // --------------------------------------------------------------------------------------------
      updateEmployeesStatus(parameters: any) {
-         return this.http.put( `${environment.serverUrl}/api/employees/updateEmployeesStatus/`, parameters);
+         return this.http.put( `${environment.serverUrl}/api/employees/updateEmployeesStatus/`, parameters, {headers: this.headers});
     }
     // --------------------------------------------------------------------------------------------
 

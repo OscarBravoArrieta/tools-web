@@ -115,7 +115,7 @@
              })
          }                    
      } catch (error) {
-         console.log('Se presentó el siguiente error al listar Trabajadores:...', error);           
+         console.log('Se presentó el siguiente error al listar Trabajadores ABCDE:...', error);           
      }
  }
  //------------------------------------------------------------------------------------------------

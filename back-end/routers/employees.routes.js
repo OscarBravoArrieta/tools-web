@@ -8,7 +8,7 @@
  router.put('/getPayrollHistory', employeesCtrl.getPayrollHistory)
  router.put('/getPayrollHistoryUp', employeesCtrl.getPayrollHistoryUp)
  router.put('/getMonetarySubsidy', employeesCtrl.getMonetarySubsidy)
- router.put('/getEmployeesToCheckStatus', employeesCtrl.getEmployeesToCheckStatus)
- router.put('/updateEmployeesStatus', employeesCtrl.updateEmployeesStatus)
+ router.put('/getEmployeesToCheckStatus', [authjwt.verifyToken], employeesCtrl.getEmployeesToCheckStatus)
+ router.put('/updateEmployeesStatus', [authjwt.verifyToken], employeesCtrl.updateEmployeesStatus)
   
  export default router

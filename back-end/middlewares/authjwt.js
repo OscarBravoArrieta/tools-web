@@ -52,3 +52,23 @@
      }
  }
  // ------------------------------------------------------------------------------------------------------
+ export const verifyTokenToRestorePassword = async(req, res, next) => {
+     const token = req.params.token   
+     const decoded = jwt.verify(token, config.SECRET)
+     try {
+         const token = req.params.token
+         const decoded = jwt.verify(token, config.SECRET)
+         const user = await db.users.findOne({
+             where: {id: decoded.id}
+         })
+         if (user){
+             return res.json({accountConfirmed: true, currentId: decoded.id, message: 'Restauración habilitada.'})
+         }
+         if(!user) return res.status(404)({userfound: false, message: 'Usuario no existe'})
+         next()                    
+     } catch (error) {
+         console.log('verifyTokenToRestorePassword, This is the error...',error)
+         return res.status(401).json({tokenIsValid: false, message: 'No autorizado...'})                     
+     }
+ }
+ // ------------------------------------------------------------------------------------------------------

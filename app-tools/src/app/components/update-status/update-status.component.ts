@@ -5,6 +5,8 @@
  import { RelatedTablesService } from 'src/app/services/related-tables.service';
  import { MessageService } from 'primeng/api'
  import { ConfirmationService} from 'primeng/api';
+ import { AuthService } from 'src/app/services/auth.service';
+ import { Router } from '@angular/router';
 
  @Component({
      selector: 'app-update-status',
@@ -36,7 +38,9 @@
          private httpEmployees: EmployeesService,
          private httpBeneficiaries: BeneficiariesService,
          private confirmationService: ConfirmationService,
-         private relatedTablesService: RelatedTablesService) {
+         private relatedTablesService: RelatedTablesService,
+         private authService: AuthService,
+         private router: Router) {
          this.stateOptions = [{label: 'Inactivo', value: 'I'}, {label: 'Activo', value: 'A'}, {label: 'Difunto', value: 'M'}];
          this.stateType = [
              {name: 'Actualizar estado de aportantes', code: 'E'},
@@ -47,6 +51,9 @@
      }
      // ----------------------------------------------------------------------------------------------
      ngOnInit(): void {
+         if (!this.authService.loggIn()){
+             this.router.navigate(['/signin'])
+         }
      }
      // ----------------------------------------------------------------------------------------------
      validate(nButton: number):void{

@@ -6,7 +6,9 @@ import * as authjwt from '../middlewares/authjwt'
 
 router.post('/getDataForUser', [verifySignUp.userFound], authCtrl.getDataForUser)
 router.post('/signup', [verifySignUp.userFound], authCtrl.signUp)
+router.post('/signin', [verifySignUp.checkUserStatus], authCtrl.signIn)
 router.get('/verifyTokenFromEmail/:token', [authjwt.verifyTokenFromEmail], authCtrl.verifyTokenFromEmail)
-router.post('/signin', authCtrl.signIn)
+router.post('/resetPassword', authCtrl.resetPassword)
+router.get('/verifyTokenToRestorePassword/:token', [authjwt.verifyTokenToRestorePassword], authCtrl.verifyTokenToRestorePassword)
 
 export default router
