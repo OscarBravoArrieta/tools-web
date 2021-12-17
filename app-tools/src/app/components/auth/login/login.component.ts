@@ -1,9 +1,10 @@
- import { Component, OnInit } from '@angular/core';
+ import { Component, OnInit, OnDestroy } from '@angular/core';
  import { FormBuilder, FormGroup, Validators } from '@angular/forms'
  import { Router, CanActivate } from '@angular/router';
+ import { PrimeNGConfig } from 'primeng/api';
+ import { Message, MessageService} from 'primeng/api';
 
  import { AuthService } from 'src/app/services/auth.service'
- import { MessageService} from 'primeng/api';
 
  @Component({
      selector: 'app-login',
@@ -14,11 +15,15 @@
  export class LoginComponent implements OnInit {
      loginForm: FormGroup
      statusForm: boolean = false
+     displayDialog: boolean = false
+     isUserLoggedIn: boolean = false
+     msgInfo: string = ''
      //--------------------------------------------------------------------------------------------
      constructor(public messageService: MessageService,
                  public authService: AuthService,
                  public router: Router,
                  public fb: FormBuilder) {
+
                   this.loginForm = this.fb.group({
                        id_number: [null, [Validators.required]],
                        password: [ null, Validators.compose([Validators.minLength(8), Validators.required])],
@@ -26,6 +31,7 @@
      }
      //--------------------------------------------------------------------------------------------
      ngOnInit(): void {
+         localStorage.removeItem('toolsToken')
      }
      //--------------------------------------------------------------------------------------------
      sendUser () {
@@ -41,14 +47,19 @@
                if (res.token == null){
                    this.customToast('error', 'Error', res.message)
                } else {
-
-                   localStorage.setItem('toolsToken', res.token);
-                   localStorage.setItem('toolsCurrentUser', res.data.id);
-                   this.router.navigate(['/'])
-
-                   //window.location.reload();
+                     localStorage.setItem('toolsToken', res.token);
+                     localStorage.setItem('toolsCurrentUser', res.data.id);
+                     if (res.passwordExpired){
+                         this.msgInfo = `Su password ha expirado. Haga click en Cerrar para cambiarlo.`
+                         localStorage.removeItem('toolsToken');
+                         this.displayDialog = true
+                     }else{
+                         this.router.navigate([''])
+                           .then(() => {
+                           window.location.reload();
+                         });
+                     }
                }
-
           })
 
       }
@@ -61,7 +72,19 @@
          this.messageService.add({severity: severity, summary: summary, detail: detail});
      }
      //--------------------------------------------------------------------------------------------
+     closeDialog(){
+         this.displayDialog=false
+         this.router.navigate(['/change-password'])
+     }
      //--------------------------------------------------------------------------------------------
+     ngOnDestroy(){
+
+
+     }
+
+
+
+
      //--------------------------------------------------------------------------------------------
      //--------------------------------------------------------------------------------------------
 

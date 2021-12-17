@@ -68,6 +68,7 @@ import { PasswordModule } from 'primeng/password';
 import { VerifyTokenFromEmailComponent } from './components/auth/verify-token-from-email/verify-token-from-email.component';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 import { SetNewPasswordComponent } from './components/auth/set-new-password/set-new-password.component';
+import { ChangePasswordComponent } from './components/auth/change-password/change-password.component';
 
 
 @NgModule({
@@ -101,7 +102,8 @@ import { SetNewPasswordComponent } from './components/auth/set-new-password/set-
     LoginComponent,
     VerifyTokenFromEmailComponent,
     ResetPasswordComponent,
-    SetNewPasswordComponent
+    SetNewPasswordComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

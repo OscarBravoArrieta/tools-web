@@ -1,4 +1,4 @@
- <div class = "flex flex-wrap align-items-center justify-content-center mt-5">
+ <div class = "flex flex-wrap align-items-center justify-content-center mt-5 p-shadow-24">
       <p-toast position="top-center"></p-toast>
 
      <form [formGroup]="loginForm" (ngSubmit)="sendUser()" novalidate>
@@ -38,4 +38,12 @@
              </div>
          </div>
      </form>
+     <p-dialog header="Cambio de contraseña" [(visible)]="displayDialog" [style]="{width: '40vw'}" [baseZIndex]="10000">
+      <div>
+          {{msgInfo}}
+      </div>
+      <ng-template pTemplate="footer">
+          <p-button icon="pi pi-check" (click)="closeDialog()" label="Cerrar" styleClass="p-button-text"></p-button>
+      </ng-template>
+  </p-dialog>
  </div>

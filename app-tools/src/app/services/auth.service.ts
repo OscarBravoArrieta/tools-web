@@ -2,15 +2,19 @@
  import { HttpClient, HttpHeaders } from '@angular/common/http'
  import { Injectable } from '@angular/core';
  import { Router } from '@angular/router';
+ import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
      headers = new HttpHeaders({
          'x-access-token': this.getToken(),
      });
+
+     public isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.loggIn());
 
      constructor(private http: HttpClient,  private router: Router) {}
      // -----------------------------------------------------------------------------------------------
@@ -39,8 +43,18 @@ export class AuthService {
 
          return this.http.get(`${environment.serverUrl}/api/auth/verifyTokenToRestorePassword/${token}`);
      }
-  // -----------------------------------------------------------------------------------------------
+     // -----------------------------------------------------------------------------------------------
+     updatePassword(id: any, password: any): any {
+         return this.http.put( `${environment.serverUrl}/api/auth/updatePassword/${id}`, password)
+     }
+     // -----------------------------------------------------------------------------------------------
+     changePassword(id: any, password: any): any {
+         return this.http.put( `${environment.serverUrl}/api/auth/changePassword/${id}`, password, {headers: this.headers})
+     }
+     // -----------------------------------------------------------------------------------------------
+
      loggIn(): any {
+         //alert (!!localStorage.getItem('toolsToken'))
          return !!localStorage.getItem('toolsToken');
      }
      // -----------------------------------------------------------------------------------------------
@@ -56,7 +70,11 @@ export class AuthService {
 
          localStorage.removeItem('toolsToken');
          localStorage.removeItem('toolsCurrentUser');
-         this.router.navigate(['signin']);
+         this.router.navigate([''])
+         .then(() => {
+             window.location.reload();
+         });
+
 
      }
      // -----------------------------------------------------------------------------------------------

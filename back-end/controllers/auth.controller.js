@@ -1,5 +1,5 @@
  import Employees from '../models_single/employees.model'
- const { QueryTypes } = require ( 'sequelize' )
+ const { QueryTypes, DATE } = require ( 'sequelize' )
  import bcrypt from 'bcryptjs'
  import jwt from 'jsonwebtoken'
  import config from '../config'
@@ -72,7 +72,7 @@
      } catch (error) {
          console.log('Error->', error);
          res.status(500).json({
-             message: 'Ha ocurrido un error. No se grabó el registro...' + error,
+             message: 'Ha ocurrido un error. -> signUp...' + error,
              data:{}
          })                  
      }
@@ -92,8 +92,7 @@
              where: {
                  id_number: req.body.id_number
              }
-         })
-    
+         })    
          if (userToLog){
 
              if (!userToLog.status){ //If user.status is inactive   
@@ -103,16 +102,22 @@
                      token: null
                  })
              }
+             
              const matchPassword = await bcrypt.compare(req.body.password, userToLog.password)
              if (matchPassword) {
                  const token = jwt.sign({id: userToLog.id}, config.SECRET, {
                      expiresIn: 7200 // Two Hours
                  })
-
+                 let passwordExpiration = (new Date() - new Date(userToLog.reset_date_password) ) / 86400000  
+                 let passwordExpired  = false         
+                 if (passwordExpiration > 35){
+                     passwordExpired = true
+                 }   
                  return res.json({
                      message: 'Access granted',
                      data: userToLog,
-                     token: token
+                     token: token,
+                     passwordExpired
                  })
              } else {
                  return res.json({
@@ -131,7 +136,7 @@
      } catch (error) {
          console.log(error);
          res.status(500).json({
-             msgErrorLogin: 'Ha ocurrido un error al obtener el registro del usuario...' + error,
+             msgErrorLogin: 'Ha ocurrido un error. -> verifyTokenFromEmail...' + error,
              data:{}
          })                  
      }
@@ -164,6 +169,10 @@
         }         
      } catch (error) {
          console.log('Method -> getDataForUser...', error);
+         res.status(500).json({
+             message: 'Ha ocurrido un error. -> getDataForUser...' + error,
+             data:{}
+         })
      }
  }
  //------------------------------------------------------------------------------------------------
@@ -211,7 +220,60 @@
  }
  //------------------------------------------------------------------------------------------------
  export async function verifyTokenToRestorePassword(req, res){
-     //This method uses the authjwt.verifyTokenToRestorePassword from middlewares
+     //This method uses the authjwt.verifyTokenToRestorePassword from middlewares. Please do not erase
 
  }
+ //------------------------------------------------------------------------------------------------
+ export async function updatePassword(req, res){
+     const { id } = req.params
+     const { password } = req.body
+
+     const salt = await bcrypt.genSalt(10)
+     const encryptedPassword = await bcrypt.hash(password, salt)
+    
+     try {
+         const userToUpdate = await db.users.findOne({
+             where: {
+                 id: id
+             }
+         })
+
+         if (userToUpdate){
+            const updatedUser = await db.users.update(
+                 {password: encryptedPassword, reset_date_password: new DATE() },
+                 {where: {id}}
+             )
+             return res.json({paswordUpdated: true, message: 'Password actualizado'})            
+         }                  
+     } catch (error) {
+          console.log('updatePassword->',error)              
+     }
+ }
+ //------------------------------------------------------------------------------------------------
+ export async function changePassword(req, res){
+     const { id } = req.params
+     const { password } = req.body
+
+     const salt = await bcrypt.genSalt(10)
+     const encryptedPassword = await bcrypt.hash(password, salt)
+   
+     try {
+         const userToUpdate = await db.users.findOne({
+             where: {
+                 id: id
+             }
+         })
+
+         if (userToUpdate){
+             const updatedUser = await db.users.update(
+                 {password: encryptedPassword, reset_date_password: new DATE() },
+                 {where: {id}}
+             )
+             return res.json({paswordUpdated: true, message: 'Password actualizado'})            
+         }                  
+     } catch (error) {
+          console.log('changePassword->',error)              
+     }
+ }
+//------------------------------------------------------------------------------------------------
  

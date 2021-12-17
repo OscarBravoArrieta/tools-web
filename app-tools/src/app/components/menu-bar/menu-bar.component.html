@@ -1,10 +1,12 @@
-<p-menubar [model]="items" class="font-content" *ngIf="showMenu">
-   <button pButton label="Cerrar sesión" icon="pi pi-power-off" class="font-content" (click)="this.authService.logout()"></button>
-
-</p-menubar>
-<p-menubar class="font-content" *ngIf="!showMenu">
-   <button pButton label="Iniciar sesión" icon="pi pi-sign-in" class="font-content mr-2" [routerLink]="['/signin']" ></button>
-</p-menubar>
-
+<div *ngIf="showMenu else loginTemplate">
+     <p-menubar [model]="items" class="font-content">
+         <button pButton label="Cerrar sesión" icon="pi pi-power-off" class="font-content" (click)="this.logout()"></button>
+     </p-menubar>
+</div>
+<ng-template #loginTemplate>
+     <p-menubar class="font-content">
+         <button pButton label="Iniciar sesión" icon="pi pi-sign-in" class="font-content mr-2" [routerLink]="['/signin']" ></button>
+     </p-menubar>
+</ng-template>
 
 

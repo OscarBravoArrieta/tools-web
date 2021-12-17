@@ -8,8 +8,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
+  constructor() {
+
+
+  }
+
+  isUserLoggedIn: boolean = false;
+
   title = 'app-tools';
   ngOnInit(): void {
-       //window.location.reload();
+
   }
 }

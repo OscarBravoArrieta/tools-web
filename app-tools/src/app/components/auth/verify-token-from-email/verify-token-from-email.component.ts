@@ -21,6 +21,7 @@
          this.token = this.activatedRoute.snapshot.params.token
      }
      ngOnInit(): void {
+
          this.msgsSucces = [
              {severity:'success', summary:'Success', detail:'Cuenta confirmada satisfactoramente.'},
          ];
@@ -30,7 +31,7 @@
 
          this.authService.verifyTokenFromEmail(this.token).subscribe((data:any) =>{
              this.accountConfirmed = data.accountConfirmed
-             console.log('Confirmar cuenta', data)
+             console.log('Confirmar cuenta', data.currentId)
          })
      }
 

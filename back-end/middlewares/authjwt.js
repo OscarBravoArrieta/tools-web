@@ -62,7 +62,7 @@
              where: {id: decoded.id}
          })
          if (user){
-             return res.json({accountConfirmed: true, currentId: decoded.id, message: 'Restauración habilitada.'})
+             return res.json({accountConfirmed: true, user: user, currentId: decoded.id, message: 'Restauración habilitada.'})
          }
          if(!user) return res.status(404)({userfound: false, message: 'Usuario no existe'})
          next()                    
@@ -72,3 +72,4 @@
      }
  }
  // ------------------------------------------------------------------------------------------------------
+
