@@ -6,7 +6,7 @@
  import { sequelize } from '../dbConnection/dbConnection'
  //------------------------------------------------------------------------------------------------
  export async function getAll(req, res){ 
-     const status = req.body.status || ['A', 'I']
+     const status = req.body.status || ['A', 'I','M']
      const cutOffDate = req.body.cutOffDate || new Date().toISOString().substring(0, 10) //Formato de la fecha AAAA-MM-DD
      const filterName = req.body.filterName.filter || 'A'
      const forSearchHelp = req.body.forSearchHelp || false

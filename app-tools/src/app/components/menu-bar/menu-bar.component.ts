@@ -41,12 +41,12 @@ export class MenuBarComponent implements OnInit {
               ]
           },
           {
-              label: 'Edit',
-              icon: 'pi pi-fw pi-pencil',
-              items: [
-                  {label: 'Delete', icon: 'pi pi-fw pi-trash'},
-                  {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}
-              ]
+              // label: 'Edit',
+              // icon: 'pi pi-fw pi-pencil',
+              // items: [
+              //     {label: 'Delete', icon: 'pi pi-fw pi-trash'},
+              //     {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}
+              // ]
           }
         ];
 

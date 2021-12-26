@@ -4,9 +4,7 @@
  import { PrimeNGConfig } from 'primeng/api';
  import { Message, MessageService} from 'primeng/api';
 
-
  import { AuthService } from 'src/app/services/auth.service'
-
 
  @Component({
      selector: 'app-register',
@@ -88,8 +86,8 @@
 
              })
              this.msgInfo = `Usuario ${newUser.name} ha sido creado satisfactoriamente.
-                             Se envió un link de confirmación a su de correo electrónico ${newUser.email}.
-                             Por favor confirme su cuenta. Dispone de dos horas para la activacón.`
+                             Se envió un link de activación a su de correo electrónico ${newUser.email}.
+                             Por favor active su cuenta. Dispone de un tiempo de dos horas.`
              this.displayDialog = true
          }
          else {
@@ -110,13 +108,11 @@
                      //this.registerForm.controls.id_number.setValue('')
                      this.registerForm.controls.name.setValue('')
                      this.registerForm.controls.email.setValue('')
-
                   return
               }
 
-             if(data.length == 0){
+             if((data.length == 0) && (this.registerForm.value.id_number)){
                  this.customToast('error', 'Error', 'No se encontraron coincidencias con ' + this.registerForm.value.id_number)
-                 //this.registerForm.controls.id_number.setValue('')
                  this.registerForm.controls.name.setValue('')
                  this.registerForm.controls.email.setValue('')
                  return
@@ -129,6 +125,7 @@
                      this.registerForm.controls.email.setValue('')
                      return
                  }
+                 this.customToast('info', 'info', `Verifique que su email: ${data[0].EMAIL}, sea correcto`)
                  this.registerForm.controls.name.setValue(data[0].NOMBRE)
                  this.registerForm.controls.email.setValue(data[0].EMAIL)
              }

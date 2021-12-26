@@ -39,27 +39,18 @@ export class GridBeneficiariesComponent implements OnInit {
       this.primengConfig.ripple = true;
       this.status = [
           {name: 'Activo', value: 'A'},
-         //  {name: 'Inactivo', value: 'I'}
+          {name: 'Inactivo', value: 'I'},
+          {name: 'Difunto', value: 'M'}
       ]
    }
   ref: DynamicDialogRef;
   getBeneficiaries():void{
+
       this.showSpinner = true;
       const filter = { status: this.selectedStatus, filterName: 'A', forSearchHelp: false}
-      this.cols = [
-          { field: 'TIPO_ID_BENEFICIARIO', header: 'Tipo id'},
-          { field: 'DOCUMENTO_BENEFICIARIO', header: 'DocBeneficiario'},
-          { field: 'CODIGO_BENEFICIARIO', header: 'CodBeneficiario'},
-          { field: 'BENEFICIARIO', header: 'Beneficiario'},
-          { field: 'ESTADO', header: 'Estado'},
-          { field: 'NIT_EMPRESA', header: 'Ni'},
-          { field: 'RAZON_SOCIAL', header: 'Razón social'},
-          { field: 'ID_AFILIADO', header: 'IdAfiliado'},
-          { field: 'AFILIADO', header: 'Afiliado'}
-      ]
-
       this.httpBeneficiaries.getBeneficiaries(filter).subscribe((data: any) => {
           this.results = data.beneficiaries
+          this.getCols(9)
           this.showSpinner = false
       }, (err: any) => {
           this.router.navigate(['/signin'])
@@ -114,4 +105,31 @@ export class GridBeneficiariesComponent implements OnInit {
       FileSaver.saveAs(data, fileName + this.datepipe.transform(new Date(), 'yyyy-MM-dd') + '-' + new Date().getTime() + EXCEL_EXTENSION);
   }
   //--------------------------------------------------------------------------------------------
+  saveAsCsvFile() {
+     this.showSpinner = true
+     const replacer = (key: any, value: any) => value === null ? '' : value;
+     const header = Object.keys(this.results[0]);
+     let csv = this.results.map((row: any) => header.map(fieldName => JSON.stringify(row[fieldName],replacer)).join(','));
+     csv.unshift(header.join(','));
+     let csvArray = csv.join('\r\n');
+     var blob = new Blob([csvArray], {type: 'text/csv' })
+     saveAs(blob, 'Personas a cargo-' + this.datepipe.transform(new Date(), 'yyyy-MM-dd') + '-' + new Date().getTime() + ".csv");
+     this.showSpinner = false
+  }
+
+// ------------------------------------------------------------------------------------------
+
+getCols(nColumns: number):void{
+  this.cols = []=[]
+  let k = 0
+  for (var key in this.results[0]) { //Key contains name of columns
+      k ++
+      if (k <= nColumns){
+          let object
+          object = {field: key, header: (key.replace('_', ' ')).toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase())  }
+          this.cols.push(object)
+      }
+  }
+}
+// -------------------------------------------------------------------------------------------
 }

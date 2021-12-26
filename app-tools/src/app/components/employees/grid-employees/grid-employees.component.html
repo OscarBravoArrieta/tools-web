@@ -28,7 +28,7 @@ class="flex flex-wrap align-items-center justify-content-center mt-3"
                 <p-calendar [(ngModel)]="cutOffDate" dateFormat="dd/mm/yy" placeholder = "dd/mm/yyyy"></p-calendar>
             </div>
             <div class="p-field mb-3 ml-3">
-                <button type="button" label="Consultar" pButton pRipple (click)="validate()" class="p-button-sm"  tooltip="XLS" tooltipPosition="bottom"></button>
+                <button type="button" label="Consultar" pButton pRipple (click)="validate()" class="p-button-sm"></button>
             </div>
 
         </div>
@@ -38,7 +38,9 @@ class="flex flex-wrap align-items-center justify-content-center mt-3"
             </div>
 
             <div class="p-field mb-3 ml-3" *ngIf="results?.length">
-                <button type="button" label="Exportar a Excel" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-sm"  tooltip="XLS" tooltipPosition="bottom"></button>
+                <!-- <button type="button" label="Exportar a Excel" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-sm"  pTooltip="XLS" tooltipPosition="bottom"></button> -->
+                <button type="button" label="Exportar a Csv" pButton pRipple icon="pi pi-file-excel" (click)="saveAsCsvFile()" class="p-button-sm"  pTooltip="CSV" tooltipPosition="bottom"></button>
+
             </div>
         </div>
     </div>
@@ -60,6 +62,7 @@ class="flex flex-wrap align-items-center justify-content-center mt-3"
         <div class="flex justify-content-between flex-wrap card-container purple-container">
             <div class="flex align-items-center justify-content-center m-2">
                 <span class = "font-sub-title">{{reportTitle}}</span>
+                <!-- <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button> -->
             </div>
             <div class="flex align-items-center justify-content-center">
                 <span class="p-input-icon-left p-ml-auto">

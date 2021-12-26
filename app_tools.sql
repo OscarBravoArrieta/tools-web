@@ -19,6 +19,8 @@
      id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
      rol_name VARCHAR(100) NOT NULL UNIQUE,
      description VARCHAR(150),
+     createdAt DATETIME,
+	 updatedAt DATETIME,
      PRIMARY KEY (id)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  
@@ -31,8 +33,11 @@
   CREATE TABLE users_roles(
      id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
      fk_id_user INT(10) UNSIGNED,
-     fk_id_rol INT(10) UNSIGNED,     
-     PRIMARY KEY (id) ,
+     fk_id_rol INT(10) UNSIGNED,
+	 createdAt DATETIME,
+	 updatedAt DATETIME,	 
+     PRIMARY KEY (id),	 
      CONSTRAINT fk_users_roles_users FOREIGN KEY(fk_id_user) REFERENCES users (id),
-     CONSTRAINT fk_users_roles_roles FOREIGN KEY(fk_id_rol) REFERENCES roles (id)
+     CONSTRAINT fk_users_roles_roles FOREIGN KEY(fk_id_rol) REFERENCES roles (id),
+	 CONSTRAINT unk_users_roles UNIQUE (fk_id_user, fk_id_rol)
  );

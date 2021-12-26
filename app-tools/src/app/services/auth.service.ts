@@ -70,6 +70,12 @@ export class AuthService {
 
          localStorage.removeItem('toolsToken');
          localStorage.removeItem('toolsCurrentUser');
+         localStorage.removeItem('currentEmployer');
+         localStorage.removeItem('currentEmployee');
+         localStorage.removeItem('currentIdEmployee');
+         localStorage.removeItem('currentIdEmployer');
+
+
          this.router.navigate([''])
          .then(() => {
              window.location.reload();

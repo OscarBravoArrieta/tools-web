@@ -1,4 +1,4 @@
- @font-face {
+@font-face {
    font-family: Monserrat-black;
    src: url(./assets/fonts/monserrat/Montserrat-Black.ttf) format("truetype");
 
@@ -7,6 +7,19 @@
    font-family: Montserrat-ExtraLight;
    src: url(./assets/fonts/monserrat/Montserrat-ExtraLight.ttf) format("truetype");
  }
+
+ /* body{
+  background-image: url('./assets/img/undraw_annotation_re_h774.svg');
+  background-repeat: no-repeat;
+     background-position: center center;
+     background-size: cover;
+     height: 100%;
+     width: 100%;
+     position: absolute;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+} */
 
  .font-title {
    font-family: Montserrat-ExtraLight;

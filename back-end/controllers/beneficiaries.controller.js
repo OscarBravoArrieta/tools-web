@@ -6,7 +6,8 @@
  import { sequelize } from '../dbConnection/dbConnection'
 
  export async function getAll(req, res) { 
-     const status = req.body.status || ['A', 'I']
+     console.log('ESTADO......',req.body.status)
+     const status = req.body.status || ['A', 'I', 'M']
      const filterName = req.body.filterName.filter || 'A'
      const forSearchHelp = req.body.forSearchHelp || false
 
@@ -38,101 +39,9 @@
      } else { //------------------------------------------------------------- if (forSearchHelp)
          try {
              const beneficiaries = await sequelize.query(
-                 `SELECT
-                 E.nit AS NIT_EMPRESA,
-                 E.razsoc AS RAZON_SOCIAL,
-                 TA.detalle AS TIPO_COTIZANTE,
-                 A.cedtra AS ID_AFILIADO,
-                 CONCAT(COALESCE(A.priape,''), ' ', COALESCE(A.segape,''), ' ', COALESCE(A.prinom,''), ' ', COALESCE(A.segnom,'')) AS AFILIADO,
-                 IF(A.codcat IS NULL, 'C', A.codcat) AS CATEGORIA,
-                 FORMAT(A.salario,2) AS SALARIO,
-                 C.detciu AS CIUDAD_RESIDE,
-                 A.direccion AS DIRECCION_AFILIADO,
-                 A.telefono AS TELEFONO,
-                 B.documento AS DOCUMENTO_BENEFICIARIO,
-                 B.codben AS CODIGO_BENEFICIARIO,
-                 CONCAT(COALESCE(B.priape,''), ' ', COALESCE(B.segape,''), ' ', COALESCE(B.prinom,''), ' ', COALESCE(B.segnom,'')) AS BENEFICIARIO,
-                 T.codrua AS TIPO_ID_BENEFICIARIO,
-                 IF(B.estado = 'A', 'ACTIVO', 'INACTIVO') AS ESTADO,
-                 B.sexo AS GENERO_BENEFICIARIO,
-                 B2.fecafi AS FECHA_AFILIACION,
-                 B.fecnac AS FECHA_NACE_BENEFICIARIO,
-                 YEAR(CURDATE())-YEAR(B.fecnac) + IF(DATE_FORMAT(CURDATE(),'%m-%d') > DATE_FORMAT(B.fecnac,'%m-%d'), 0 , -1 ) AS EDAD,
-                 A.codciu AS CODIGO_CIUDAD,
-                 C.detciu AS CIUDAD_RESIDE,
-                 A.direccion AS DIRECCION,
-                 A.email AS EMAIL,
-                 A.telefono AS TELEFONO,
-                 CASE (A.rural)
-                      WHEN 'S' THEN 'RURAL'  --  S = Rural
-                      WHEN 'N' THEN 'URBANA'  --  N = No rural. Equivale a Urbano
-                 END AS AREA_GEOGRAFICA_RESIDENCIA,
-                 CASE (B.captra)
-                      WHEN 'N' THEN ''  -- No es discapacitado
-                      WHEN 'I' THEN 'DISCAPACITADO'  -- Es discapacitado
-                 END AS DISCAPACIDAD_BENEFICIARIO,
-                 CASE (B.parent)
-                     WHEN '1' THEN 'HIJO'
-                     WHEN '2' THEN 'HERMANO'
-                     WHEN '3' THEN 'PADRE'
-                 END AS PARENTESCO 
-                 FROM subsi22 B 
-                 LEFT JOIN subsi23 B2 ON B.CODBEN = B2.CODBEN
-                 LEFT JOIN gener18 T ON B.CODDOC = T.CODDOC
-                 LEFT JOIN subsi15 A ON B.CODBEN = B2.CODBEN AND A.CEDTRA = B2.CEDTRA
-                 LEFT JOIN subsi02 E ON A.nit  = E.nit 
-                 LEFT JOIN subsi71 TA ON A.tipcot = TA.tipcot 
-                 LEFT JOIN gener08 C ON A.codciu = C.codciu AND B.CODBEN = B2.CODBEN AND A.CEDTRA = B2.CEDTRA
-                 WHERE B.estado  = (?)
-                 AND A.estado = 'A' 
-                 AND E.estado = 'A'
-                 UNION 
-                 SELECT 
-                 E.nit AS NIT_EMPRESA,
-                 E.razsoc AS RAZON_SOCIAL,
-                 TA.detalle AS TIPO_COTIZANTE,
-                 A.cedtra AS ID_AFILIADO,
-                 CONCAT(COALESCE(A.priape,''), ' ', COALESCE(A.segape,''), ' ', COALESCE(A.prinom,''), ' ', COALESCE(A.segnom,'')) AS AFILIADO,
-                 IF(A.codcat IS NULL, 'C', A.codcat) AS CATEGORIA,
-                 FORMAT(A.salario,2) AS SALARIO,
-                 CIU.detciu AS CIUDAD_RESIDE,
-                 A.direccion AS DIRECCION_AFILIADO,
-                 A.telefono AS TELEFONO,
-                 C.cedcon AS DOCUMENTO_CONYUGE,
-                 '' AS CODIGO_BENEFICIARIO,
-                 CONCAT(COALESCE(C.priape,''), ' ', COALESCE(C.segape,''), ' ', COALESCE(C.prinom,''), ' ', COALESCE(C.segnom,'')) AS BENEFICIARIO,
-                 T.codrua AS TIPO_ID_BENEFICIARIO,
-                 IF(C.estado = 'A', 'ACTIVO', 'INACTIVO') AS ESTADO,
-                 C.sexo AS GENERO_BENEFICIARIO,
-                 B2.fecafi AS FECHA_AFILIACION,
-                 C.fecnac AS FECHA_NACE_BENEFICIARIO,
-                 YEAR(CURDATE())-YEAR(C.fecnac) + IF(DATE_FORMAT(CURDATE(),'%m-%d') > DATE_FORMAT(C.fecnac,'%m-%d'), 0 , -1 ) AS EDAD,
-                 A.codciu AS CODIGO_CIUDAD,
-                 CIU.detciu AS CIUDAD_RESIDE,
-                 A.direccion AS DIRECCION,
-                 A.email AS EMAIL,
-                 A.telefono AS TELEFONO,
-                 CASE (A.rural)
-                      WHEN 'S' THEN 'RURAL'  --  S = Rural
-                      WHEN 'N' THEN 'URBANA'  --  N = No rural. Equivale a Urbano
-                 END AS AREA_GEOGRAFICA_RESIDENCIA,
-                 CASE (C.captra)
-                      WHEN 'N' THEN ''  -- No es discapacitado
-                      WHEN 'I' THEN 'DISCAPACITADO'  -- Es discapacitado
-                 END AS DISCAPACIDAD_BENEFICIARIO,
-                 'CONYUGE' AS PARENTESCO
-                 FROM subsi20 C
-                 INNER JOIN subsi21 B2 ON C.cedcon = B2.cedcon 
-                 LEFT JOIN gener18 T ON C.coddoc = T.coddoc 
-                 INNER JOIN subsi15 A ON C.cedcon = B2.cedcon AND A.cedtra = B2.cedtra 
-                 LEFT JOIN subsi02 E ON A.nit  = E.nit AND B2.cedtra = A.cedtra 
-                 LEFT JOIN subsi71 TA ON A.tipcot = TA.tipcot 
-                 LEFT JOIN gener08 CIU ON A.codciu = CIU.codciu AND C.cedcon = B2.cedcon AND A.cedtra = B2.cedtra 
-                 WHERE C.estado  = (?)
-                 AND A.estado = 'A' 
-                 AND E.estado = 'A'`,
+                 `SELECT * FROM beneficiaries B WHERE B.CODIGO_ESTADO  IN (?)`, //Cal the Beneficiaries view
                  { 
-                     replacements: [status, status],
+                     replacements: [status],
                      type: QueryTypes.SELECT 
                  }             
             )

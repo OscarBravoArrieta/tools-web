@@ -42,6 +42,21 @@
                  expiresIn: 7200 // Two Hours
              })
 
+             const fk_id_user = newUser.id
+             const fk_id_rol = 5
+
+             let newUserProfile = await db.users_roles.create({
+                 fk_id_user,
+                 fk_id_rol,createdAt,
+                 updatedAt},{ 
+                 fields:
+                 [
+                     'fk_id_user',
+                     'fk_id_rol',
+                     'createdAt',
+                     'updatedAt'
+                 ]
+             })
              const transporter = nodemailer.createTransport({
                  service: 'Gmail',
                  auth: {
@@ -50,17 +65,19 @@
                 }
               })
               
-              transporter.sendMail({
+             transporter.sendMail({
                   from: 'comfa.edusoft@comfamiliar.org.co',
                   to: newUser.email,
                   subject: 'Por favor confirme su cuenta',
-                  html: `<div>
-                             <h1>Confirmación de cuenta.</h1>
-                             <h2>Hola, ${name}</h2>
-                             <p>Gracias por suscribirte. Por favor, confirma tu cuenta haciendo clic en el siguiente enlace</p>
-                             <a href=http://localhost:4200/verify-token-from-email/${token}> Confirmar cuenta</a>
-                             <br>
-                         </div>`,
+                  html: 
+                     `<div>
+                         <h1>Activación de cuenta.</h1>
+                         <h2>Hola, ${name}</h2>
+                         <p>Gracias por registrarse. Se le ha asignado un perfil de <strong>CONSULTOR BÁSICO</strong>. Si lo requiere, solicite a su administrador el cambio de perfil.</p>
+                         <p>Por favor, active su cuenta haciendo clic en el siguiente enlace</p>
+                         <a href=http://localhost:4200/verify-token-from-email/${token}> Activar cuenta</a>
+                         <br>
+                      </div>`,
               }).catch(err => console.log('Error al enviar email', err));             
 
              return res.json({
@@ -85,24 +102,26 @@
  export const signIn = async (req, res) => {
 
      //console.log(randomstring.generate({length: 6, charset: 'url-safe'}))
-     //return
-    
      try {
           const userToLog = await db.users.findOne({
-             where: {
-                 id_number: req.body.id_number
-             }
-         })    
+             where: {id_number: req.body.id_number},
+             include: [
+                 { model: db.users_roles,
+                     include: [
+                         {model: db.roles}
+                     ]
+                 },
+              ]
+         })
+         console.log('Warning...', userToLog)
          if (userToLog){
-
              if (!userToLog.status){ //If user.status is inactive   
                  return res.json({
                      message: 'Acceso denegado. Cuenta no ha sido confirmada.',
                      data: null,
                      token: null
                  })
-             }
-             
+             }             
              const matchPassword = await bcrypt.compare(req.body.password, userToLog.password)
              if (matchPassword) {
                  const token = jwt.sign({id: userToLog.id}, config.SECRET, {
@@ -203,16 +222,15 @@
                  from: 'comfa.edusoft@comfamiliar.org.co',
                  to: user.email,
                  subject: 'Por favor confirme la restauración de su password.',
-                 html: `<div>
-                             <h1>Confirmar restauración password.</h1>
-                             <h2>Hola, ${name}</h2>
-                             <p>Para confirmar la restauración de tu password, por favor haz click en el siguiente link</p>
-                             <a href=http://localhost:4200/set-new-password/${token}> Confirmar solicitud</a>
-                             <br>
-                         </div>`,
+                 html: 
+                     `<div>
+                         <h1>Confirmar restauración password.</h1>
+                         <h2>Hola, ${name}</h2>
+                         <p>Para confirmar la restauración de tu password, por favor haz click en el siguiente link</p>
+                         <a href=http://localhost:4200/set-new-password/${token}> Confirmar solicitud</a>
+                         <br>
+                      </div>`,
              }).catch(err => console.log('Error al enviar email', err));             
-
-
          }
      } catch (error) {
          console.log('resetPassword->',error)         
@@ -221,7 +239,6 @@
  //------------------------------------------------------------------------------------------------
  export async function verifyTokenToRestorePassword(req, res){
      //This method uses the authjwt.verifyTokenToRestorePassword from middlewares. Please do not erase
-
  }
  //------------------------------------------------------------------------------------------------
  export async function updatePassword(req, res){

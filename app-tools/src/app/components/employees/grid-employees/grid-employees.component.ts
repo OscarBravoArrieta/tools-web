@@ -39,7 +39,8 @@ export class GridEmployeesComponent implements OnInit {
       ) {
       this.status = [
           {name: 'Activo', value: 'A'},
-          {name: 'Inactivo', value: 'I'}
+          {name: 'Inactivo', value: 'I'},
+          {name: 'Difunto', value: 'M'}
       ]
    }
    ref: DynamicDialogRef;
@@ -74,7 +75,6 @@ export class GridEmployeesComponent implements OnInit {
           const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
           this.saveAsExcelFile(excelBuffer, "Trabajadores-");
           this.showSpinner = false
-
       });
   }
  // -------------------------------------------------------------------------------------------
@@ -87,6 +87,20 @@ export class GridEmployeesComponent implements OnInit {
       FileSaver.saveAs(data, fileName + this.datepipe.transform(new Date(), 'yyyy-MM-dd') + '-' + new Date().getTime() + EXCEL_EXTENSION);
   }
  // -------------------------------------------------------------------------------------------
+
+ saveAsCsvFile() {
+     this.showSpinner = true
+     const replacer = (key: any, value: any) => value === null ? '' : value;
+     const header = Object.keys(this.results[0]);
+     let csv = this.results.map((row: any) => header.map(fieldName => JSON.stringify(row[fieldName],replacer)).join(','));
+     csv.unshift(header.join(','));
+     let csvArray = csv.join('\r\n');
+     var blob = new Blob([csvArray], {type: 'text/csv' })
+     saveAs(blob, 'Trabajadores-' + this.datepipe.transform(new Date(), 'yyyy-MM-dd') + '-' + new Date().getTime() + ".csv");
+     this.showSpinner = false
+}
+
+// -------------------------------------------------------------------------------------------
   validate() {
    if (!(this.selectedStatus) && (this.datepipe.transform(this.cutOffDate, 'yyyy-MM-dd') == null)){ //Ambos vacios
       this.confirmationService.confirm({
@@ -154,6 +168,7 @@ export class GridEmployeesComponent implements OnInit {
           }
       }
   }
+ // -------------------------------------------------------------------------------------------
 
 
 }

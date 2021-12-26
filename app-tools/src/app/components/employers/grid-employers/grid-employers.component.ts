@@ -51,7 +51,7 @@ export class GridEmployersComponent implements OnInit {
      }
      // -------------------------------------------------------------------------------------------
      editEmployer(currentEmployer: any) {
-         let nameEmployer = 'Empleador: '+ currentEmployer.TIPOIDENTIFICACION + ' ' + currentEmployer.ID + '-' + currentEmployer.RAZON_SOCIAL
+         let nameEmployer = 'Empleador: '+ currentEmployer.TIPO_IDENTIFICACION + ' ' + currentEmployer.ID + '-' + currentEmployer.RAZON_SOCIAL
          localStorage.setItem('currentEmployer', JSON.stringify(currentEmployer))
          localStorage.setItem('currentIdEmployer', currentEmployer.ID)
          this.ref = this.dialogService.open(TabPageEmployersComponent, {

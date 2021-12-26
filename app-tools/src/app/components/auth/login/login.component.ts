@@ -24,10 +24,10 @@
                  public router: Router,
                  public fb: FormBuilder) {
 
-                  this.loginForm = this.fb.group({
-                       id_number: [null, [Validators.required]],
-                       password: [ null, Validators.compose([Validators.minLength(8), Validators.required])],
-                  })
+                 this.loginForm = this.fb.group({
+                     id_number: [null, [Validators.required]],
+                     password: [ null, Validators.compose([Validators.minLength(8), Validators.required])],
+                 })
      }
      //--------------------------------------------------------------------------------------------
      ngOnInit(): void {

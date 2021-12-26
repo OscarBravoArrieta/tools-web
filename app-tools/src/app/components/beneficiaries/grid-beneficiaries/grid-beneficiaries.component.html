@@ -25,7 +25,8 @@
                  </div>
 
                  <div class="p-field mb-3 ml-3" *ngIf="results?.length">
-                     <button type="button" label="Exportar a Excel" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-sm"  tooltip="XLS" tooltipPosition="bottom"></button>
+                     <!-- <button type="button" label="Exportar a Excel" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-sm"  tooltip="XLS" tooltipPosition="bottom"></button> -->
+                     <button type="button" label="Exportar a Csv" pButton pRipple icon="pi pi-file-excel" (click)="saveAsCsvFile()" class="p-button-sm"  pTooltip="CSV" tooltipPosition="bottom"></button>
                  </div>
              </div>
          </div>
