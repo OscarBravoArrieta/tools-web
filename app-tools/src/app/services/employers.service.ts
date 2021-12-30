@@ -44,5 +44,12 @@
          return this.http.post(`${environment.serverUrl}/api/employers/updateEmployerStatus/`, parameters, {headers: this.headers});
      }
      // --------------------------------------------------------------------------------------------
+     payrollReport(dateRange: any):any {
+         return this.http.put(`${environment.serverUrl}/api/employers/payrollReport/`, dateRange, {headers: this.headers});
+     }
+     // --------------------------------------------------------------------------------------------
+
+
+
 
  }

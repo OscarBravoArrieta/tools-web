@@ -10,11 +10,15 @@
  import { GridEmployeesComponent } from './components/employees/grid-employees/grid-employees.component';
  import { GridBeneficiariesComponent } from './components/beneficiaries/grid-beneficiaries/grid-beneficiaries.component';
  import { UpdateStatusComponent } from './components/update-status/update-status.component';
- import { AppComponent } from './app.component';
+ import { CheckStatusComponent } from './components/check-status/check-status.component';
+ import { PayrollReportComponent } from './components/employers/payroll-report/payroll-report.component';
+
+
 
  const routes: Routes = [
     //  { path: '', component: AppComponent},
      { path: 'main-employers', component: GridEmployersComponent},
+     { path: 'payrol-report', component: PayrollReportComponent},
      { path: 'main-employees', component: GridEmployeesComponent},
      { path: 'main-beneficiaries', component: GridBeneficiariesComponent },
      { path: 'update-status', component: UpdateStatusComponent },
@@ -24,6 +28,7 @@
      { path: 'reset-password', component: ResetPasswordComponent },
      { path: 'set-new-password/:token', component: SetNewPasswordComponent },
      { path: 'change-password', component: ChangePasswordComponent },
+     { path: 'check-status', component: CheckStatusComponent }
  ];
 
  @NgModule({

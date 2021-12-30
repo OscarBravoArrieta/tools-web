@@ -10,5 +10,7 @@
  router.put('/getPayrollEmployer', employersCtrl.getPayrollEmployer)
  router.put('/getEmployersToCheckStatus', [authjwt.verifyToken], employersCtrl.getEmployersToCheckStatus)
  router.post('/updateEmployerStatus', [authjwt.verifyToken], employersCtrl.updateEmployerStatus)
+ router.put('/payrollReport', [authjwt.verifyToken], employersCtrl.payrollReport)
+ 
   
  export default router

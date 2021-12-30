@@ -360,6 +360,29 @@ export async function getPayrollEmployer (req, res){
      } 
  }
  //------------------------------------------------------------------------------------------------
+ export async function payrollReport(req, res){
+     const startPeriod = req.body.startPeriod
+     const endPeriod = req.body.endPeriod
+     try {
+         const  payrollReport = await sequelize.query(
+             `SELECT * FROM employersPayment WHERE PERIODO BETWEEN (?) AND (?)`, //Call employers view
+             { 
+                 replacements: [startPeriod, endPeriod],
+                 type: QueryTypes.SELECT 
+             }               
+         )
+         if (payrollReport){
+             res.json({payrollReport})             
+         } else {
+            res.json({
+                message: 'No hay registros coincidentes...'
+            })             
+         }   
+     } catch (error) {
+         console.log('Se presentó el siguiente error al generar el reporte de nómina:...', error);
+     }
+ }
+ //------------------------------------------------------------------------------------------------
 
  
 

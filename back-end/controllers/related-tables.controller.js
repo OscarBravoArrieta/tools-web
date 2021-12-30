@@ -10,22 +10,22 @@ import { sequelize } from '../dbConnection/dbConnection'
 //------------------------------------------------------------------------------------------------
 export async function getAllReasonForInactivation(req, res){
    
-    const filterName = req.body.filter || ['T']
+     const filterName = req.body.filter || ['T']
+     console.log('bodyyyyyyyyyyyy', req.body.filterName)
     
-    try {
-        const reasonForInactivation = await ReasonForInactivation.findAll({
-            attributes: [['codest', 'CODIGO_ESTADO'], ['detalle', 'MOTIVO']],
-                order: [
-                    ['codest', 'ASC']
-                ],
-                where: {
-                    tipo: `${filterName}`
-                     
-                }
-             })    
-             if (reasonForInactivation){
-                 res.json({reasonForInactivation})
-             }else{
+     try {
+         const reasonForInactivation = await ReasonForInactivation.findAll({
+             attributes: [['codest', 'CODIGO_ESTADO'], ['detalle', 'MOTIVO']],
+                 order: [
+                     ['codest', 'ASC']
+                 ],
+                 where: {
+                     tipo: `${filterName}`                      
+                 }
+              })    
+              if (reasonForInactivation){
+                  res.json({reasonForInactivation})
+              }else{
                  res.json({
                      message: 'No hay registros coincidentes...'
                  })

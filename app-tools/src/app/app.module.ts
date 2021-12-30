@@ -69,6 +69,8 @@ import { VerifyTokenFromEmailComponent } from './components/auth/verify-token-fr
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 import { SetNewPasswordComponent } from './components/auth/set-new-password/set-new-password.component';
 import { ChangePasswordComponent } from './components/auth/change-password/change-password.component';
+import { PayrollReportComponent } from './components/employers/payroll-report/payroll-report.component';
+import { CheckStatusComponent } from './components/check-status/check-status.component';
 
 
 @NgModule({
@@ -103,7 +105,9 @@ import { ChangePasswordComponent } from './components/auth/change-password/chang
     VerifyTokenFromEmailComponent,
     ResetPasswordComponent,
     SetNewPasswordComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    PayrollReportComponent,
+    CheckStatusComponent
   ],
   imports: [
     BrowserModule,

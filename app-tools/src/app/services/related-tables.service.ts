@@ -11,7 +11,7 @@
      // --------------------------------------------------------------------------------------------
      getReasonsForInactivation(filter: any):any {
 
-         return this.http.put( `${environment.serverUrl}/api/related-tables/reason-for-inactivation/`, {filter: filter});
+         return this.http.put( `${environment.serverUrl}/api/relatedTables/reason-for-inactivation/`, {filter: filter});
      }
 
      // --------------------------------------------------------------------------------------------
