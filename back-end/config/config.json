@@ -3,7 +3,7 @@
          "username": "soportesys",
          "password": "soporte123.",
          "database": "app_tools",
-         "host": "192.168.21.21",
+         "host": "190.109.7.108",
          "dialect": "mysql"
      },
      "test": {

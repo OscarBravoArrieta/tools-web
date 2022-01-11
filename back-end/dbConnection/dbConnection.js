@@ -5,7 +5,7 @@
      'soportesys', 
      'soporte123.', 
      { 
-         host: '192.168.21.21',
+         host: '190.109.7.108',
          dialect: 'mysql',
          pool: {
              max: 5,
@@ -13,5 +13,3 @@
              idle: 10000
          },    
  });
-
- // host: '192.168.21.15', => poduction
