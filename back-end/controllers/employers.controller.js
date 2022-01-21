@@ -365,7 +365,7 @@ export async function getPayrollEmployer (req, res){
      const endPeriod = req.body.endPeriod
      try {
          const  payrollReport = await sequelize.query(
-             `SELECT * FROM employersPayment WHERE PERIODO BETWEEN (?) AND (?)`, //Call employers view
+             `SELECT * FROM employersPayment WHERE PERIODO BETWEEN ? AND ?`, //Call employers view
              { 
                  replacements: [startPeriod, endPeriod],
                  type: QueryTypes.SELECT 

@@ -2,85 +2,96 @@
      class = "flex flex-wrap align-items-center justify-content-center mt-5"
      [style]="{width: '100%'}" >
      <ng-template pTemplate="header" >
-      <div class="font-title ml-3 mt-2" [ngStyle]="{color:'var(--green-600)'}">Consulta de estados</div>
+      <div class="font-title ml-3 mt-2" [ngStyle]="{color:'var(--green-600)'}">Consulta de estado</div>
       <p-divider></p-divider>
 
-  </ng-template>
-  <div class="font-content"  [style]="{height: '600px'}">
-       <p-toast position="top-center"></p-toast>
-       <p-card styleClass="p-card-shadow" class = "">
-          <div class="grid">
-              <div class="col-3">
-                  <p class="font-content">Números de identificación</p>
-                  <textarea [rows]="20" [cols]="30" pInputTextarea [(ngModel)] = "textAreaContent"></textarea>
+     </ng-template>
+     <div class="font-content"  [style]="{height: '600px'}">
+         <p-toast position="top-center"></p-toast>
+         <p-card styleClass="p-card-shadow" class = "">
+             <div class="grid">
+                 <div class="col-3">
+                     <p class="font-content">Números de identificación</p>
+                     <textarea [rows]="20" [cols]="30" pInputTextarea [(ngModel)] = "textAreaContent"></textarea>
+                 </div>
+             <div class="col-9">
+                 <div class="flex justify-content-between flex-wrap card-container purple-container">
+                     <div class="flex align-items-center m-2">
+                         <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="E" [(ngModel)]="selectedQuery" label="Consulta estado Aportantes"></p-radioButton>
+                         <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="T" [(ngModel)]="selectedQuery" label="Consulta estado Trabajadores"></p-radioButton>
+                         <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="B" [(ngModel)]="selectedQuery" label="Consultar estado Beneficiarios"></p-radioButton>
+                         <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="C" [(ngModel)]="selectedQuery" label="Consultar estado Cónyuges"></p-radioButton>
+                     </div>
+
+                     <div class="flex align-items-center justify-content-center">
+                         <div class="p-field mb-3 ml-3">
+                             <p-progressSpinner *ngIf="showSpinner" [style]="{width: '30px', height: '30px'}" styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                         </div>
+
+                         <div class="p-field mb-3 ml-3" *ngIf="results?.length">
+                             <button type="button" label="Exportar a Csv" pButton pRipple icon="pi pi-file-excel" (click)="saveAsCsvFile()" class="p-button-sm"  pTooltip="CSV" tooltipPosition="bottom"></button>
+                         </div>
+                     </div>
+
+                 </div>
+                 <p-table #dt *ngIf="results"
+                     [columns]="cols"
+                     [value]="results"
+                     responsiveLayout="scroll"
+                     [paginator]="true"
+                     currentPageReportTemplate = "Mostrando {first} a {last} de {totalRecords} entradas"
+                     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                     [totalRecords]="totalRecords"
+                     styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-customers"
+                     [scrollable]="true"
+                     scrollHeight="300px"
+                     [autoLayout]="true"
+                     >
+                     <ng-template pTemplate="caption">
+                         <div class="flex justify-content-between flex-wrap card-container purple-container">
+                             <div class="flex align-items-center justify-content-center m-2">
+                                 <span class = "font-sub-title">{{reportTitle}}</span>
+                             </div>
+                             <div class="flex align-items-center justify-content-center">
+                                 <span class="p-input-icon-left p-ml-auto">
+                                     <i class="pi pi-search"></i>
+                                     <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
+                                 </span>
+                             </div>
+                         </div>
+                     </ng-template>
+                     <ng-template pTemplate="header" let-columns>
+                         <tr>
+                             <th *ngFor="let col of columns" [ngStyle]="{color:'var(--green-400)'}" class="font-title-column" style="text-align:center;">
+                                 {{col.header}}
+                             </th>
+                        </tr>
+                     </ng-template>
+                     <ng-template pTemplate="body" let-rowData let-columns="columns">
+                         <tr class="p-selectable-row font-table">
+                             <td *ngFor="let col of columns">
+                                 {{rowData[col.field]}}
+                             </td>
+                         </tr>
+                     </ng-template>
+                     <ng-template let-item pTemplate="paginatordropdownitem">
+                         {{item.value}} -por página
+                     </ng-template>
+                    <ng-template pTemplate="summary">
+                         <span class = "font-sub-title">Total registros en esta vista: {{results?.length | number}} </span>
+                     </ng-template>
+                 </p-table>
               </div>
-              <div class="col-9">
-                  <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="E" [(ngModel)]="selectedQuery" label="Consulta estado de Aportantes"></p-radioButton>
-                  <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="T" [(ngModel)]="selectedQuery" label="Consulta estado de Trabajadores"></p-radioButton>
-                  <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="B" [(ngModel)]="selectedQuery" label="Consultar estado de Beneficiarios"></p-radioButton>
-                  <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="C" [(ngModel)]="selectedQuery" label="Consultar estado de Cónyuges"></p-radioButton>
-
-
-                  <p-table #dt
-                  [columns]="cols"
-                  [value]="results"
-                  responsiveLayout="scroll"
-                  [paginator]="true"
-                  currentPageReportTemplate = "Mostrando {first} a {last} de {totalRecords} entradas"
-                  [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                  [totalRecords]="totalRecords"
-                  styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-customers"
-                  [scrollable]="true"
-                  scrollHeight="300px"
-                  [autoLayout]="true"
-              >
-                  <ng-template pTemplate="caption">
-                      <div class="flex justify-content-between flex-wrap card-container purple-container">
-                          <div class="flex align-items-center justify-content-center m-2">
-                              <span class = "font-sub-title">{{reportTitle}}</span>
-                          </div>
-                          <div class="flex align-items-center justify-content-center">
-                              <span class="p-input-icon-left p-ml-auto">
-                                  <i class="pi pi-search"></i>
-                                  <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
-                              </span>
-                          </div>
-                      </div>
-                  </ng-template>
-                  <ng-template pTemplate="header" let-columns>
-                      <tr>
-                          <th *ngFor="let col of columns" [ngStyle]="{color:'var(--green-400)'}" class="font-title-column" style="text-align:center;">
-                              {{col.header}}
-                          </th>
-                      </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-rowData let-columns="columns">
-                      <tr class="p-selectable-row font-table">
-                          <td *ngFor="let col of columns">
-                              {{rowData[col.field]}}
-                          </td>
-                      </tr>
-                  </ng-template>
-                  <ng-template let-item pTemplate="paginatordropdownitem">
-                      {{item.value}} -por página
-                  </ng-template>
-                  <ng-template pTemplate="summary">
-                      <span class = "font-sub-title">Total registros en esta vista: {{results?.length | number}} </span>
-                  </ng-template>
-              </p-table>
-
-
-              </div>
-          </div>
-          <ng-template pTemplate="footer">
-              <div  class="flex flex-row-reverse flex-wrap card-container yellow-container">
-                  <p-button label="Consultar" icon="pi pi-list" [style]="{'margin-right': '.5em'}" (onClick)="sendToQuery()"></p-button>
-              </div>
-          </ng-template>
-       </p-card>
-  </div>
-   <ng-template pTemplate="footer" >
-       <p-divider></p-divider>
-        <p class="font-mini">CAJA DE COMPENSACIÓN FAMILIAR DE CARTAGENA - COMFAMILIAR </p>
-   </ng-template>
-</p-card>
+             </div>
+             <ng-template pTemplate="footer">
+                 <div  class="flex flex-row-reverse flex-wrap card-container yellow-container">
+                     <p-button label="Consultar" icon="pi pi-list" [style]="{'margin-right': '.5em'}" (onClick)="sendToQuery()"></p-button>
+                 </div>
+             </ng-template>
+         </p-card>
+     </div>
+     <ng-template pTemplate="footer" >
+         <p-divider></p-divider>
+          <p class="font-mini">CAJA DE COMPENSACIÓN FAMILIAR DE CARTAGENA - COMFAMILIAR </p>
+     </ng-template>
+ </p-card>

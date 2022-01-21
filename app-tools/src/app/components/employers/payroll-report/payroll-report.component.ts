@@ -49,6 +49,8 @@
          const dateRange = { startPeriod: this.datepipe.transform(this.startDate, 'YYYYMM'), endPeriod: this.datepipe.transform(this.endDate, 'YYYYMM')}
          this.httpEmployers.payrollReport(dateRange).subscribe((data:any)=>{
              this.results = data.payrollReport
+             console.log(this.results)
+
              this.getCols(7)
              this.showSpinner = false
          },(err: any) => {

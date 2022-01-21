@@ -7,6 +7,7 @@
  import { ConfirmationService} from 'primeng/api';
  import { AuthService } from 'src/app/services/auth.service';
  import { Router } from '@angular/router';
+ import { DatePipe } from '@angular/common'
 
  @Component({
      selector: 'app-update-status',
@@ -19,8 +20,8 @@
      selectedAction: string = ''
      selectedCodeAction: string = ''
      selectedReason: string = ''
-     results: any
-     endResults: any
+     results: any[]=[]
+     previusResult: any[]=[]
      showSpinner: boolean = false
      cols: any[]=[]
      totalRecords: number = 0
@@ -40,15 +41,16 @@
          private confirmationService: ConfirmationService,
          private relatedTablesService: RelatedTablesService,
          private authService: AuthService,
+         public datepipe: DatePipe,
          private router: Router) {
-         this.stateOptions = [{label: 'Inactivo', value: 'I'}, {label: 'Activo', value: 'A'}, {label: 'Difunto', value: 'M'}];
-         this.stateType = [
-             {name: 'Actualizar estado de aportantes', code: 'E'},
-             {name: 'Actualizar estado de trabajadores', code: 'T'},
-             {name: 'Actualizar estado de beneficiarios', code: 'B'},
-             {name: 'Actualizar estado de cónyuges', code: 'C'}
-         ];
-     }
+             this.stateOptions = [{label: 'Inactivo', value: 'I'}, {label: 'Activo', value: 'A'}, {label: 'Difunto', value: 'M'}];
+             this.stateType = [
+                 {name: 'Actualizar estado de aportantes', code: 'E'},
+                 {name: 'Actualizar estado de trabajadores', code: 'T'},
+                 {name: 'Actualizar estado de beneficiarios', code: 'B'},
+                 {name: 'Actualizar estado de cónyuges', code: 'C'}
+             ];
+         }
      // ----------------------------------------------------------------------------------------------
      ngOnInit(): void {
          if (!this.authService.loggIn()){
@@ -57,55 +59,50 @@
      }
      // ----------------------------------------------------------------------------------------------
      validate(nButton: number):void{
+         if (this.textAreaContent.length==0) {
+             this.customToast('error', 'Error', 'No hay datos para consultar y/o actualizar')
+             return
+         }
+         if (this.selectedStatus == 'A'){
+             //this.selectedReason = ''
+         }
+         if (this.selectedCodeAction == ''){
+             this.customToast('error', 'Error', 'Elija la opción a realizar')
+             return
+         }
 
-     if (this.textAreaContent.length==0) {
-         this.customToast('error', 'Error', 'No hay datos para consultar y/o actualizar')
-         return
-     }
-     if (this.selectedStatus == 'A'){
-         //this.selectedReason = ''
-     }
-     if (this.selectedCodeAction == ''){
-         this.customToast('error', 'Error', 'Elija la opción a realizar')
-         return
-     }
-
-     if (nButton == 1) { //Consultar
-         this.sendToQuery()
-     }
-     if (nButton == 2) {
-         if(!this.selectedCodeAction){
-             this.customToast('error', 'Error', 'Ninguna acción seleccionada')
-             return
+         if (nButton == 1) { //Consultar
+             this.sendToQuery()
          }
-         if(!this.selectedStatus){
-             this.customToast('error', 'Error', 'Seleccione el estado')
-             return
+         if (nButton == 2) {
+             if(!this.selectedCodeAction){
+                 this.customToast('error', 'Error', 'Ninguna acción seleccionada')
+                 return
+             }
+             if(!this.selectedStatus){
+                 this.customToast('error', 'Error', 'Seleccione el estado')
+                 return
+             }
+             if ((this.selectedStatus == 'I') && (!this.selectedReason)){
+                 this.customToast('error', 'Error', 'Seleccione el motivo de inactivación')
+                 return
+             }
+             this.confirmationService.confirm({
+                 message: `Actualizrá el estado de los registros.<br/> Esado: ${this.selectedStatus}  <br/><br/>¿Desea continuar?`,
+                 header: "Comfirmar",
+                 icon: "pi pi-question-circle",
+                 accept: () => {
+                     this.sendToUpdate()
+                 },
+                 reject: () => {
+                     //this.sendToQuery(false)
+                 }
+             })
          }
-         if ((this.selectedStatus == 'I') && (!this.selectedReason)){
-             this.customToast('error', 'Error', 'Seleccione el motivo de inactivación')
-             return
-         }
-         this.confirmationService.confirm({
-             message: `Actualizrá el estado de los registros.<br/> Esado: ${this.selectedStatus}  <br/><br/>¿Desea continuar?`,
-             header: "Comfirmar",
-             icon: "pi pi-question-circle",
-             accept: () => {
-                 this.sendToUpdate()
-             },
-              reject: () => {
-                  //this.sendToQuery(false)
-                 this.consolidateJson()
-              }
-         })
-      }
-   }
+     }
      // ----------------------------------------------------------------------------------------------
      customToast(severity: string, summary: string, detail: string) {
          this.messageService.add({severity: severity, summary: summary, detail: detail});
-     }
-     // ----------------------------------------------------------------------------------------------
-     test():void{
      }
      // ----------------------------------------------------------------------------------------------
      handleChange():void{
@@ -117,40 +114,43 @@
      }
 
      // ----------------------------------------------------------------------------------------------
-     sendToQuery():void {
+     async sendToQuery() {
+         this.results=[]
+         this.previusResult=[]
          this.valuesToConsult = this.textAreaContent.split('\n')
          if (this.valuesToConsult.length == 0){
              this.customToast('error', 'Error', 'No hay datos para consultar y/o actualizar')
              return
          }
-
-
+         this.showSpinner = true
          switch (this.selectedCodeAction){
              case 'E': //Employer
-                 this.httpEmployers.getEmployersToCheckStatus(this.valuesToConsult).subscribe((data: any) => {
-                     this.results = data.employersToCheckStatus
-                     this.getCols()
+                 await this.httpEmployers.getEmployersToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
+                     this.previusResult = data.employersToCheckStatus
+                     this.showEmployeers()
                  })
-                 break;
+                 break
              case 'T': //Employee
-                  this.httpEmployees.getEmployeesToCheckStatus(this.valuesToConsult).subscribe((data: any) => {
-                     this.results = data.employeesToCheckStatus
-                     this.getCols()
+                 await this.httpEmployees.getEmployeesToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
+                     this.previusResult = data.employeesToCheckStatus
+                     this.showEmployees()
                   })
                   break;
              case 'B': //Beneficiarie
-                   this.httpBeneficiaries.getBeneficiariesToCheckStatus(this.valuesToConsult).subscribe((data: any) => {
-                     this.results = data.beneficiariesToCheckStatus
-                     this.getCols()
-                   })
-                  break;
+                 await this.httpBeneficiaries.getBeneficiariesToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
+                     this.previusResult = data.beneficiariesToCheckStatus
+                     this.showBeneficiaries()
+                 })
+                 break
              case 'C': //Spouses
-                   this.httpBeneficiaries.getSpousesToCheckStatus(this.valuesToConsult).subscribe((data: any) => {
-                      this.results = data.spousesToCheckStatus
-                      this.getCols()
-                   })
-                   break;
+                 await this.httpBeneficiaries.getSpousesToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
+                     this.previusResult = data.spousesToCheckStatus
+                     this.showSpouses()
+                 })
+                 break;
          }
+         this.results = [...this.results]
+         this.showSpinner = false
      }
      // ----------------------------------------------------------------------------------------------
      sendToUpdate():void {
@@ -191,8 +191,13 @@
                      console.log(data.results)
                  })
                  break;
-		 }
+	     }
+     }
 
+     previusResultEmpty():void {
+         this.valuesToConsult.forEach((index: any)=>{
+             this.results.push({IDENTIFICACION: index, ESTADO: 'NO ENCONTRADO'})
+         })
      }
      // ----------------------------------------------------------------------------------------------
      getReasonForInactivation():void{
@@ -201,6 +206,107 @@
          })
      }
      // ----------------------------------------------------------------------------------------------
+
+     showEmployeers():void{
+      if(this.previusResult.length == 0){
+             this.previusResultEmpty()
+             this.getCols()
+      }
+      if(this.previusResult.length > 0) {
+          this.valuesToConsult.forEach((index: any)=>{
+              let found: boolean = true
+              for (let object in this.previusResult){
+                  if(this.previusResult[object].ID === index){
+                      this.results.push(this.previusResult[object])
+                      found = true
+                      break
+                  }else{
+                       found = false
+                  }
+              }
+              if (!found){
+                  this.results.push({ ID: index, DIGITO: '', ESTADO: 'NO ENCONTRADO', TIPOIDENTIFICACION: '', RAZON_SOCIAL: ''})
+              }
+          })
+          this.getCols()
+      }
+  }
+ // -------------------------------------------------------------------------------------------
+     showEmployees():void {
+         if(this.previusResult.length == 0){
+             this.previusResultEmpty()
+             this.getCols()
+         }
+         if(this.previusResult.length > 0){
+             this.valuesToConsult.forEach((index: any)=>{
+                 let found: boolean = true
+                 for (let object in this.previusResult){
+                     if(this.previusResult[object].ID_AFILIADO === index){
+                         this.results.push(this.previusResult[object])
+                         found = true
+                         break
+                     }else{
+                         found = false
+                     }
+                 }
+                 if (!found){
+                     this.results.push({TIPO_ID: '', ID_AFILIADO: index, ESTADO: 'NO ENCONTRADO', TIPO_COTIZANTE: '', AFILIADO: '', CATEGORIA: '', ID_EMPRESA: '', RAZON_SOCIAL:''})
+                 }
+             })
+            this.getCols()
+         }
+     }
+     // -------------------------------------------------------------------------------------------
+     showBeneficiaries():void {
+         if(this.previusResult.length == 0){
+             this.previusResultEmpty()
+             this.getCols()
+         }
+         if(this.previusResult.length > 0){
+             this.valuesToConsult.forEach((index: any)=>{
+                 let found: boolean = true
+                 for (let object in this.previusResult){
+                     if(this.previusResult[object].CODIGO_BENEFICIARIO === index){
+                         this.results.push(this.previusResult[object])
+                         found = true
+                         break
+                     }else{
+                         found = false
+                     }
+                 }
+                 if (!found){
+                     this.results.push({TIPO_ID: '', ID: '', CODIGO_BENEFICIARIO: index, ESTADO: 'NO ENCONTRADO', BENEFICIARIO: '', PARENTESCO: '', CATEGORIA: '', NIT_EMPRESA: '', RAZON_SOCIAL: '', ID_AFILIADO:'', AFILIADO: '' })
+                 }
+             })
+            this.getCols()
+         }
+     }
+    // -------------------------------------------------------------------------------------------
+     showSpouses():void{
+         if(this.previusResult.length == 0){
+             this.previusResultEmpty()
+             this.getCols()
+         }
+         if(this.previusResult.length > 0){
+             this.valuesToConsult.forEach((index: any)=>{
+                 let found: boolean = true
+                 for (let object in this.previusResult){
+                     if(this.previusResult[object].DOCUMENTO_CONYUGE === index){
+                         this.results.push(this.previusResult[object])
+                         found = true
+                         break
+                     }else{
+                         found = false
+                     }
+                 }
+                 if (!found){
+                     this.results.push({TIPO_ID: '', DOCUMENTO_CONYUGE: index, ESTADO: 'NO ENCONTRADO', CONYUGE: '', PARENTESCO: '', CATEGORIA: '', NIT_EMPRESA: '', RAZON_SOCIAL: '', ID_AFILIADO:'', AFILIADO: '' })
+                 }
+             })
+             this.getCols()
+         }
+     }
+     // -------------------------------------------------------------------------------------------
      getCols():void{
          this.cols = []=[]
          for (var key in this.results[0]) {
@@ -210,17 +316,22 @@
          }
 
      }
+     // -------------------------------------------------------------------------------------------
      getIdEmployer(e: string):void{
           this.idEmployer = e
           console.log('id recibido:...', e)
      }
-
-     consolidateJson():void{
-      for (var key in this.results) {
-          console.log(this.results[key].ID_AFILIADO)
-
-      }
-
-
+     // -------------------------------------------------------------------------------------------
+     saveAsCsvFile() {
+         this.showSpinner = true
+         const replacer = (key: any, value: any) => value === null ? '' : value;
+         const header = Object.keys(this.results[0]);
+         let csv = this.results.map((row: any) => header.map(fieldName => JSON.stringify(row[fieldName],replacer)).join(','));
+         csv.unshift(header.join(','));
+         let csvArray = csv.join('\r\n');
+         var blob = new Blob([csvArray], {type: 'text/csv' })
+         saveAs(blob, 'VerificarEstado - ' + this.datepipe.transform(new Date(), 'yyyy-MM-dd') + '-' + new Date().getTime() + ".csv");
+         this.showSpinner = false
      }
+     // -------------------------------------------------------------------------------------------
  }

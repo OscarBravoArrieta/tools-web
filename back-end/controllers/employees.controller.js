@@ -301,11 +301,10 @@
 //------------------------------------------------------------------------------------------------
 export async function getEmployeesToCheckStatus(req, res){   
 
-    const valuesToConsult = req.body
-
+     const valuesToConsult = req.body    
      try {
          const employeesToCheckStatus = await sequelize.query(
-             'SELECT * FROM checkEmployeesStatus E WHERE E.ID_AFILIADO in (?)',
+             'SELECT * FROM checkEmployeesStatus A WHERE A.ID_AFILIADO IN (?)',
              { 
                  replacements: [valuesToConsult],
                  type: QueryTypes.SELECT 
@@ -313,7 +312,7 @@ export async function getEmployeesToCheckStatus(req, res){
          )
          if (employeesToCheckStatus){
              res.json({employeesToCheckStatus})
-             console.log(employeesToCheckStatus)
+             console.log('Results....', employeesToCheckStatus)
          }else{
              res.json({
                  message: 'No hay registros coincidentes...'

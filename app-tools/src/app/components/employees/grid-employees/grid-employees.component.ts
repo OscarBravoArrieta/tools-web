@@ -53,7 +53,7 @@ export class GridEmployeesComponent implements OnInit {
   }
   //--------------------------------------------------------------------------------------------
   getEmployees(): void {
-   this.showSpinner = true;
+      this.showSpinner = true;
       const filter = { status: this.selectedStatus, cutOffDate: this.datepipe.transform(this.cutOffDate, 'yyyy-MM-dd'), filterName: 'A', forSearchHelp: false}
 
       this.httpEmployees.getEmployees(filter).subscribe((data: any) => {

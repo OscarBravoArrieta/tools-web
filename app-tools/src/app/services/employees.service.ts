@@ -38,6 +38,11 @@
      getEmployeesToCheckStatus(valuesToConsult: any) {
        return this.http.put( `${environment.serverUrl}/api/employees/getEmployeesToCheckStatus/`, valuesToConsult, {headers: this.headers});
      }
+
+     getEmployeesToCheckStatus_(valuesToConsult: any) {
+      return this.http.put( `${environment.serverUrl}/api/employees/getEmployeesToCheckStatus/`, valuesToConsult, {headers: this.headers}).toPromise();
+    }
+
      // --------------------------------------------------------------------------------------------
      updateEmployeesStatus(parameters: any) {
          return this.http.put( `${environment.serverUrl}/api/employees/updateEmployeesStatus/`, parameters, {headers: this.headers});

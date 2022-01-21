@@ -165,6 +165,7 @@ Estandarizar los mensajes de error
 Mstrar el nombre del usuario logueado
 Mostrar los correos con una mascara, asi: O***************A@GMAIL.COM
 Colocar una umagen de fondo, una marca de agua
+Capturar el erorr: http://localhost:4000/api/employees/getEmployeesToCheckStatus/ 401 (Unauthorized)
 --------------------------------------------------------
 Refrescar la barra de menu-LISTO-
 Cuando se loguea el usuario, validar que a los 35 dias debe cambiar de contraseña-LISTO-
@@ -174,6 +175,44 @@ Codificar la complejudad del password. -LISTO-
 Validar que el usuario esté activo en SISU al iniciar sesión. -LISTO-
 Valida lo de los middlewares con las rutas. -LISTO-
 Revisar los campos de edición porque algunos cambiaron de nombre -LISTO-
+
+---------------------------------------------------------
+
+Publicar un proyecto Angular en un servidor Apache.
+1. COMPILAR EL PROYECTO: ng build --prod
+Esto crea la carpeta dist con los archivos necesarios para la publicación del proyecto.
+Nota: En este paso se me presentó un error: initial exceeded maximum budget. Budget 1.00 MB was not met by 209.33 kB with a total of 1.20 MB.
+La solución fue: Abrir el archivo angular.json y busque la budgets palabra clave. Debería verse así:
+"budgets": [
+   {
+      "type": "initial",
+      "maximumWarning": "2mb",
+      "maximumError": "5mb"
+   }
+]
+
+volver a compilar: ng build --prod
+
+2. En el servidor Apache en la carpeta C:\xampp\htdocs, crea una carpeta para la aplicación con el nombre que desees.
+Dentro de esa carpeta, copia los archivos que fueron creados en la carpeta dist al compilar el proyecto. Además crea un archivo dentro de la carpeta que acabas de crear, con el nombre que desees, el cual debe contener lo siguiente;
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+
+    # Don't rewrite files or directories
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Rewrite everything else to index.html
+    # to allow html5 state links
+    RewriteRule ^ index.html [L]
+</IfModule>
+
+3. Inicia el servdor Apache y desde el navegador teclea la ruta de tu aplicación: http://localhost/nombre-carpeta-de-la-aplcacion
+Y eso es todo.
+
+
 
 
 

@@ -3,25 +3,27 @@
  import { EmployersService } from 'src/app/services/employers.service'
  import { EmployeesService } from 'src/app/services/employees.service';
  import { AuthService } from 'src/app/services/auth.service';
+ import { DatePipe } from '@angular/common'
  import { BeneficiariesService } from 'src/app/services/beneficiaries.service';
  import { Router } from '@angular/router';
 
 
  @Component({
-    selector: 'app-check-status',
-  templateUrl: './check-status.component.html',
-  styleUrls: ['./check-status.component.css'],
-  providers: [MessageService]
-})
-export class CheckStatusComponent implements OnInit {
+     selector: 'app-check-status',
+     templateUrl: './check-status.component.html',
+     styleUrls: ['./check-status.component.css'],
+     providers: [MessageService]
+ })
+ export class CheckStatusComponent implements OnInit {
      textAreaContent: string = ''
      selectedQuery: string = ''
      valuesToConsult: any[]=[]
      results: any[]=[]
-     previusResult: any
+     previusResult: any[]=[]
      cols: any[]=[]
      totalRecords: number = 0
      reportTitle: string = 'Registros'
+     showSpinner: boolean = false
 
      constructor(
          public messageService: MessageService,
@@ -29,6 +31,7 @@ export class CheckStatusComponent implements OnInit {
          private httpEmployees: EmployeesService,
          private httpBeneficiaries: BeneficiariesService,
          private authService: AuthService,
+         public datepipe: DatePipe,
          private router: Router
      ) { }
      // -------------------------------------------------------------------------------------------
@@ -39,63 +42,157 @@ export class CheckStatusComponent implements OnInit {
          }
      }
      // -------------------------------------------------------------------------------------------
-     sendToQuery():void{
+     async sendToQuery() {
+         this.results=[]
+         this.previusResult=[]
          this.valuesToConsult = this.textAreaContent.split('\n')
          if (this.textAreaContent.length==0) {
              this.customToast('error', 'Error', 'No hay datos para consultar')
              return
          }
-         if (this.selectedQuery == ''){
+         if (this.selectedQuery == '') {
              this.customToast('error', 'Error', 'Elija la opción a realizar')
              return
          }
+         this.showSpinner = true
          switch (this.selectedQuery){
-              case 'E': //Employer
-                  this.httpEmployers.getEmployersToCheckStatus(this.valuesToConsult).subscribe((data: any) => {
-                      this.previusResult = data.employersToCheckStatus
-                      this.getCols()
-                  })
-                  //identification = ID
-                  break;
-              case 'T': //Employee
-                  this.httpEmployees.getEmployeesToCheckStatus(this.valuesToConsult).subscribe((data: any) => {
-                      this.previusResult = data.employeesToCheckStatus
-                      this.getCols()
-                  })
-                  //identification = ID_AFILIADO
-                  break;
+             case 'E': //Employer
+                 await this.httpEmployers.getEmployersToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
+                     this.previusResult = data.employersToCheckStatus
+                     console.log('Empleadores...',this.previusResult)
+                     this.showEmployeers()
+                 })
+                 break;
+             case 'T': //Employee
+                 await this.httpEmployees.getEmployeesToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
+                     this.previusResult = data.employeesToCheckStatus
+                     console.log('Trabajadores...',this.previusResult)
+                     this.showEmployees()
+                  });
+                 break;
               case 'B': //Beneficiarie
-                    this.httpBeneficiaries.getBeneficiariesToCheckStatus(this.valuesToConsult).subscribe((data: any) => {
-                      this.previusResult = data.beneficiariesToCheckStatus
-                      this.getCols()
-                    })
-                    //identification = CODIGO_BENEFICIARIO
-                  break;
+                     await this.httpBeneficiaries.getBeneficiariesToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
+                         this.previusResult = data.beneficiariesToCheckStatus
+                         console.log('Beneficiaries...',this.previusResult)
+                         this.showBeneficiaries()
+                     })
+                 break;
               case 'C': //Spouses
-                    this.httpBeneficiaries.getSpousesToCheckStatus(this.valuesToConsult).subscribe((data: any) => {
-                      this.previusResult = data.spousesToCheckStatus
-                      this.getCols()
-                    })
-                    //identification = DOCUMENTO_CONYUGE
-                    break;
+                     await this.httpBeneficiaries.getSpousesToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
+                         this.previusResult = data.spousesToCheckStatus
+                         this.showSpouses()
+                     })
+                     break;
          }
-         this.results=[]
+         this.results = [...this.results]
+         this.showSpinner = false
+     }
+     // -------------------------------------------------------------------------------------------
+     previusResultEmpty():void {
          this.valuesToConsult.forEach((index: any)=>{
-              let found: boolean = true
-              for (let object in this.previusResult){
-                   if(this.previusResult[object].ID_AFILIADO === index){
+             this.results.push({IDENTIFICACION: index, ESTADO: 'NO ENCONTRADO'})
+         })
+     }
+     // -------------------------------------------------------------------------------------------
+     showEmployeers():void{
+         if(this.previusResult.length == 0){
+             this.previusResultEmpty()
+             this.getCols()
+         }
+         if(this.previusResult.length > 0){
+             this.valuesToConsult.forEach((index: any)=>{
+                 let found: boolean = true
+                 for (let object in this.previusResult){
+                     if(this.previusResult[object].ID === index){
                          this.results.push(this.previusResult[object])
                          found = true
                          break
-                   }else{
+                     }else{
                          found = false
-                    }
-              }
-              if (!found){
-                   this.results.push({TIPO_ID: 'N/A', ID_AFILIADO: index, ESTADO: 'NO ENCONTRADO'})
-              }
-          })
-          console.log(this.results)
+                     }
+                 }
+                 if (!found){
+                     this.results.push({ ID: index, DIGITO: '', ESTADO: 'NO ENCONTRADO', TIPOIDENTIFICACION: '', RAZON_SOCIAL: ''})
+                 }
+             })
+             this.getCols()
+         }
+     }
+    // -------------------------------------------------------------------------------------------
+     showEmployees():void {
+         if(this.previusResult.length == 0){
+             this.previusResultEmpty()
+             this.getCols()
+         }
+         if(this.previusResult.length > 0){
+             this.valuesToConsult.forEach((index: any)=>{
+                 let found: boolean = true
+                 for (let object in this.previusResult){
+                     if(this.previusResult[object].ID_AFILIADO === index){
+                         this.results.push(this.previusResult[object])
+                         found = true
+                         break
+                     }else{
+                         found = false
+                     }
+                 }
+                 if (!found){
+                     this.results.push({TIPO_ID: '', ID_AFILIADO: index, ESTADO: 'NO ENCONTRADO', TIPO_COTIZANTE: '', AFILIADO: '', CATEGORIA: '', ID_EMPRESA: '', RAZON_SOCIAL:''})
+                 }
+             })
+             this.getCols()
+         }
+
+     }
+     // -------------------------------------------------------------------------------------------
+     showBeneficiaries():void {
+         if(this.previusResult.length == 0){
+             this.previusResultEmpty()
+             this.getCols()
+         }
+         if(this.previusResult.length > 0){
+             this.valuesToConsult.forEach((index: any)=>{
+                 let found: boolean = true
+                 for (let object in this.previusResult){
+                     if(this.previusResult[object].CODIGO_BENEFICIARIO === index){
+                         this.results.push(this.previusResult[object])
+                         found = true
+                         break
+                     }else{
+                         found = false
+                     }
+                 }
+                 if (!found){
+                     this.results.push({TIPO_ID: '', ID: '', CODIGO_BENEFICIARIO: index, ESTADO: 'NO ENCONTRADO', BENEFICIARIO: '', PARENTESCO: '', CATEGORIA: '', NIT_EMPRESA: '', RAZON_SOCIAL: '', ID_AFILIADO:'', AFILIADO: '' })
+                 }
+             })
+             this.getCols()
+         }
+     }
+     // -------------------------------------------------------------------------------------------
+     showSpouses():void{
+         if(this.previusResult.length == 0){
+             this.previusResultEmpty()
+             this.getCols()
+         }
+         if(this.previusResult.length > 0){
+             this.valuesToConsult.forEach((index: any)=>{
+                 let found: boolean = true
+                 for (let object in this.previusResult){
+                     if(this.previusResult[object].DOCUMENTO_CONYUGE === index){
+                         this.results.push(this.previusResult[object])
+                         found = true
+                         break
+                     }else{
+                         found = false
+                     }
+                 }
+                 if (!found){
+                     this.results.push({TIPO_ID: '', DOCUMENTO_CONYUGE: index, ESTADO: 'NO ENCONTRADO', CONYUGE: '', PARENTESCO: '', CATEGORIA: '', NIT_EMPRESA: '', RAZON_SOCIAL: '', ID_AFILIADO:'', AFILIADO: '' })
+                 }
+             })
+              this.getCols()
+         }
      }
      // -------------------------------------------------------------------------------------------
      customToast(severity: string, summary: string, detail: string) {
@@ -103,13 +200,23 @@ export class CheckStatusComponent implements OnInit {
      }
      // -------------------------------------------------------------------------------------------
      getCols():void{
-      this.cols = []=[]
-      for (var key in this.results[0]) {
-          let object
-          object = {field: key, header: (key.replace('_', ' ')).toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase())  }
-          this.cols.push(object)
-      }
-
-  }
-
+         this.cols = []=[]
+         for (var key in this.results[0]) {
+             let object
+             object = {field: key, header: (key.replace('_', ' ')).toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase())  }
+             this.cols.push(object)
+         }
+     }
+     // -------------------------------------------------------------------------------------------
+     saveAsCsvFile() {
+         this.showSpinner = true
+         const replacer = (key: any, value: any) => value === null ? '' : value;
+         const header = Object.keys(this.results[0]);
+         let csv = this.results.map((row: any) => header.map(fieldName => JSON.stringify(row[fieldName],replacer)).join(','));
+         csv.unshift(header.join(','));
+         let csvArray = csv.join('\r\n');
+         var blob = new Blob([csvArray], {type: 'text/csv' })
+         saveAs(blob, 'VerificarEstado - ' + this.datepipe.transform(new Date(), 'yyyy-MM-dd') + '-' + new Date().getTime() + ".csv");
+         this.showSpinner = false
+     }
 }

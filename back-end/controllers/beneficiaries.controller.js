@@ -39,7 +39,7 @@
      } else { //------------------------------------------------------------- if (forSearchHelp)
          try {
              const beneficiaries = await sequelize.query(
-                 `SELECT * FROM beneficiaries B WHERE B.CODIGO_ESTADO  IN (?)`, //Cal the Beneficiaries view
+                 `SELECT * FROM beneficiaries B WHERE B.CODIGO_ESTADO  IN ('A')  AND B.ESTADO_EMPRESA = 'A' AND B.ESTADO_AFILIADO = 'A'`, //Call the Beneficiaries view                 
                  { 
                      replacements: [status],
                      type: QueryTypes.SELECT 

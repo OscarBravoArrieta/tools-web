@@ -15,8 +15,8 @@
          if(!user) return res.status(404)({userfound: false, message: 'Usuario no existe'})
          next()           
      } catch (error) {
-             console.log('verifyToken...This is the error...',error)
-             return res.status(401).json({tokenIsValid: false, message: 'No autorizado'})
+             console.log('verifyToken...This is the error...', error)
+             return res.status(401).json({tokenIsValid: false, message: 'No autorizado' + error})
      }
  }
  // ------------------------------------------------------------------------------------------------------

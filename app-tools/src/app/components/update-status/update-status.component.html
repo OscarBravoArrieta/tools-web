@@ -2,7 +2,7 @@
      class = "flex flex-wrap align-items-center justify-content-center mt-5"
      [style]="{width: '100%'}" >
      <ng-template pTemplate="header" >
-         <div class="font-title ml-3 mt-2" [ngStyle]="{color:'var(--green-600)'}">Actualización de estados</div>
+         <div class="font-title ml-3 mt-2" [ngStyle]="{color:'var(--green-600)'}">Actualización de estado</div>
          <p-divider></p-divider>
          <p *ngIf="selectedCodeAction == 'B' " class="font-content ml-3" style="color: red;">IMPORTANTE: Relacione los Códigos de Beneficiarios, en la lista. El estado de los beneficiarios se actualiza mediante el <strong><em>CÓDIGO DE BENEFICIARIO</em></strong> más no mediante el <strong><em>DOCUMENTO DE IDENTIFICACIÓN.</em></strong></p>
          <P *ngIf="selectedCodeAction == 'T' && selectedStatus == 'A'" class="font-content ml-3" style="color: red;">OPCIONALMENTE, puede activar a los trabajadores con el empleador que elija de la lista.</P>
@@ -31,14 +31,30 @@
                  <textarea [rows]="15" [cols]="30" pInputTextarea [(ngModel)] = "textAreaContent"></textarea>
                  <div *ngIf="selectedStatus != 'A'">
                      <p class="font-content">Motivo de inactivación</p>
-                     <p-dropdown emptyMessage="No hay resultados para mostrar" [options]="reasonsForInactivationOptions" placeholder="Seleccione motivo" [(ngModel)]="selectedReason" optionLabel="MOTIVO" [showClear]="true" optionValue="CODIGO_ESTADO" (onChange)="test()"></p-dropdown>
+                     <p-dropdown emptyMessage="No hay resultados para mostrar" [options]="reasonsForInactivationOptions" placeholder="Seleccione motivo" [(ngModel)]="selectedReason" optionLabel="MOTIVO" [showClear]="true" optionValue="CODIGO_ESTADO"></p-dropdown>
                  </div>
              </div>
 
              <div class="col-9" >
-                 <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="A" [(ngModel)]="selectedStatus" label="Asignar estado Activo"></p-radioButton>
-                 <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="I" [(ngModel)]="selectedStatus" label="Asignar estado Inactivo"></p-radioButton>
-                 <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="M" [(ngModel)]="selectedStatus" label="Asignar estado Muerto" *ngIf="selectedCodeAction != 'E'"></p-radioButton>
+                 <div class="flex justify-content-between flex-wrap card-container purple-container">
+                       <div class="flex align-items-center m-2">
+                        <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="A" [(ngModel)]="selectedStatus" label="Asignar estado Activo"></p-radioButton>
+                        <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="I" [(ngModel)]="selectedStatus" label="Asignar estado Inactivo"></p-radioButton>
+                        <p-radioButton class="font-content ml-3 mb-2" name="groupname" value="M" [(ngModel)]="selectedStatus" label="Asignar estado Difunto" *ngIf="selectedCodeAction != 'E'"></p-radioButton>
+                       </div>
+
+                       <div class="flex align-items-center justify-content-center">
+                        <div class="p-field mb-3 ml-3">
+                            <p-progressSpinner *ngIf="showSpinner" [style]="{width: '30px', height: '30px'}" styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                        </div>
+
+                        <div class="p-field mb-3 ml-3" *ngIf="results?.length">
+                            <button type="button" label="Exportar a Csv" pButton pRipple icon="pi pi-file-excel" class="p-button-sm" (click)="saveAsCsvFile()"  pTooltip="CSV" tooltipPosition="bottom"></button>
+                        </div>
+                        </div>
+
+
+                 </div>
                   <div class="grid" *ngIf="selectedCodeAction == 'T' && selectedStatus == 'A'">
                        <div class="col-6">
                           <app-get-employer (idEmployer) = "getIdEmployer($event)"></app-get-employer>
@@ -47,6 +63,7 @@
                              <p class="font-content" [ngStyle]="{color:'var(--green-600)'}" >Nit: {{idEmployer}}</p>
                        </div>
                        <div class="col-2" style="align-items:flex-start;">
+
 
                        </div>
 
