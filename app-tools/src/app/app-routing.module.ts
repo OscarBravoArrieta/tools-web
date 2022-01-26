@@ -26,7 +26,7 @@
      { path: 'signin', component: LoginComponent },
      { path: 'verify-token-from-email/:token', component: VerifyTokenFromEmailComponent},
      { path: 'reset-password', component: ResetPasswordComponent },
-     { path: 'set-new-password/:token', component: SetNewPasswordComponent },
+     { path: 'set-new-password/:token', component: SetNewPasswordComponent},
      { path: 'change-password', component: ChangePasswordComponent },
      { path: 'check-status', component: CheckStatusComponent }
  ];
