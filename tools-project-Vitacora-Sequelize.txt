@@ -8,6 +8,7 @@ instalación de cli						    : npm install -g sequelize-cli
 ver peticiones que llegan al server         : npm install morgan
 Interactuar entre los dos servidores        : npm install core
 para escribir codigo moderno javascript     : npm install @babel/polyfill
+Para instalación de babel-node              : npm i -g  @babel/node 
 Genera códigos de verificación aleatorios   : npm install crypto-random-string
 Para emnvío de correos                      : npm install nodemailer
 

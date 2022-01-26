@@ -28,6 +28,13 @@
  app.use(json());
 
  // routes
+ app.get('/', (req, res) => {
+     res.send(`<h1>Server is running on port 4000...</h1>
+               <h2>Server is running on port 4000...</h2>
+               <h3>Server is running on port 4000...</h3>
+               <h4>Server is running on port 4000...</h4>
+               <h5>Server is running on port 4000...</h5>`)
+ })
  app.use('/api/employers', employers)
  app.use('/api/employees', employees)
  app.use('/api/beneficiaries', beneficiaries)

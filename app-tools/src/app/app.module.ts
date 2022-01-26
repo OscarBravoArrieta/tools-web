@@ -31,6 +31,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 
 
 
@@ -141,7 +143,9 @@ import { CheckStatusComponent } from './components/check-status/check-status.com
     RadioButtonModule,
     PasswordModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    MenuModule,
+
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

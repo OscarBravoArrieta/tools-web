@@ -74,6 +74,10 @@ export class AuthService {
          localStorage.removeItem('currentEmployee');
          localStorage.removeItem('currentIdEmployee');
          localStorage.removeItem('currentIdEmployer');
+         localStorage.removeItem('currentBeneficiarie');
+         localStorage.removeItem('currentIdBeneficiarie');
+         localStorage.removeItem('userName');
+
 
 
          this.router.navigate([''])

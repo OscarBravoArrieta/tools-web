@@ -49,6 +49,9 @@
                } else {
                      localStorage.setItem('toolsToken', res.token);
                      localStorage.setItem('toolsCurrentUser', res.data.id);
+                     localStorage.setItem('userName', res.data.name)
+                     console.log(res.data.name);
+
                      if (res.passwordExpired){
                          this.msgInfo = `Su password ha expirado. Haga click en Cerrar para cambiarlo.`
                          localStorage.removeItem('toolsToken');
@@ -79,13 +82,6 @@
      //--------------------------------------------------------------------------------------------
      ngOnDestroy(){
 
-
      }
-
-
-
-
-     //--------------------------------------------------------------------------------------------
-     //--------------------------------------------------------------------------------------------
 
 }

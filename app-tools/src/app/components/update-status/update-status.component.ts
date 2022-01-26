@@ -128,25 +128,37 @@
                  await this.httpEmployers.getEmployersToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
                      this.previusResult = data.employersToCheckStatus
                      this.showEmployeers()
-                 })
+                 },(err: any) => {
+                  if (!this.previusResult) {this.customToast('error', 'Error', 'No ha iniciado sesión')}
+                       this.router.navigate(['/signin'])
+                })
                  break
              case 'T': //Employee
                  await this.httpEmployees.getEmployeesToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
                      this.previusResult = data.employeesToCheckStatus
                      this.showEmployees()
+                  },(err: any) => {
+                    if (!this.previusResult) {this.customToast('error', 'Error', 'No ha iniciado sesión')}
+                         this.router.navigate(['/signin'])
                   })
                   break;
              case 'B': //Beneficiarie
                  await this.httpBeneficiaries.getBeneficiariesToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
                      this.previusResult = data.beneficiariesToCheckStatus
                      this.showBeneficiaries()
+                 },(err: any) => {
+                  if (!this.previusResult) {this.customToast('error', 'Error', 'No ha iniciado sesión')}
+                       this.router.navigate(['/signin'])
                  })
                  break
              case 'C': //Spouses
                  await this.httpBeneficiaries.getSpousesToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
                      this.previusResult = data.spousesToCheckStatus
                      this.showSpouses()
-                 })
+                 },(err: any) => {
+                  if (!this.previusResult) {this.customToast('error', 'Error', 'No ha iniciado sesión')}
+                       this.router.navigate(['/signin'])
+                })
                  break;
          }
          this.results = [...this.results]
@@ -166,6 +178,9 @@
                  }
                  this.httpEmployers.updateEmployerStatus(parameters).subscribe((data: any)=>{
                      console.log(data.results)
+                 },(err: any) => {
+                     if (!this.results) {this.customToast('error', 'Error', 'No ha iniciado sesión')}
+                     this.router.navigate(['/signin'])
                  })
                  break;
              case 'T': //Employee
@@ -177,6 +192,9 @@
                  }
                  this.httpEmployees.updateEmployeesStatus(parameters).subscribe((data: any)=>{
                      console.log(data.results)
+                 },(err: any) => {
+                  if (!this.results) {this.customToast('error', 'Error', 'No ha iniciado sesión')}
+                     this.router.navigate(['/signin'])
                  })
                  break;
              case 'B': //Beneficiarie
@@ -189,6 +207,9 @@
                  }
                  this.httpBeneficiaries.updateBeneficiariesStatus(parameters).subscribe((data: any)=>{
                      console.log(data.results)
+                 },(err: any) => {
+                     if (!this.results) {this.customToast('error', 'Error', 'No ha iniciado sesión')}
+                     this.router.navigate(['/signin'])
                  })
                  break;
 	     }
