@@ -17,6 +17,7 @@
  export class CheckStatusComponent implements OnInit {
      textAreaContent: string = ''
      selectedQuery: string = ''
+     queryColumn: string = ''
      valuesToConsult: any[]=[]
      results: any[]=[]
      previusResult: any[]=[]
@@ -54,6 +55,12 @@
              this.customToast('error', 'Error', 'Elija la opción a realizar')
              return
          }
+         if (this.selectedQuery == 'B'){
+             if (this.queryColumn == ''){
+                 this.customToast('error', 'Error', 'Elija el campo por el que se hará la consulta')
+                 return
+             }
+         }
          this.showSpinner = true
          switch (this.selectedQuery){
              case 'E': //Employer
@@ -77,7 +84,11 @@
                   });
                  break;
               case 'B': //Beneficiarie
-                     await this.httpBeneficiaries.getBeneficiariesToCheckStatus(this.valuesToConsult).toPromise().then((data: any) => {
+                     let parameters = {
+                         valuesToConsult: this.valuesToConsult,
+                         queryColumn: this.queryColumn
+                     }
+                     await this.httpBeneficiaries.getBeneficiariesToCheckStatus(parameters).toPromise().then((data: any) => {
                          this.previusResult = data.beneficiariesToCheckStatus
                          console.log('Beneficiaries...',this.previusResult)
                          this.showBeneficiaries()
@@ -165,17 +176,29 @@
          if(this.previusResult.length > 0){
              this.valuesToConsult.forEach((index: any)=>{
                  let found: boolean = true
-                 for (let object in this.previusResult){
-                     if(this.previusResult[object].CODIGO_BENEFICIARIO === index){
-                         this.results.push(this.previusResult[object])
-                         found = true
-                         break
-                     }else{
-                         found = false
+                 for (let object in this.previusResult) {
+                     if (this.queryColumn == 'CODIGO_BENEFICIARIO'){
+                         if (this.previusResult[object].CODIGO_BENEFICIARIO === index) {
+                             this.results.push(this.previusResult[object])
+                             found = true
+                             break
+                         } else {
+                             found = false
+                         }
+                     } else {
+                         if (this.previusResult[object].DOCUMENTO_BENEFICIARIO === index) {
+                             this.results.push(this.previusResult[object])
+                             found = true
+                             break
+                          } else {
+                              found = false
+                          }
+
                      }
+
                  }
                  if (!found){
-                     this.results.push({TIPO_ID: '', ID: '', CODIGO_BENEFICIARIO: index, ESTADO: 'NO ENCONTRADO', BENEFICIARIO: '', PARENTESCO: '', CATEGORIA: '', NIT_EMPRESA: '', RAZON_SOCIAL: '', ID_AFILIADO:'', AFILIADO: '' })
+                     this.results.push({TIPO_ID: '', ID: '', CODIGO_DOCUMENTO: index, ESTADO: 'NO ENCONTRADO', BENEFICIARIO: '', PARENTESCO: '', CATEGORIA: '', NIT_EMPRESA: '', RAZON_SOCIAL: '', ID_AFILIADO:'', AFILIADO: '' })
                  }
              })
              this.getCols()

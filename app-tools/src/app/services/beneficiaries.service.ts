@@ -29,8 +29,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
         return this.http.put(`${environment.serverUrl}/api/beneficiaries/getBeneficiariesToCheckStatus/`, valuesToConsult, {headers: this.headers});
      }
     //--------------------------------------------------------------------------------------------
-     getSpousesToCheckStatus(valuesToConsult: any): any{
-         return this.http.put(`${environment.serverUrl}/api/beneficiaries/getSpousesToCheckStatus/`, valuesToConsult, {headers: this.headers});
+     getSpousesToCheckStatus(parameters: any): any{
+         return this.http.put(`${environment.serverUrl}/api/beneficiaries/getSpousesToCheckStatus/`, parameters, {headers: this.headers});
      }
    //--------------------------------------------------------------------------------------------
     updateBeneficiariesStatus(parameters: any): any{

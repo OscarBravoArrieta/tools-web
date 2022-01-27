@@ -27,6 +27,12 @@
              <div class="col-3" >
                  <p class="font-content">Acción a realizar</p>
                  <p-dropdown [options]="stateType" placeholder="Seleccione acción" [(ngModel)]="selectedCodeAction" optionLabel="name" [showClear]="true" optionValue="code" (onChange)="handleChange()"></p-dropdown>
+                 <div class="flex align-items-center m-2" *ngIf="selectedCodeAction == 'B'">
+                     <p-radioButton class="font-content ml-3 mb-2" name="groupnameQueryColumn" value="DOCUMENTO_BENEFICIARIO" [(ngModel)]="queryColumn" label="Consulta por Documento"></p-radioButton>
+                 </div>
+                 <div class="flex align-items-center m-2" *ngIf="selectedCodeAction == 'B'">
+                     <p-radioButton class="font-content ml-3 mb-2" name="groupnameQueryColumn" value="CODIGO_BENEFICIARIO" [(ngModel)]="queryColumn" label="Consulta por Código"></p-radioButton>
+                 </div>
                  <p class="font-content">Números de identificación</p>
                  <textarea [rows]="15" [cols]="30" pInputTextarea [(ngModel)] = "textAreaContent"></textarea>
                  <div *ngIf="selectedStatus != 'A'">

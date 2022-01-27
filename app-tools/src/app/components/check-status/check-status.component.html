@@ -4,6 +4,7 @@
      <ng-template pTemplate="header" >
       <div class="font-title ml-3 mt-2" [ngStyle]="{color:'var(--green-600)'}">Consulta de estado</div>
       <p-divider></p-divider>
+      <p *ngIf="selectedQuery == 'B' " class="font-content ml-3" style="color: red;">IMPORTANTE: En lo posible, se recomienda hacer la consulta por<strong><em>CÓDIGO DE BENEFICIARIO</em></strong></p>
 
      </ng-template>
      <div class="font-content"  [style]="{height: '600px'}">
@@ -12,6 +13,12 @@
              <div class="grid">
                  <div class="col-3">
                      <p class="font-content">Números de identificación</p>
+                     <div class="flex align-items-center m-2" *ngIf="selectedQuery == 'B'">
+                         <p-radioButton class="font-content ml-3 mb-2" name="groupnameQueryColumn" value="DOCUMENTO_BENEFICIARIO" [(ngModel)]="queryColumn" label="Consulta por Documento"></p-radioButton>
+                     </div>
+                     <div class="flex align-items-center m-2" *ngIf="selectedQuery == 'B'">
+                         <p-radioButton class="font-content ml-3 mb-2" name="groupnameQueryColumn" value="CODIGO_BENEFICIARIO" [(ngModel)]="queryColumn" label="Consulta por Código"></p-radioButton>
+                     </div>
                      <textarea [rows]="20" [cols]="30" pInputTextarea [(ngModel)] = "textAreaContent"></textarea>
                  </div>
              <div class="col-9">

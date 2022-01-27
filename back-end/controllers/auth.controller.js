@@ -62,7 +62,7 @@
                  auth: {
                      user: 'comfa.edusoft@comfamiliar.org.co',
                      pass: 'Edusoft2021***'
-                }
+                 }
               })
               
              transporter.sendMail({

@@ -109,11 +109,12 @@
 //------------------------------------------------------------------------------------------------
  export async function getBeneficiariesToCheckStatus(req, res){   
 
-     const valuesToConsult = req.body
+     const valuesToConsult = req.body.valuesToConsult
+     const column = req.body.queryColumn
 
      try {
          const beneficiariesToCheckStatus = await sequelize.query(
-            `SELECT * FROM checkBeneficiariesStatus WHERE CODIGO_BENEFICIARIO in (?)`,
+            `SELECT * FROM checkBeneficiariesStatus WHERE ${column} in (?)`,
              { 
                  replacements: [valuesToConsult],
                  type: QueryTypes.SELECT 
