@@ -5,12 +5,35 @@
  const { QueryTypes } = require ( 'sequelize' )
  import { sequelize } from '../dbConnection/dbConnection'
  //------------------------------------------------------------------------------------------------
+  
+ export async function getOne(req, res) {   
+     const idEmployee = req.body.idEmployee
+    
+     try {
+         const employee = await sequelize.query(
+             `SELECT * FROM employees WHERE ID_AFILIADO = (?)`, //Call employers view
+             { 
+                 replacements: [idEmployee],
+                 type: QueryTypes.SELECT 
+             }               
+         )
+         if (employee){
+             res.json({employee}) 
+         }else{
+             res.json({
+                 message: 'No hay registros coincidentes...'
+             })
+         }                    
+     } catch (error) {
+         console.log('Se presentó el siguiente error al obtener un Empleado...', error);           
+     } 
+ }
+ //------------------------------------------------------------------------------------------------
  export async function getAll(req, res){ 
      const status = req.body.status || ['A', 'I','M']
      const cutOffDate = req.body.cutOffDate || new Date().toISOString().substring(0, 10) //Formato de la fecha AAAA-MM-DD
      const filterName = req.body.filterName.filter || 'A'
      const forSearchHelp = req.body.forSearchHelp || false
-
      const { fn, col } = Employess.sequelize;
           
      if (forSearchHelp) {
@@ -18,15 +41,35 @@
              
              const employees = await Employess.findAll({
                  attributes: [['cedtra', 'IDENTIFICACION'],
-                              [fn('CONCAT', col('priape'), ' ', col('segape'), ' ', col('prinom'), ' ',col('segnom')),"AFILIADO"]],
+                              [fn('CONCAT',
+                              fn('COALESCE',col('prinom'),''),
+                              ' ',
+                              fn('COALESCE',col('segnom'),''), 
+                              ' ',
+                              fn('COALESCE',col('priape'),''),
+                              ' ',
+                              fn('COALESCE',col('segape'),'') ) ,"AFILIADO"],],
                  order: [
                      ['priape', 'ASC']
                  ],
-
+                  where: 
+                     sequelize.where ( 
+                         sequelize.fn('CONCAT',
+                         fn('COALESCE',col('priape'),''),
+                         ' ',
+                         fn('COALESCE',col('segape'),''), 
+                         ' ',
+                         fn('COALESCE',col('prinom'),''),
+                         ' ',
+                         fn('COALESCE',col('segnom'),'') ), 
+                         { 
+                             [Op.like]: `%${filterName}%` 
+                         }
+                     ),
                  limit: 50
              })
              if (employees){
-                res.json({employees})
+                 res.json({employees})
              }else{
                  res.json({
                      message: 'No hay registros coincidentes...'

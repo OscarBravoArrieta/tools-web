@@ -40,8 +40,7 @@
                              {label: 'Empleadores', routerLink: ['/main-employers']},
                              {label: 'Trabajadores', routerLink: ['/main-employees']},
                              {label: 'Personas a cargo', routerLink: ['/main-beneficiaries']},
-                            //  {label: 'Registros individuales'}
-
+                             {label: 'Registros individuales', routerLink: ['/individual-records']}
                          ]
                      },
                      {label: 'Consultar estado', routerLink: ['/check-status'] },

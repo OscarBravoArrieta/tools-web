@@ -132,23 +132,20 @@ export class GridEmployeesComponent implements OnInit {
   }
   // -------------------------------------------------------------------------------------------
   sendToQuery(): any  {
-      this.showSpinner = true
-      setTimeout(() =>{
-          this.showSpinner = false
-      },2000)
+
       this.getEmployees()
+
   }
   // -------------------------------------------------------------------------------------------
   customToast(severity: string, summary: string, detail: string) {
-      this.messageService.add({severity: severity, summary: summary, detail: detail});
+       this.messageService.add({severity: severity, summary: summary, detail: detail});
   }
   //--------------------------------------------------------------------------------------------
-  editEmployee(currentEmployee: any) {
+  showEmployee(currentEmployee: any) {
    let nameEmployee = 'Trabajador: '+ currentEmployee.TIPO_IDENTIFICACION + ' ' + currentEmployee.ID_AFILIADO + '-' + currentEmployee.AFILIADO
-   localStorage.setItem('currentEmployee', JSON.stringify(currentEmployee))
    localStorage.setItem('currentIdEmployee', currentEmployee.ID_AFILIADO)
    this.ref = this.dialogService.open(TabPageEmployeesComponent, {
-       header: nameEmployee,
+       header: nameEmployee || '',
        closable: true,
        width: '60%',
        contentStyle: {"max-height": "700px", "min-height": "700px", "overflow": "auto"},

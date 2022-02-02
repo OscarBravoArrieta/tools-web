@@ -52,7 +52,7 @@
              return
          }
          if (this.selectedQuery == '') {
-             this.customToast('error', 'Error', 'Elija la opción a realizar')
+             this.customToast('error', 'Error', 'Elija la acción a realizar')
              return
          }
          if (this.selectedQuery == 'B'){

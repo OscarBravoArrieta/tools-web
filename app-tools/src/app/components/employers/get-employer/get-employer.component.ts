@@ -3,13 +3,13 @@
  import { DatePipe } from '@angular/common'
  import { Router } from '@angular/router';
 
-@Component({
+ @Component({
      selector: 'app-get-employer',
      templateUrl: './get-employer.component.html',
      styleUrls: ['./get-employer.component.css'],
      providers: [DatePipe]
-})
-export class GetEmployerComponent implements OnInit {
+ })
+ export class GetEmployerComponent implements OnInit {
 
      @Output() idEmployer = new EventEmitter<string>();
      results: any
@@ -21,21 +21,20 @@ export class GetEmployerComponent implements OnInit {
          public datepipe: DatePipe
      ) {
 
-
      }
      // -----------------------------------------------------------------
      ngOnInit(): void {
      }
      // -----------------------------------------------------------------
      getAll(e:any): void {
-      const filter = { status: 'A', cutOffDate: this.datepipe.transform(new(Date), 'yyyy-MM-dd'), filterName: e, forSearchHelp: true}
-      this.httpEmployers.getEmployers(filter).subscribe((data: any) => {
-         this.results = data.employers
-      })
-
+         const filter = { status: 'A', cutOffDate: this.datepipe.transform(new(Date), 'yyyy-MM-dd'), filterName: e, forSearchHelp: true}
+         this.httpEmployers.getEmployers(filter).subscribe((data: any) => {
+             this.results = data.employers
+         })
      }
+     // -----------------------------------------------------------------
      sendSelectedEmployer(): void {
          this.idEmployer.emit(this.selectedEmployer);
      }
-
+     // -----------------------------------------------------------------
 }

@@ -14,9 +14,12 @@
 
 
      constructor(private http: HttpClient, private authServce: AuthService) { }
-     //--------------------------------------------------------------------------------------------
      getEmployees(filter: any): any{
          return this.http.put( `${environment.serverUrl}/api/employees/`, filter, {headers: this.headers});
+     }
+     //--------------------------------------------------------------------------------------------
+     getOne(filter: any):any{
+         return this.http.put(`${environment.serverUrl}/api/employees/getOne/`, filter, {headers: this.headers});
      }
      //--------------------------------------------------------------------------------------------
      getBeneficiariesEmployee(filter: any) {

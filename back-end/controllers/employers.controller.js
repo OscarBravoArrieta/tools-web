@@ -6,6 +6,29 @@
  import { sequelize } from '../dbConnection/dbConnection'
  
  //------------------------------------------------------------------------------------------------
+ export async function getOne(req, res) {   
+     const idEmployer = req.body.idEmployer
+     
+     try {
+         const employer = await sequelize.query(
+             `SELECT * FROM employers WHERE ID = (?)`, //Call employers view
+             { 
+                 replacements: [idEmployer],
+                 type: QueryTypes.SELECT 
+             }               
+         )
+         if (employer){
+             res.json({employer}) 
+         }else{
+             res.json({
+                 message: 'No hay registros coincidentes...'
+             })
+         }                    
+     } catch (error) {
+         console.log('Se presentó el siguiente error al obtener un Empleador...', error);           
+     } 
+  }    
+ //------------------------------------------------------------------------------------------------
  export async function getAll(req, res){   
 
      const status = req.body.status || ['A', 'I']

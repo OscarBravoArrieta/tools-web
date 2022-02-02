@@ -4,6 +4,7 @@
  import * as authjwt from '../middlewares/authjwt'
 
  router.put('/', [authjwt.verifyToken], employeesCtrl.getAll)
+ router.put('/getOne', [authjwt.verifyToken], employeesCtrl.getOne)
  router.put('/getBeneficiariesEmployee', employeesCtrl.getBeneficiariesEmployee)
  router.put('/getPayrollHistory', employeesCtrl.getPayrollHistory)
  router.put('/getPayrollHistoryUp', employeesCtrl.getPayrollHistoryUp)

@@ -12,10 +12,15 @@
      });
      constructor(private http: HttpClient,
                 private authServce: AuthService) { }
-    // --------------------------------------------------------------------------------------------
+
+
      getEmployers(filter: any): any{
 
          return this.http.put( `${environment.serverUrl}/api/employers/`, filter, {headers: this.headers});
+     }
+     // --------------------------------------------------------------------------------------------
+     getOne(filter: any):any{
+         return this.http.put(`${environment.serverUrl}/api/employers/getOne/`, filter, {headers: this.headers});
      }
      // --------------------------------------------------------------------------------------------
      getEmployeesEmployer(filter: any): any { //Get All active employees from a emloyer

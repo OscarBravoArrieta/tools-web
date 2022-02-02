@@ -2,102 +2,101 @@
   <div class="formgrid grid">
       <div class="field col">
       <label for="tipo_id">Tipo identificación</label>
-          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.TIPO_IDENTIFICACION}}" readonly>
+          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].TIPO_IDENTIFICACION}}" readonly>
       </div>
       <div class="field col">
           <label for="nit">Identificación</label>
-          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.ID_AFILIADO}}" readonly>
+          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].ID_AFILIADO}}" readonly>
       </div>
       <div class="field col">
           <label for="dv">Afiliado</label>
-          <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.AFILIADO}}" readonly>
+          <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].AFILIADO}}" readonly>
       </div>
       <div class="field col">
           <label for="tipo_id">Estado</label>
-          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.ESTADO}}" readonly>
+          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].ESTADO}}" readonly>
       </div>
   </div>
   <div class="formgrid grid">
       <div class="field col">
           <label for="tipo_id">Fecha afiliación</label>
-          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.FECHA_AFILIACION}}" readonly>
+          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].FECHA_AFILIACION}}" readonly>
        </div>
       <div class="field col">
           <label for="dv">Salario</label>
-          <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.SALARIO}}" readonly>
+          <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].SALARIO}}" readonly>
       </div>
 
       <div class="field col">
           <label for="nit">Categoría</label>
-          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.CATEGORIA}}" readonly>
+          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].CATEGORIA}}" readonly>
       </div>
       <div class="field col">
           <label for="tipo_id">Tipo de cotizante</label>
-          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.TIPO_COTIZANTE}}" readonly>
+          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].TIPO_COTIZANTE}}" readonly>
       </div>
 
   </div>
   <div class="formgrid grid">
    <div class="field col">
         <label for="dv">Género</label>
-            <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.GENERO}}" readonly>
+            <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].GENERO}}" readonly>
             </div>
       <div class="field col">
           <label for="tipo_id">Código ciudad reside</label>
-          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.CODIGO_CIUDAD}}" readonly>
+          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].CODIGO_CIUDAD}}" readonly>
       </div>
       <div class="field col">
           <label for="nit">Ciudad reside</label>
-          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.CIUDAD_RESIDE}}" readonly>
+          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].CIUDAD_RESIDE}}" readonly>
       </div>
       <div class="field col">
           <label for="dv">Dirección</label>
-          <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.DIRECCION}}" readonly>
+          <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].DIRECCION}}" readonly>
       </div>
   </div>
   <div class="formgrid grid">
       <div class="field col">
           <label for="tipo_id">Correo electrónico</label>
-          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.CORREO_ELECTRONICO}}" readonly>
+          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].CORREO_ELECTRONICO}}" readonly>
       </div>
       <div class="field col">
           <label for="nit">Teléfono</label>
-          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.TELEFONO}}" readonly>
+          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].TELEFONO}}" readonly>
       </div>
 
       <div class="field col">
           <label for="nit">Fecha nace</label>
-          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.FECHA_NACE}}" readonly>
+          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].FECHA_NACE}}" readonly>
       </div>
       <div class="field col">
           <label for="dv">Edad</label>
-          <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.EDAD}}" readonly>
+          <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].EDAD}}" readonly>
       </div>
   </div>
 
   <div class="formgrid grid">
        <div class="field col">
             <label for="dv">Estadi civil</label>
-            <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.ESTADO_CIVIL}}" readonly>
+            <input id="dv" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].ESTADO_CIVIL}}" readonly>
        </div>
       <div class="field col">
           <label for="tipo_id">Nit aportante</label>
-          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.NIT_EMPRESA}}" readonly>
+          <input id="tipo_id" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].NIT_EMPRESA}}" readonly>
       </div>
       <div class="field col">
           <label for="nit">Razón social</label>
-          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.RAZON_SOCIAL}}" readonly>
+          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].RAZON_SOCIAL}}" readonly>
       </div>
       <div class="field col">
           <label for="nit">Motivo del retiro</label>
-          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee.MOTIVO_RETIRO}}" readonly>
+          <input id="nit" type="text" pInputText class="inputfield w-full p-inputtext-sm" value = "{{currentEmployee[0].MOTIVO_RETIRO}}" readonly>
        </div>
   </div>
   <div class="formgrid grid">
    <div class="field col">
         <p class = "font-mini">Notas</p>
-        <textarea label = "Notas" pInputTextarea value = "{{currentEmployee.NOTA}}" style="width: 100%;" readonly></textarea>
-
+        <textarea label = "Notas" pInputTextarea value = "{{currentEmployee[0].NOTA}}" style="width: 100%;" readonly></textarea>
    </div>
   </div>
 </div>

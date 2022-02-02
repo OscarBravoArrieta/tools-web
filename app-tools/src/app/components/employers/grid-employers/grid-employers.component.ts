@@ -25,6 +25,7 @@ export class GridEmployersComponent implements OnInit {
      showSpinner: boolean = false
      showDialog: boolean = false
      totalRecords: number = 0
+     currentEmployer: any
      reportTitle: string = 'Catálogo de empleadores'
 
 
@@ -50,18 +51,31 @@ export class GridEmployersComponent implements OnInit {
          this.primengConfig.ripple = true
      }
      // -------------------------------------------------------------------------------------------
-     editEmployer(currentEmployer: any) {
-         let nameEmployer = 'Empleador: '+ currentEmployer.TIPO_IDENTIFICACION + ' ' + currentEmployer.ID + '-' + currentEmployer.RAZON_SOCIAL
-         localStorage.setItem('currentEmployer', JSON.stringify(currentEmployer))
+      async showEmployer(currentEmployer: any) {
+
          localStorage.setItem('currentIdEmployer', currentEmployer.ID)
+         await this.getOne()
+         let nameEmployer = 'Empleador: '+ this.currentEmployer[0].TIPO_IDENTIFICACION  + ' ' + this.currentEmployer[0].ID + '-' + this.currentEmployer[0].RAZON_SOCIAL
          this.ref = this.dialogService.open(TabPageEmployersComponent, {
-             header: nameEmployer,
+             header: nameEmployer || 'Detalles de empleador',
              closable: true,
              width: '55%',
              contentStyle: {"max-height": "780px", "min-height": "780px", "overflow": "auto"},
              baseZIndex: 10000
          });
-  }
+      }
+  // -------------------------------------------------------------------------------------------
+  async getOne(){
+    const filter = { idEmployer: localStorage.getItem('currentIdEmployer') }
+    await this.httpEmployers.getOne(filter).toPromise().then((data: any) => {
+        localStorage.setItem('currentEmployer', JSON.stringify(data.employer))
+        this.currentEmployer = data.employer
+        localStorage.setItem('currentEmployer', JSON.stringify(this.currentEmployer))
+    },(err: any) => {
+    if (!this.currentEmployer) {console.log('No ha iniciado sesión');}
+        this.router.navigate(['/signin'])
+    })
+}
      // -------------------------------------------------------------------------------------------
      getEmployers(): void {
          this.showSpinner = true;
@@ -78,10 +92,6 @@ export class GridEmployersComponent implements OnInit {
      test(e:any):void{ }
      // -------------------------------------------------------------------------------------------
      sendToQuery(): any  {
-         this.showSpinner = true
-         setTimeout(() =>{
-         this.showSpinner = false
-     },2000)
          this.getEmployers()
      }
      // -------------------------------------------------------------------------------------------
@@ -163,4 +173,6 @@ export class GridEmployersComponent implements OnInit {
              }
          }
      }
+     // -------------------------------------------------------------------------------------------
+
 }

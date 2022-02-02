@@ -12,6 +12,7 @@
  import { UpdateStatusComponent } from './components/update-status/update-status.component';
  import { CheckStatusComponent } from './components/check-status/check-status.component';
  import { PayrollReportComponent } from './components/employers/payroll-report/payroll-report.component';
+ import { IndividualRecordsComponent } from './components/individual-records/individual-records.component';
 
 
 
@@ -28,10 +29,12 @@
      { path: 'reset-password', component: ResetPasswordComponent },
      { path: 'set-new-password/:token', component: SetNewPasswordComponent},
      { path: 'change-password', component: ChangePasswordComponent },
-     { path: 'check-status', component: CheckStatusComponent }
+     { path: 'check-status', component: CheckStatusComponent },
+     { path: 'individual-records', component: IndividualRecordsComponent}
  ];
 
  @NgModule({
+    //  imports: [RouterModule.forRoot(routes, {useHash: true})],
      imports: [RouterModule.forRoot(routes)],
      exports: [RouterModule]
  })

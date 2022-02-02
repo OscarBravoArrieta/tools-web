@@ -165,6 +165,8 @@ Estandarizar los mensajes de error
 Mostrar los correos con una mascara, asi: O***************A@GMAIL.COM
 Colocar una umagen de fondo, una marca de agua
 Capturar el erorr: http://localhost:4000/api/employees/getEmployeesToCheckStatus/ 401 (Unauthorized)
+Colocar opcionalmente el codigo y/o documento del beneficiario para consultar el estado
+Colocar una nota alusiva a la incativación del beneficiario
 --------------------------------------------------------
 Refrescar la barra de menu-LISTO-
 Mstrar el nombre del usuario logueado-LISTO-

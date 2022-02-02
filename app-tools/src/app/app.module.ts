@@ -73,6 +73,8 @@ import { SetNewPasswordComponent } from './components/auth/set-new-password/set-
 import { ChangePasswordComponent } from './components/auth/change-password/change-password.component';
 import { PayrollReportComponent } from './components/employers/payroll-report/payroll-report.component';
 import { CheckStatusComponent } from './components/check-status/check-status.component';
+import { IndividualRecordsComponent } from './components/individual-records/individual-records.component';
+import { GetEmployeeComponent } from './components/employees/get-employee/get-employee.component';
 
 
 @NgModule({
@@ -109,7 +111,9 @@ import { CheckStatusComponent } from './components/check-status/check-status.com
     SetNewPasswordComponent,
     ChangePasswordComponent,
     PayrollReportComponent,
-    CheckStatusComponent
+    CheckStatusComponent,
+    IndividualRecordsComponent,
+    GetEmployeeComponent
   ],
   imports: [
     BrowserModule,

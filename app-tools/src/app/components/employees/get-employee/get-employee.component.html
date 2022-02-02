@@ -1,20 +1,20 @@
 <div styleClass="p-card-shadow" class="flex flex-wrap align-items-center">
 
   <div class="p-field mb-3 ml-3" [style]="{'width': '100%'}">
-      <label for="username1">Empleador</label>
+      <label for="username1">Empleado</label>
       <p-dropdown
           [options]="results"
-          [(ngModel)]="selectedEmployer"
-          optionLabel="RAZON_SOCIAL"
+          [(ngModel)]="selectedEmployee"
+          optionLabel="AFILIADO"
           [filter]="true"
-          filterBy="RAZON_SOCIAL"
+          filterBy="AFILIADO"
           [showClear]="true"
-          placeholder="Seleccione un empleador"
-          optionValue="NIT"
+          placeholder="Seleccione un empleado"
+          optionValue="IDENTIFICACION"
           (onFilter)="getAll($event)"
-          (onChange)="sendSelectedEmployer()"
-          name="RAZON_SOCIAL"
-          inputId="RAZON_SOCIAL"
+          (onChange)="sendSelectedEmployee()"
+          name="AFILIADO"
+          inputId="AFILIADO"
           emptyFilterMessage="Sin registros coincidentes"
           emptyMessage="No se han encontrado resultados"
           [style]="{'width': '100%'}"
@@ -25,4 +25,3 @@
    <p-button label="Consultar"  class="p-button-sm" [style]="{'width': '35%'}"></p-button>
   </div> -->
 </div>
-

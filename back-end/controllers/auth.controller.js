@@ -228,7 +228,7 @@
                          <h1>Confirmar restauración password.</h1>
                          <h2>Hola, ${name}</h2>
                          <p>Para confirmar la restauración de tu password, por favor haz click en el siguiente link</p>
-                         <a href = http://localhost:4200/set-new-password/${token}> Confirmar solicitud</a>
+                         <a href=http://localhost:4200/set-new-password/${token}> Confirmar solicitud</a>
                          <br>
                       </div>`,
              }).catch(err => console.log('Error al enviar email', err));             
