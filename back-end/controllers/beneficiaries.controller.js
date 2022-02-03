@@ -5,8 +5,30 @@
  const { QueryTypes } = require ( 'sequelize' )
  import { sequelize } from '../dbConnection/dbConnection'
 
+ //------------------------------------------------------------------------------------------------
+ export async function getOne(req, res) {   
+     const idBeneficiarie = req.body.idBeneficiarie        
+     try {
+         const beneficiarie = await sequelize.query(
+             `SELECT * FROM beneficiaries WHERE CODIGO_BENEFICIARIO = (?)`, //Call beneficiaries view
+             { 
+                 replacements: [idBeneficiarie, idBeneficiarie],
+                 type: QueryTypes.SELECT 
+             }               
+         )
+         if (beneficiarie){
+             res.json({beneficiarie}) 
+         }else{
+             res.json({
+                 message: 'No hay registros coincidentes...'
+             })
+         }                    
+     } catch (error) {
+         console.log('Se presentó el siguiente error al obtener un Beneficiario...', error);           
+     } 
+}
+//------------------------------------------------------------------------------------------------
  export async function getAll(req, res) { 
-     console.log('ESTADO......',req.body.status)
      const status = req.body.status || ['A', 'I', 'M']
      const filterName = req.body.filterName.filter || 'A'
      const forSearchHelp = req.body.forSearchHelp || false
@@ -22,7 +44,20 @@
                  order: [
                      ['priape', 'ASC']
                  ],
-
+                 where: 
+                 sequelize.where ( 
+                     sequelize.fn('CONCAT',
+                     fn('COALESCE',col('priape'),''),
+                     ' ',
+                     fn('COALESCE',col('segape'),''), 
+                     ' ',
+                     fn('COALESCE',col('prinom'),''),
+                     ' ',
+                     fn('COALESCE',col('segnom'),'') ), 
+                     { 
+                         [Op.like]: `%${filterName}%` 
+                     }
+                 ),
                  limit: 50
              })
              if (beneficiaries){

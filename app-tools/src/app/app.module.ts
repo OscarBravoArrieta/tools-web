@@ -75,6 +75,7 @@ import { PayrollReportComponent } from './components/employers/payroll-report/pa
 import { CheckStatusComponent } from './components/check-status/check-status.component';
 import { IndividualRecordsComponent } from './components/individual-records/individual-records.component';
 import { GetEmployeeComponent } from './components/employees/get-employee/get-employee.component';
+import { GetBeneficiarieComponent } from './components/beneficiaries/get-beneficiarie/get-beneficiarie.component';
 
 
 @NgModule({
@@ -113,7 +114,8 @@ import { GetEmployeeComponent } from './components/employees/get-employee/get-em
     PayrollReportComponent,
     CheckStatusComponent,
     IndividualRecordsComponent,
-    GetEmployeeComponent
+    GetEmployeeComponent,
+    GetBeneficiarieComponent
   ],
   imports: [
     BrowserModule,

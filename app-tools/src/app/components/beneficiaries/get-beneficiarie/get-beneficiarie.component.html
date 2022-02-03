@@ -1,0 +1,28 @@
+<div styleClass="p-card-shadow" class="flex flex-wrap align-items-center">
+
+  <div class="p-field mb-3 ml-3" [style]="{'width': '100%'}">
+      <label for="username1">Beneficiario</label>
+      <p-dropdown
+          [options]="results"
+          [(ngModel)]="selectedBeneficiarie"
+          optionLabel="BENEFICIARIO"
+          [filter]="true"
+          filterBy="BENEFICIARIO"
+          [showClear]="true"
+          placeholder="Seleccione un beneficiario"
+          optionValue="CODIGO"
+          (onFilter)="getAll($event)"
+          (onChange)="sendSelectedBeneficiarie()"
+          name="BENEFICIARIO"
+          inputId="BENEFICIARIO"
+          emptyFilterMessage="Sin registros coincidentes"
+          emptyMessage="No se han encontrado resultados"
+          [style]="{'width': '100%'}"
+          >
+      </p-dropdown>
+  </div>
+  <!-- <div class="p-field mb-3 ml-3 align-items-center" [style]="{'width': '37%'}" >
+   <p-button label="Consultar"  class="p-button-sm" [style]="{'width': '35%'}"></p-button>
+  </div> -->
+</div>
+

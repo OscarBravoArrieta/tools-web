@@ -16,6 +16,10 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
      constructor(private http: HttpClient,
                  private authServce: AuthService ) { }
+      //--------------------------------------------------------------------------------------------
+      getOne(filter: any): any{
+          return this.http.put(`${environment.serverUrl}/api/beneficiaries/getOne`, filter, {headers: this.headers});
+      }
      //--------------------------------------------------------------------------------------------
      getBeneficiaries(filter: any): any{
          return this.http.put(`${environment.serverUrl}/api/beneficiaries/`, filter, {headers: this.headers});
@@ -26,7 +30,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
      }
     //--------------------------------------------------------------------------------------------
      getBeneficiariesToCheckStatus(valuesToConsult: any): any{
-        return this.http.put(`${environment.serverUrl}/api/beneficiaries/getBeneficiariesToCheckStatus/`, valuesToConsult, {headers: this.headers});
+         return this.http.put(`${environment.serverUrl}/api/beneficiaries/getBeneficiariesToCheckStatus/`, valuesToConsult, {headers: this.headers});
      }
     //--------------------------------------------------------------------------------------------
      getSpousesToCheckStatus(parameters: any): any{

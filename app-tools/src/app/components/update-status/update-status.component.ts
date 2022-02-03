@@ -85,7 +85,7 @@
                  this.customToast('error', 'Error', 'Seleccione el estado')
                  return
              }
-             if ((this.selectedStatus == 'I') && (!this.selectedReason)){
+             if ((this.selectedStatus == 'I') && (!this.selectedReason) && (this.selectedCodeAction != 'C')){
                  this.customToast('error', 'Error', 'Seleccione el motivo de inactivación')
                  return
              }

@@ -66,19 +66,18 @@ export class GridBeneficiariesComponent implements OnInit {
    }
   }
   //--------------------------------------------------------------------------------------------
-  editBeneficiarie(currentBeneficiarie: any):void{
-      let nameBeneficiarie = 'Beneficiario: '+ currentBeneficiarie.TIPO_ID_BENEFICIARIO + ' ' + currentBeneficiarie.DOCUMENTO_BENEFICIARIO + '-' + currentBeneficiarie.BENEFICIARIO
-      localStorage.setItem('currentBeneficiarie', JSON.stringify(currentBeneficiarie))
-      localStorage.setItem('currentIdBeneficiarie', currentBeneficiarie.CODIGO_BENEFICIARIO)
-      this.ref = this.dialogService.open(TabPageBeneficiariesComponent, {
-          header: nameBeneficiarie,
-          closable: true,
-          width: '60%',
-          contentStyle: {"max-height": "700px", "min-height": "700px", "overflow": "auto"},
-          baseZIndex: 10000
-      });
-  }
-  //--------------------------------------------------------------------------------------------
+
+  showBeneficiarie(currentBeneficiarie: any) {
+       let nameBeneficiarie = 'Beneficiario: '+ currentBeneficiarie.TIPO_ID_BENEFICIARIO + ' ' + currentBeneficiarie.DOCUMENTO_BENEFICIARIO + '-' + currentBeneficiarie.BENEFICIARIO
+       localStorage.setItem('currentIdBeneficiarie', currentBeneficiarie.CODIGO_BENEFICIARIO)
+       this.ref = this.dialogService.open(TabPageBeneficiariesComponent, {
+           header: nameBeneficiarie || '',
+           closable: true,
+           width: '60%',
+           contentStyle: {"max-height": "700px", "min-height": "700px", "overflow": "auto"},
+           baseZIndex: 10000
+       });
+ }
 
   customToast(severity: string, summary: string, detail: string) {
       this.messageService.add({severity: severity, summary: summary, detail: detail});

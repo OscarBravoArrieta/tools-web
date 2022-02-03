@@ -4,8 +4,8 @@
  const { Op } = require("sequelize")
  const { QueryTypes } = require ( 'sequelize' )
  import { sequelize } from '../dbConnection/dbConnection'
+ 
  //------------------------------------------------------------------------------------------------
-  
  export async function getOne(req, res) {   
      const idEmployee = req.body.idEmployee
     

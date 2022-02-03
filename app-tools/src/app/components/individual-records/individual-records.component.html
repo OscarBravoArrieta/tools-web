@@ -34,7 +34,16 @@
                 </div>
                 </div>
                 <div class="flex align-items-center justify-content-center h-4rem bg-gray-100 font-bold border-round m-2">
-                    Beneficiario
+                  <div class="flex align-items-center justify-content-center" [style]="{width: '60%'}">
+                    <span class="p-input-icon-left p-ml-auto" [style]="{width: '100%'}">
+                         <app-get-beneficiarie (idBeneficiarie) = "getIdBeneficiarie($event)"></app-get-beneficiarie>
+                    </span>
+                </div>
+                <div class="flex align-items-center justify-content-center ml-2">
+                  <span class="p-input-icon-left p-ml-auto">
+                       <button pButton pRipple type="button" icon="pi pi-search" class="p-button-rounded p-button-success" (click)="showBeneficiarie()"></button>
+                  </span>
+                </div>
 
                 </div>
             </div>

@@ -4,8 +4,10 @@
  import { ConfirmationService, MessageService} from 'primeng/api';
  import { TabPageEmployersComponent } from '../employers/tab-page-employers/tab-page-employers.component';
  import { TabPageEmployeesComponent } from '../employees/tab-page-employees/tab-page-employees.component';
+ import { TabPageBeneficiariesComponent } from '../beneficiaries/tab-page-beneficiaries/tab-page-beneficiaries.component';
  import { EmployersService } from 'src/app/services/employers.service';
  import { EmployeesService } from 'src/app/services/employees.service';
+ import { BeneficiariesService } from 'src/app/services/beneficiaries.service';
  import { Router } from '@angular/router';
 
  @Component({
@@ -17,12 +19,15 @@
  export class IndividualRecordsComponent implements OnInit {
      idEmployer: string = ''
      idEmployee: string = ''
+     idBeneficiarie: string = ''
      currentEmployer: any
      currentEmployee: any
+     currentBeneficiarie: any
 
      constructor(
          public httpEmployers: EmployersService,
          public employeesService: EmployeesService,
+         public beneficiariesService: BeneficiariesService,
          public dialogService: DialogService,
          public router: Router,
          public messageService: MessageService,
@@ -44,6 +49,11 @@
          localStorage.setItem('currentIdEmployee',e)
      }
      // -------------------------------------------------------------------------------------------
+     getIdBeneficiarie(e: string): void {
+         this.idBeneficiarie = e
+         localStorage.setItem('currentIdBeneficiarie', e)
+     }
+  // -------------------------------------------------------------------------------------------
      async showEmployer() {
          if (this.idEmployer == ''){
              this.customToast('error', 'Error', 'Seleccione el empleador')
@@ -84,6 +94,26 @@
       });
   }
   // -------------------------------------------------------------------------------------------
+  async showBeneficiarie() {
+    if (this.idBeneficiarie == ''){
+        this.customToast('error', 'Error', 'Seleccione el beneficiario')
+        return
+    }
+
+  await this.getDataBeneficiarie()
+  this.currentBeneficiarie = localStorage.getItem('currentBeneficiarie') || ''
+  this.currentBeneficiarie = JSON.parse(this.currentBeneficiarie)
+  let nameBeneficiarie = 'Beneficiario: ' + this.currentBeneficiarie[0].TIPO_ID_BENEFICIARIO  + ' ' + this.currentBeneficiarie[0].DOCUMENTO_BENEFICIARIO + '-' + this.currentBeneficiarie[0].BENEFICIARIO
+
+  this.ref = this.dialogService.open(TabPageBeneficiariesComponent, {
+      header: nameBeneficiarie || 'Detalles de beneficiario',
+      closable: true,
+      width: '55%',
+      contentStyle: {"max-height": "780px", "min-height": "780px", "overflow": "auto"},
+      baseZIndex: 10000
+ });
+}
+// -------------------------------------------------------------------------------------------
      async getDataEmployer(){
          const filter = { idEmployer: localStorage.getItem('currentIdEmployer') }
          await this.httpEmployers.getOne(filter).toPromise().then((data: any) => {
@@ -108,6 +138,19 @@
       })
   }
    // -------------------------------------------------------------------------------------------
+   async getDataBeneficiarie(){
+
+    const filter = { idBeneficiarie: localStorage.getItem('currentIdBeneficiarie') }
+    await this.beneficiariesService.getOne(filter).toPromise().then((data: any) => {
+        localStorage.setItem('currentBeneficiarie', JSON.stringify(data.beneficiarie))
+        this.currentBeneficiarie = data.beneficiarie
+        localStorage.setItem('currentBeneficiarie', JSON.stringify(this.currentBeneficiarie))
+    },(err: any) => {
+    if (!this.currentBeneficiarie) {console.log('No ha iniciado sesión');}
+        this.router.navigate(['/signin'])
+    })
+}
+ // -------------------------------------------------------------------------------------------
    customToast(severity: string, summary: string, detail: string) {
     this.messageService.add({severity: severity, summary: summary, detail: detail});
 }
