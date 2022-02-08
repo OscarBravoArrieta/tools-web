@@ -23,6 +23,7 @@
      currentEmployer: any
      currentEmployee: any
      currentBeneficiarie: any
+     beneficiaryType: string = ''
 
      constructor(
          public httpEmployers: EmployersService,
@@ -51,7 +52,7 @@
      // -------------------------------------------------------------------------------------------
      getIdBeneficiarie(e: string): void {
          this.idBeneficiarie = e
-         localStorage.setItem('currentIdBeneficiarie', e)
+         localStorage.setItem('currentIdBeneficiarie', this.idBeneficiarie)
      }
   // -------------------------------------------------------------------------------------------
      async showEmployer() {
@@ -92,6 +93,7 @@
            contentStyle: {"max-height": "780px", "min-height": "780px", "overflow": "auto"},
            baseZIndex: 10000
       });
+
   }
   // -------------------------------------------------------------------------------------------
   async showBeneficiarie() {
@@ -100,10 +102,10 @@
         return
     }
 
-  await this.getDataBeneficiarie()
+  //await this.getDataBeneficiarie()
   this.currentBeneficiarie = localStorage.getItem('currentBeneficiarie') || ''
   this.currentBeneficiarie = JSON.parse(this.currentBeneficiarie)
-  let nameBeneficiarie = 'Beneficiario: ' + this.currentBeneficiarie[0].TIPO_ID_BENEFICIARIO  + ' ' + this.currentBeneficiarie[0].DOCUMENTO_BENEFICIARIO + '-' + this.currentBeneficiarie[0].BENEFICIARIO
+  let nameBeneficiarie = 'Detalles del Beneficiario' //+ this.currentBeneficiarie[0].TIPO_ID_BENEFICIARIO  + ' ' + this.currentBeneficiarie[0].DOCUMENTO_BENEFICIARIO + '-' + this.currentBeneficiarie[0].BENEFICIARIO
 
   this.ref = this.dialogService.open(TabPageBeneficiariesComponent, {
       header: nameBeneficiarie || 'Detalles de beneficiario',
@@ -112,6 +114,7 @@
       contentStyle: {"max-height": "780px", "min-height": "780px", "overflow": "auto"},
       baseZIndex: 10000
  });
+
 }
 // -------------------------------------------------------------------------------------------
      async getDataEmployer(){
@@ -138,18 +141,20 @@
       })
   }
    // -------------------------------------------------------------------------------------------
-   async getDataBeneficiarie(){
+//    async getDataBeneficiarie(){
 
-    const filter = { idBeneficiarie: localStorage.getItem('currentIdBeneficiarie') }
-    await this.beneficiariesService.getOne(filter).toPromise().then((data: any) => {
-        localStorage.setItem('currentBeneficiarie', JSON.stringify(data.beneficiarie))
-        this.currentBeneficiarie = data.beneficiarie
-        localStorage.setItem('currentBeneficiarie', JSON.stringify(this.currentBeneficiarie))
-    },(err: any) => {
-    if (!this.currentBeneficiarie) {console.log('No ha iniciado sesión');}
-        this.router.navigate(['/signin'])
-    })
-}
+//     const filter = { idBeneficiarie: localStorage.getItem('currentIdBeneficiarie') }
+//     console.log(filter);
+//     await this.beneficiariesService.getOne(filter).toPromise().then((data: any) => {
+//         localStorage.setItem('currentBeneficiarie', JSON.stringify(data.beneficiarie))
+//         this.currentBeneficiarie = data.beneficiarie
+//         console.log(this.currentBeneficiarie);
+//         localStorage.setItem('currentBeneficiarie', JSON.stringify(this.currentBeneficiarie))
+//     },(err: any) => {
+//     if (!this.currentBeneficiarie) {console.log('No ha iniciado sesión');}
+//         this.router.navigate(['/signin'])
+//     })
+// }
  // -------------------------------------------------------------------------------------------
    customToast(severity: string, summary: string, detail: string) {
     this.messageService.add({severity: severity, summary: summary, detail: detail});

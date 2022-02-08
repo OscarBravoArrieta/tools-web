@@ -12,6 +12,7 @@
      @Output() idBeneficiarie = new EventEmitter<string>();
      results: any
      selectedBeneficiarie: string = ''
+     beneficiaryType: String = 'B'
 
      constructor(
          public httpBeneficiaries: BeneficiariesService,
@@ -20,11 +21,13 @@
 
      ) { }
       ngOnInit(): void {
+         localStorage.setItem('beneficiaryType','HIJO')
       }
      // -------------------------------------------------------------------------------------------
      getAll(e:any):void{
 
-         const filter = {filterName: e, forSearchHelp: true}
+
+         const filter = {filterName: e, forSearchHelp: true, beneficiaryType: this.beneficiaryType}
          this.httpBeneficiaries.getBeneficiaries(filter).subscribe((data: any) => {
              this.results = data.beneficiaries
              console.log(this.results);
@@ -37,5 +40,13 @@
          this.idBeneficiarie.emit(this.selectedBeneficiarie);
      }
      // -------------------------------------------------------------------------------------------
+     changeBeneficiaryType(){
+         if(this.beneficiaryType == 'B'){
+             localStorage.setItem('beneficiaryType','HIJO')
+         } else {
+             localStorage.setItem('beneficiaryType','CONYUGE')
+         }
+
+     }
 
 }

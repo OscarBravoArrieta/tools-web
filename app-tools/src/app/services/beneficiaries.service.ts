@@ -17,8 +17,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
      constructor(private http: HttpClient,
                  private authServce: AuthService ) { }
       //--------------------------------------------------------------------------------------------
-      getOne(filter: any): any{
-          return this.http.put(`${environment.serverUrl}/api/beneficiaries/getOne`, filter, {headers: this.headers});
+      getOne(parameters: any): any{
+          return this.http.put(`${environment.serverUrl}/api/beneficiaries/getOne`, parameters, {headers: this.headers});
       }
      //--------------------------------------------------------------------------------------------
      getBeneficiaries(filter: any): any{

@@ -2,6 +2,10 @@
 
   <div class="p-field mb-3 ml-3" [style]="{'width': '100%'}">
       <label for="username1">Beneficiario</label>
+      <div class="flex align-items-center " [style]="{width: '60%'}">
+           <p-radioButton class="font-content ml-3 mb-2" name="groupnameQueryColumn" value="B" [(ngModel)]="beneficiaryType" label="Beneficiario" (onClick)="changeBeneficiaryType()"></p-radioButton>
+           <p-radioButton class="font-content ml-3 mb-2" name="groupnameQueryColumn" value="C" [(ngModel)]="beneficiaryType" label="Cónyuge" (onClick)="changeBeneficiaryType()"></p-radioButton>
+      </div>
       <p-dropdown
           [options]="results"
           [(ngModel)]="selectedBeneficiarie"

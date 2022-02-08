@@ -1,4 +1,5 @@
  import Beneficiaries from '../models_single/beneficiaries.model'
+ import Spouses from '../models_single/spouses.model'
  const express = require('express')
  const router = express.Router()
  const { Op } = require("sequelize")
@@ -7,22 +8,38 @@
 
  //------------------------------------------------------------------------------------------------
  export async function getOne(req, res) {   
-     const idBeneficiarie = req.body.idBeneficiarie        
+     const idBeneficiarie = req.body.idBeneficiarie 
+     const beneficiaryType   = req.body.beneficiaryType
      try {
-         const beneficiarie = await sequelize.query(
-             `SELECT * FROM beneficiaries WHERE CODIGO_BENEFICIARIO = (?)`, //Call beneficiaries view
-             { 
-                 replacements: [idBeneficiarie, idBeneficiarie],
-                 type: QueryTypes.SELECT 
-             }               
-         )
+
+         let beneficiarie
+         if (beneficiaryType == 'B') { //Query beneficiarie
+             beneficiarie = await sequelize.query(
+                 `SELECT * FROM beneficiarie WHERE CODIGO_BENEFICIARIO = (?)`, //Call beneficiaries view
+                 { 
+                     replacements: [idBeneficiarie],
+                     type: QueryTypes.SELECT 
+                 }               
+             )
+         }
+         if (beneficiaryType == 'C') { //Query spouses
+             beneficiarie = await sequelize.query(
+                 `SELECT * FROM spouse WHERE CODIGO_BENEFICIARIO = (?)`, //Call beneficiaries view
+                 { 
+                     replacements: [idBeneficiarie],
+                     type: QueryTypes.SELECT 
+                 }               
+             )
+         }         
+
          if (beneficiarie){
              res.json({beneficiarie}) 
          }else{
              res.json({
                  message: 'No hay registros coincidentes...'
              })
-         }                    
+         }  
+
      } catch (error) {
          console.log('Se presentó el siguiente error al obtener un Beneficiario...', error);           
      } 
@@ -32,34 +49,70 @@
      const status = req.body.status || ['A', 'I', 'M']
      const filterName = req.body.filterName.filter || 'A'
      const forSearchHelp = req.body.forSearchHelp || false
-
-     const { fn, col } = Beneficiaries.sequelize;
-         
+     const { fn, col } = Beneficiaries.sequelize
+     let beneficiaryType = req.body.beneficiaryType
+             
      if (forSearchHelp) {
-         try {             
-             const beneficiaries = await Beneficiaries.findAll({
-                 attributes: [['codben', 'CODIGO'],
-                             ['documento', 'IDENTIFICACION'],
-                             [fn('CONCAT', col('priape'), ' ', col('segape'), ' ', col('prinom'), ' ',col('segnom')),"BENEFICIARIO"]],
-                 order: [
-                     ['priape', 'ASC']
-                 ],
-                 where: 
-                 sequelize.where ( 
-                     sequelize.fn('CONCAT',
-                     fn('COALESCE',col('priape'),''),
-                     ' ',
-                     fn('COALESCE',col('segape'),''), 
-                     ' ',
-                     fn('COALESCE',col('prinom'),''),
-                     ' ',
-                     fn('COALESCE',col('segnom'),'') ), 
-                     { 
-                         [Op.like]: `%${filterName}%` 
-                     }
-                 ),
-                 limit: 50
-             })
+         try {
+             let beneficiaries
+
+
+             if (beneficiaryType == 'B'){
+                 beneficiaries = await Beneficiaries.findAll({
+                     attributes: [['codben', 'CODIGO'],
+                         ['documento', 'IDENTIFICACION'],
+                         [fn('CONCAT', col('priape'), ' ', col('segape'), ' ', col('prinom'), ' ',col('segnom')),"BENEFICIARIO"]],
+                    order: [
+                        ['priape', 'ASC']
+                    ],
+                    where: 
+                        sequelize.where ( 
+                            sequelize.fn('CONCAT',
+                            fn('COALESCE',col('priape'),''),
+                            ' ',
+                            fn('COALESCE',col('segape'),''), 
+                            ' ',
+                            fn('COALESCE',col('prinom'),''),
+                            ' ',
+                            fn('COALESCE',col('segnom'),'') ), 
+                            { 
+                                [Op.like]: `%${filterName}%` 
+                            }
+                        ),
+                        limit: 50
+                    })                  
+             }
+
+             if(beneficiaryType == 'C') { //Spouses
+                beneficiaries = await Spouses.findAll({
+                    attributes: [['cedcon', 'CODIGO'],
+                               ['cedcon', 'IDENTIFICACION'],
+                               [fn('CONCAT', col('priape'), ' ', col('segape'), ' ', col('prinom'), ' ',col('segnom')),"BENEFICIARIO"]],
+                    order: [
+                        ['priape', 'ASC']
+                    ],
+                    where: 
+                    sequelize.where ( 
+                         sequelize.fn('CONCAT',
+                         fn('COALESCE',col('priape'),''),
+                         ' ',
+                         fn('COALESCE',col('segape'),''), 
+                         ' ',
+                         fn('COALESCE',col('prinom'),''),
+                         ' ',
+                         fn('COALESCE',col('segnom'),'') ), 
+                         { 
+                             [Op.like]: `%${filterName}%` 
+                         }
+                     ),
+                     limit: 50
+                 })   
+             }
+
+
+
+                 
+                 
              if (beneficiaries){
                  res.json({beneficiaries})
              }else{

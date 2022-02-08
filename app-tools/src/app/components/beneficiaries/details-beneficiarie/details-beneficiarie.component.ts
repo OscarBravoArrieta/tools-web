@@ -24,11 +24,22 @@ export class DetailsBeneficiarieComponent implements OnInit {
   }
   //-----------------------------------------------------------------------------------------------
    async getOne(){
-    const filter = { idEmployee: localStorage.getItem('currentIdBeneficiarie') }
-    await this.beneficiariesService.getOne(filter).toPromise().then((data: any) => {
+     let beneficiaryType
+     switch(localStorage.getItem('beneficiaryType')){
+          case 'HIJO':
+          case 'HERMANO':
+          case 'PADRE':
+             beneficiaryType = 'B'
+             break
+          case 'CONYUGE':
+             beneficiaryType = 'C'
+             break
+     }
+    const parameters = { idBeneficiarie: localStorage.getItem('currentIdBeneficiarie'), beneficiaryType: beneficiaryType }
+    await this.beneficiariesService.getOne(parameters).toPromise().then((data: any) => {
+        localStorage.removeItem('currentBeneficiarie')
         this.currentBeneficiarie = data.beneficiarie
         localStorage.setItem('currentBeneficiarie', JSON.stringify(data.beneficiarie))
-        console.log('fdsfsadfsadfsadfsadfsadfdsa',data.beneficiarie);
    },(err: any) => {
    if (!this.currentBeneficiarie) {console.log('No ha iniciado sesión');}
        this.router.navigate(['/signin'])

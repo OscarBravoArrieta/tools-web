@@ -70,6 +70,8 @@ export class GridBeneficiariesComponent implements OnInit {
   showBeneficiarie(currentBeneficiarie: any) {
        let nameBeneficiarie = 'Beneficiario: '+ currentBeneficiarie.TIPO_ID_BENEFICIARIO + ' ' + currentBeneficiarie.DOCUMENTO_BENEFICIARIO + '-' + currentBeneficiarie.BENEFICIARIO
        localStorage.setItem('currentIdBeneficiarie', currentBeneficiarie.CODIGO_BENEFICIARIO)
+       localStorage.setItem('beneficiaryType', currentBeneficiarie.PARENTESCO)
+
        this.ref = this.dialogService.open(TabPageBeneficiariesComponent, {
            header: nameBeneficiarie || '',
            closable: true,

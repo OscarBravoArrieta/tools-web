@@ -133,25 +133,25 @@ export class GridEmployeesComponent implements OnInit {
   // -------------------------------------------------------------------------------------------
   sendToQuery(): any  {
 
-      this.getEmployees()
+       this.getEmployees()
 
   }
   // -------------------------------------------------------------------------------------------
   customToast(severity: string, summary: string, detail: string) {
-       this.messageService.add({severity: severity, summary: summary, detail: detail});
+         this.messageService.add({severity: severity, summary: summary, detail: detail});
   }
   //--------------------------------------------------------------------------------------------
   showEmployee(currentEmployee: any) {
-   let nameEmployee = 'Trabajador: '+ currentEmployee.TIPO_IDENTIFICACION + ' ' + currentEmployee.ID_AFILIADO + '-' + currentEmployee.AFILIADO
-   localStorage.setItem('currentIdEmployee', currentEmployee.ID_AFILIADO)
-   this.ref = this.dialogService.open(TabPageEmployeesComponent, {
-       header: nameEmployee || '',
-       closable: true,
-       width: '60%',
-       contentStyle: {"max-height": "700px", "min-height": "700px", "overflow": "auto"},
-       baseZIndex: 10000
-   });
-}
+     let nameEmployee = 'Trabajador: '+ currentEmployee.TIPO_IDENTIFICACION + ' ' + currentEmployee.ID_AFILIADO + '-' + currentEmployee.AFILIADO
+     localStorage.setItem('currentIdEmployee', currentEmployee.ID_AFILIADO)
+     this.ref = this.dialogService.open(TabPageEmployeesComponent, {
+         header: nameEmployee || '',
+         closable: true,
+         width: '60%',
+         contentStyle: {"max-height": "700px", "min-height": "700px", "overflow": "auto"},
+         baseZIndex: 10000
+     });
+ }
 // -------------------------------------------------------------------------------------------
      getCols(nColumns: number):void{
       this.cols = []=[]
