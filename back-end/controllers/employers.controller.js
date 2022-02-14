@@ -25,16 +25,16 @@
              })
          }                    
      } catch (error) {
-         console.log('Se presentó el siguiente error al obtener un Empleador...', error);           
+         console.log('Se presentó el siguiente error al obtener un Empleador...', error);
      } 
   }    
  //------------------------------------------------------------------------------------------------
  export async function getAll(req, res){   
 
      const status = req.body.status || ['A', 'I']
-     const cutOffDate = req.body.cutOffDate || new Date().toISOString().substring(0, 10) //Formato de la fecha AAAA-MM-DD
+     const cutOffDate = req.body.cutOffDate || new Date().toISOString().substring(0, 10) //Date format: AAAA-MM-DD
      const filterName = req.body.filterName.filter || 'A'
-     const forSearchHelp = req.body.forSearchHelp || false  
+     const forSearchHelp = req.body.forSearchHelp || false
 
      if (forSearchHelp) {
          try {
@@ -78,7 +78,7 @@
                  })
              }                    
          } catch (error) {
-             console.log('Se presentó el siguiente error al listar Empleadores:...', error);           
+             console.log('Se presentó el siguiente error al listar Empleadores:...', error)
          }    
      }
  }
@@ -136,9 +136,9 @@
              res.json({
                  message: 'No hay registros coincidentes...'
              })
-         }                    
+         } 
      } catch (error) {
-         console.log('Se presentó el siguiente error al listar Trabajadores ABCDE:...', error);           
+         console.log('Se presentó el siguiente error al listar Trabajadores ABCDE:...', error);
      }
  }
  //------------------------------------------------------------------------------------------------
@@ -254,7 +254,7 @@
              })
          }                    
      } catch (error) {
-         console.log('Se presentó el siguiente error al listar Beneficiarios:...', error);           
+         console.log('Se presentó el siguiente error al listar Beneficiarios:...', error)
      }
  }
  //------------------------------------------------------------------------------------------------
@@ -326,7 +326,7 @@ export async function getPayrollEmployer (req, res){
              })
          }                    
      } catch (error) {
-         console.log('Se presentó el siguiente error al listar las Planillas del Empleador:...', error);           
+         console.log('Se presentó el siguiente error al listar las Planillas del Empleador:...', error)
      }
  }
  //------------------------------------------------------------------------------------------------ 
@@ -350,7 +350,7 @@ export async function getPayrollEmployer (req, res){
              })
          }                    
      } catch (error) {
-         console.log('Se presentó el siguiente error al listar Empleadores:...', error);           
+         console.log('Se presentó el siguiente error al listar Empleadores:...', error);
      }        
  }
  //------------------------------------------------------------------------------------------------
@@ -379,7 +379,7 @@ export async function getPayrollEmployer (req, res){
             
          }                    
      } catch (error) {
-         console.log('Se presentó el siguiente error al actualizar el estado:...', error);           
+         console.log('Se presentó el siguiente error al actualizar el estado:...', error)
      } 
  }
  //------------------------------------------------------------------------------------------------
@@ -406,6 +406,3 @@ export async function getPayrollEmployer (req, res){
      }
  }
  //------------------------------------------------------------------------------------------------
-
- 
-

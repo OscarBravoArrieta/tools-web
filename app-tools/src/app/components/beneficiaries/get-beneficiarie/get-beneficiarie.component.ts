@@ -37,10 +37,16 @@
      }
      // -------------------------------------------------------------------------------------------
      sendSelectedBeneficiarie(): void {
-         this.idBeneficiarie.emit(this.selectedBeneficiarie);
+         if(this.selectedBeneficiarie){
+             this.idBeneficiarie.emit(this.selectedBeneficiarie);
+
+         }
+
+
      }
      // -------------------------------------------------------------------------------------------
      changeBeneficiaryType(){
+         this.selectedBeneficiarie = ''
          if(this.beneficiaryType == 'B'){
              localStorage.setItem('beneficiaryType','HIJO')
          } else {

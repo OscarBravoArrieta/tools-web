@@ -51,8 +51,14 @@
      }
      // -------------------------------------------------------------------------------------------
      getIdBeneficiarie(e: string): void {
-         this.idBeneficiarie = e
-         localStorage.setItem('currentIdBeneficiarie', this.idBeneficiarie)
+         if (e){
+             this.idBeneficiarie = e
+             localStorage.setItem('currentIdBeneficiarie', this.idBeneficiarie)
+         } else {
+             alert('eMPTY')
+             localStorage.removeItem('currentIdBeneficiarie')
+
+         }
      }
   // -------------------------------------------------------------------------------------------
      async showEmployer() {

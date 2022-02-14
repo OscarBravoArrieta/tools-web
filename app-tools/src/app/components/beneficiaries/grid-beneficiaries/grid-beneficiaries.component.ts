@@ -46,8 +46,9 @@ export class GridBeneficiariesComponent implements OnInit {
   ref: DynamicDialogRef;
   getBeneficiaries():void{
 
+
       this.showSpinner = true;
-      const filter = { status: this.selectedStatus, filterName: 'A', forSearchHelp: false}
+      const filter = { status: this.selectedStatus, filterName: this.selectedStatus, forSearchHelp: false}
       this.httpBeneficiaries.getBeneficiaries(filter).subscribe((data: any) => {
           this.results = data.beneficiaries
           this.getCols(9)
