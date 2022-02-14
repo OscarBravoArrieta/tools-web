@@ -23,4 +23,6 @@ Creación de MVC							: npx sequelize-cli init
 
 El archivo .bablrc le dice ababel que es lo que va a traducir
 
+https://github.com/OscarBravoArrieta/tools-web.git
+
 

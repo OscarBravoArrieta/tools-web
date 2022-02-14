@@ -2,8 +2,8 @@
  const cors = require ( 'cors' )
  const bodyParser = require ( 'body-parser' )
  import morgan from 'morgan'
- 
- 
+ const path = require('path')
+  
  
  // Importing Routes
  import employers from './routers/employers.routes'
@@ -28,13 +28,8 @@
  app.use(json());
 
  // routes
- app.get('/', (req, res) => {
-     res.send(`<h1>Server is running on port 4000...</h1>
-               <h2>Server is running on port 4000...</h2>
-               <h3>Server is running on port 4000...</h3>
-               <h4>Server is running on port 4000...</h4>
-               <h5>Server is running on port 4000...</h5>`)
- })
+
+ app.use('/', express.static('app-tools', {redirect: false}))
  app.use('/api/employers', employers)
  app.use('/api/employees', employees)
  app.use('/api/beneficiaries', beneficiaries)
@@ -42,6 +37,11 @@
  app.use('/api/auth', authRoutes)
  app.use('/api/users', users)
  app.use('/api/roles', roles)
+ app.get('*', function(req, res, next){
+     return res.sendFile(path.resolve('app-tools/index.html'))
+ })
+
+
  
  //console.log('Aleatorio: ',cryptoRandomString({length: 10}))
  
