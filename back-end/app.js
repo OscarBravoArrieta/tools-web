@@ -38,7 +38,7 @@
  app.use('/api/users', users)
  app.use('/api/roles', roles)
  app.get('*', function(req, res, next){
-     return res.sendFile(path.resolve('app-tools/index.html'))
+     //return res.sendFile(path.resolve('app-tools/index.html'))
  })
 
 
