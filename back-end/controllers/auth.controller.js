@@ -7,7 +7,7 @@
  const randomstring = require("randomstring");
  const nodemailer = require("nodemailer");
  require('dotenv').config()
- const ANGULAR_PORT =  process.env.ANGULAR_PORT || 4200
+ const PORT =  process.env.PORT || 4200
  const hostname = process.env.APP_URL || 'localhost';
 
  //-------------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@
                          <h2>Hola, ${name}</h2>
                          <p>Gracias por registrarse. Se le ha asignado un perfil de <strong>CONSULTOR BÁSICO</strong>. Si lo requiere, solicite a su administrador el cambio de perfil.</p>
                          <p>Por favor, active su cuenta haciendo clic en el siguiente enlace</p>
-                         <a href=http://${hostname}:${ANGULAR_PORT}/verify-token-from-email/${token}> Activar cuenta</a>
+                         <a href=http://${hostname}:${PORT}/verify-token-from-email/${token}> Activar cuenta</a>
                          <br>
                       </div>`,
               }).catch(err => console.log('Error al enviar email', err));             
@@ -232,7 +232,7 @@
                          <h1>Confirmar restauración password.</h1>
                          <h2>Hola, ${name}</h2>
                          <p>Para confirmar la restauración de tu password, por favor haz click en el siguiente link</p>
-                         <a href=http://${hostname}:${ANGULAR_PORT}/set-new-password/${token}> Confirmar solicitud</a>
+                         <a href=http://${hostname}:${PORT}/set-new-password/${token}> Confirmar solicitud</a>
                          <br>
                       </div>`,
              }).catch(err => console.log('Error al enviar email', err));             
