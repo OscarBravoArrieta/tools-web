@@ -35,7 +35,9 @@ export class DetailsBeneficiarieComponent implements OnInit {
              beneficiaryType = 'C'
              break
      }
+
     const parameters = { idBeneficiarie: localStorage.getItem('currentIdBeneficiarie'), beneficiaryType: beneficiaryType }
+
     await this.beneficiariesService.getOne(parameters).toPromise().then((data: any) => {
         localStorage.removeItem('currentBeneficiarie')
         this.currentBeneficiarie = data.beneficiarie
@@ -44,6 +46,9 @@ export class DetailsBeneficiarieComponent implements OnInit {
    if (!this.currentBeneficiarie) {console.log('No ha iniciado sesión');}
        this.router.navigate(['/signin'])
    })
+
+
+
 
   }
 

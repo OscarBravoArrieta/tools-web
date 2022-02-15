@@ -51,14 +51,8 @@
      }
      // -------------------------------------------------------------------------------------------
      getIdBeneficiarie(e: string): void {
-         if (e){
-             this.idBeneficiarie = e
-             localStorage.setItem('currentIdBeneficiarie', this.idBeneficiarie)
-         } else {
-             alert('eMPTY')
-             localStorage.removeItem('currentIdBeneficiarie')
-
-         }
+          this.idBeneficiarie = e
+          localStorage.setItem('currentIdBeneficiarie', e)
      }
   // -------------------------------------------------------------------------------------------
      async showEmployer() {
@@ -109,8 +103,10 @@
     }
 
   //await this.getDataBeneficiarie()
-  this.currentBeneficiarie = localStorage.getItem('currentBeneficiarie') || ''
-  this.currentBeneficiarie = JSON.parse(this.currentBeneficiarie)
+  localStorage.setItem('currentIdBeneficiarie', this.idBeneficiarie)
+
+  //this.currentBeneficiarie = localStorage.getItem('currentBeneficiarie') || ''
+  //this.currentBeneficiarie = JSON.parse(this.currentBeneficiarie)
   let nameBeneficiarie = 'Detalles del Beneficiario' //+ this.currentBeneficiarie[0].TIPO_ID_BENEFICIARIO  + ' ' + this.currentBeneficiarie[0].DOCUMENTO_BENEFICIARIO + '-' + this.currentBeneficiarie[0].BENEFICIARIO
 
   this.ref = this.dialogService.open(TabPageBeneficiariesComponent, {
@@ -140,6 +136,7 @@
       await this.employeesService.getOne(filter).toPromise().then((data: any) => {
           localStorage.setItem('currentEmployee', JSON.stringify(data.employee))
           this.currentEmployee = data.employee
+
           localStorage.setItem('currentEmployer', JSON.stringify(this.currentEmployer))
       },(err: any) => {
       if (!this.currentEmployee) {console.log('No ha iniciado sesión');}
@@ -153,6 +150,9 @@
 //     console.log(filter);
 //     await this.beneficiariesService.getOne(filter).toPromise().then((data: any) => {
 //         localStorage.setItem('currentBeneficiarie', JSON.stringify(data.beneficiarie))
+
+//         console.log('Data---->', data)
+
 //         this.currentBeneficiarie = data.beneficiarie
 //         console.log(this.currentBeneficiarie);
 //         localStorage.setItem('currentBeneficiarie', JSON.stringify(this.currentBeneficiarie))

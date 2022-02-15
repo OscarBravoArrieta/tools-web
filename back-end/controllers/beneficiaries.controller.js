@@ -10,6 +10,7 @@
  export async function getOne(req, res) {   
      const idBeneficiarie = req.body.idBeneficiarie 
      const beneficiaryType   = req.body.beneficiaryType
+     
      try {
 
          let beneficiarie
@@ -36,7 +37,7 @@
              res.json({beneficiarie}) 
          }else{
              res.json({
-                 message: 'No hay registros coincidentes...'
+                 message: 'No hay registros coincidentes...->' + idBeneficiarie
              })
          }  
 
