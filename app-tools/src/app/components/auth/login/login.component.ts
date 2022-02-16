@@ -50,6 +50,7 @@
                      localStorage.setItem('toolsToken', res.token);
                      localStorage.setItem('toolsCurrentUser', res.data.id);
                      localStorage.setItem('userName', res.data.name)
+                     localStorage.setItem('userRol', res.data.users_roles[0].fk_id_rol)
                      console.log(res.data.name);
 
                      if (res.passwordExpired){

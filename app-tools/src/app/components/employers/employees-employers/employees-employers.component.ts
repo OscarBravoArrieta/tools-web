@@ -12,6 +12,7 @@ export class EmployeesEmployersComponent implements OnInit, OnDestroy {
      results: any
      showSpinner: boolean = false
      cols: any[]=[]
+     disableExport: boolean = false
 
      constructor(
          private httpEmployers: EmployersService,
@@ -22,6 +23,14 @@ export class EmployeesEmployersComponent implements OnInit, OnDestroy {
 
      ngOnInit(): void {
          this.getEmployeesEmployer()
+         //-- Role assignment
+
+         if(localStorage.getItem('userRol') == '5'){
+             this.disableExport = false
+         } else {
+             this.disableExport = true
+         }
+
      }
      // -----------------------------------------------------------------
      getEmployeesEmployer() {

@@ -1,29 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { BeneficiariesService } from 'src/app/services/beneficiaries.service';
-import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common'
-import * as FileSaver from 'file-saver';
-import { PrimeNGConfig } from 'primeng/api';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ConfirmationService, MessageService} from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
-import { TabPageBeneficiariesComponent } from '../tab-page-beneficiaries/tab-page-beneficiaries.component';
+ import { Component, OnInit } from '@angular/core';
+ import { BeneficiariesService } from 'src/app/services/beneficiaries.service';
+ import { Router } from '@angular/router';
+ import { DatePipe } from '@angular/common'
+ import * as FileSaver from 'file-saver';
+ import { PrimeNGConfig } from 'primeng/api';
+ import { DynamicDialogRef } from 'primeng/dynamicdialog';
+ import { ConfirmationService, MessageService} from 'primeng/api';
+ import { DialogService } from 'primeng/dynamicdialog';
+ import { TabPageBeneficiariesComponent } from '../tab-page-beneficiaries/tab-page-beneficiaries.component';
 
-@Component({
-  selector: 'app-grid-beneficiaries',
-  templateUrl: './grid-beneficiaries.component.html',
-  styleUrls: ['./grid-beneficiaries.component.css'],
-  providers: [ConfirmationService, DatePipe, MessageService, DialogService, MessageService]
-})
-export class GridBeneficiariesComponent implements OnInit {
-  results: any
-  showSpinner: boolean = false
-  cols: any[]=[]
-  totalRecords: number = 0
-  status: any[]=[]
-  selectedStatus: string = ''
-  cutOffDate: Date = new(Date)
-  reportTitle: string = 'Catálogo de beneficiarios'
+ @Component({
+     selector: 'app-grid-beneficiaries',
+     templateUrl: './grid-beneficiaries.component.html',
+     styleUrls: ['./grid-beneficiaries.component.css'],
+     providers: [ConfirmationService, DatePipe, MessageService, DialogService, MessageService]
+ })
+ export class GridBeneficiariesComponent implements OnInit {
+     results: any
+     showSpinner: boolean = false
+     cols: any[]=[]
+     totalRecords: number = 0
+     status: any[]=[]
+     disableExport: boolean = false
+     selectedStatus: string = ''
+     cutOffDate: Date = new(Date)
+     reportTitle: string = 'Catálogo de beneficiarios'
 
   constructor(
       private httpBeneficiaries: BeneficiariesService,
@@ -35,13 +36,24 @@ export class GridBeneficiariesComponent implements OnInit {
 
   ngOnInit(): void {
 
-      this.showSpinner = false;
-      this.primengConfig.ripple = true;
-      this.status = [
-          {name: 'Activo', value: 'A'},
-          {name: 'Inactivo', value: 'I'},
-          {name: 'Difunto', value: 'M'}
-      ]
+     this.showSpinner = false;
+     this.primengConfig.ripple = true;
+     this.status = [
+         {name: 'Activo', value: 'A'},
+         {name: 'Inactivo', value: 'I'},
+         {name: 'Difunto', value: 'M'}
+     ]
+
+     //-- Role assignment
+
+     if(localStorage.getItem('userRol') == '5'){
+         this.disableExport = false
+     } else {
+         this.disableExport = true
+     }
+
+
+
    }
   ref: DynamicDialogRef;
   getBeneficiaries():void{
@@ -69,17 +81,17 @@ export class GridBeneficiariesComponent implements OnInit {
   //--------------------------------------------------------------------------------------------
 
   showBeneficiarie(currentBeneficiarie: any) {
-       let nameBeneficiarie = 'Beneficiario: '+ currentBeneficiarie.TIPO_ID_BENEFICIARIO + ' ' + currentBeneficiarie.DOCUMENTO_BENEFICIARIO + '-' + currentBeneficiarie.BENEFICIARIO
-       localStorage.setItem('currentIdBeneficiarie', currentBeneficiarie.CODIGO_BENEFICIARIO)
-       localStorage.setItem('beneficiaryType', currentBeneficiarie.PARENTESCO)
+     let nameBeneficiarie = 'Beneficiario: '+ currentBeneficiarie.TIPO_ID_BENEFICIARIO + ' ' + currentBeneficiarie.DOCUMENTO_BENEFICIARIO + '-' + currentBeneficiarie.BENEFICIARIO
+     localStorage.setItem('currentIdBeneficiarie', currentBeneficiarie.CODIGO_BENEFICIARIO)
+     localStorage.setItem('beneficiaryType', currentBeneficiarie.PARENTESCO)
 
-       this.ref = this.dialogService.open(TabPageBeneficiariesComponent, {
-           header: nameBeneficiarie || '',
-           closable: true,
-           width: '60%',
-           contentStyle: {"max-height": "700px", "min-height": "700px", "overflow": "auto"},
-           baseZIndex: 10000
-       });
+     this.ref = this.dialogService.open(TabPageBeneficiariesComponent, {
+         header: nameBeneficiarie || '',
+         closable: true,
+         width: '60%',
+         contentStyle: {"max-height": "700px", "min-height": "700px", "overflow": "auto"},
+         baseZIndex: 10000
+     });
  }
 
   customToast(severity: string, summary: string, detail: string) {

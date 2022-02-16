@@ -20,7 +20,7 @@
                     <p-progressSpinner *ngIf="showSpinner" [style]="{width: '30px', height: '30px'}" styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
                  </div>
                 <div class="p-field mb-3 ml-3" *ngIf="results?.length">
-                    <button type="button" label="Exportar a Excel" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-sm"  tooltip="XLS" tooltipPosition="bottom"></button>
+                    <button type="button" label="Exportar a Excel" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-sm"  tooltip="XLS" tooltipPosition="bottom" [disabled]="!disableExport"></button>
                 </div>
              </div>
          </div>

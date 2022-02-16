@@ -7,7 +7,8 @@
  const randomstring = require("randomstring");
  const nodemailer = require("nodemailer");
  require('dotenv').config()
- const PORT =  process.env.PORT || 4200
+ const { Op } = require("sequelize")
+ const PORT =  process.env.PORT || 3000
  const hostname = process.env.APP_URL || 'localhost';
 
  //-------------------------------------------------------------------------------------------------
@@ -117,7 +118,7 @@
                  },
               ]
          })
-         console.log('Warning...', userToLog)
+         //console.log('Warning...', userToLog.users_roles[0].dataValues.fk_id_rol)
          if (userToLog){
              if (!userToLog.status){ //If user.status is inactive   
                  return res.json({
@@ -184,7 +185,8 @@
                            ['email', 'EMAIL']
                          ],
              where: {
-                 cedtra: id_number
+                 cedtra: id_number,
+                 nit: {[Op.in]: ['890480110', '806003082']}
              }
          })
         if (nameEmployee){

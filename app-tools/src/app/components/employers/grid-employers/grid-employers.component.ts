@@ -20,6 +20,7 @@ export class GridEmployersComponent implements OnInit {
      results: any
      cols: any[]=[]
      status: any[]=[]
+     disableExport: boolean = false
      selectedStatus: string = ''
      cutOffDate: Date = new(Date)
      showSpinner: boolean = false
@@ -49,6 +50,13 @@ export class GridEmployersComponent implements OnInit {
      ngOnInit(): void {
          this.showSpinner = false;
          this.primengConfig.ripple = true
+     //-- Role assignment
+
+      if(localStorage.getItem('userRol') == '5'){
+         this.disableExport = false
+       } else {
+         this.disableExport = true
+       }
      }
      // -------------------------------------------------------------------------------------------
       async showEmployer(currentEmployer: any) {
