@@ -8,6 +8,7 @@
  import { AuthService } from 'src/app/services/auth.service';
  import { Router } from '@angular/router';
  import { DatePipe } from '@angular/common'
+ import { saveAs } from 'file-saver';
 
  @Component({
      selector: 'app-update-status',

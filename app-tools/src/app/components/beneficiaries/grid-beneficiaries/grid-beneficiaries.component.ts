@@ -2,7 +2,10 @@
  import { BeneficiariesService } from 'src/app/services/beneficiaries.service';
  import { Router } from '@angular/router';
  import { DatePipe } from '@angular/common'
- import * as FileSaver from 'file-saver';
+  import * as FileSaver from 'file-saver';
+ //import { FileSaver } from 'file-saver';
+ import { saveAs } from 'file-saver';
+ import { tap, map } from 'rxjs/operators'
  import { PrimeNGConfig } from 'primeng/api';
  import { DynamicDialogRef } from 'primeng/dynamicdialog';
  import { ConfirmationService, MessageService} from 'primeng/api';

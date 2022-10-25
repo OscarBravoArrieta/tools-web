@@ -1,11 +1,14 @@
-<div *ngIf="showMenu else loginTemplate" styleClass = 'font-content'>
-     <p-menubar [model]="items" class="font-content">
-         <button type="button" pButton pRipple icon="pi pi-user" class="p-button-rounded p-button-info" (click)="menu.toggle($event)"></button>
-         <p-menu #menu [popup]="true" [model]="itemsLogout" class = 'font-content'></p-menu>
-     </p-menubar>
-</div>
-<ng-template #loginTemplate>
-     <p-menubar class="font-content">
-         <button pButton label="Iniciar sesión" icon="pi pi-sign-in" class="font-content mr-2" [routerLink]="['/signin']" ></button>
-     </p-menubar>
-</ng-template>
+     <div *ngIf="showMenu else loginTemplate" styleClass = 'font-content'>
+        <p-menubar [model]="items" class="font-content">
+            <button type="button" pButton pRipple icon="pi pi-user" class="p-button-rounded p-button-info" (click)="menu.toggle($event)"></button>
+            <p-menu #menu [popup]="true" [model]="itemsLogout" class = 'font-content'></p-menu>
+        </p-menubar>
+     </div>
+     <ng-template #loginTemplate >
+         <p-menubar class="font-content">
+             <button pButton label="Iniciar sesión" icon="pi pi-sign-in" class="font-content mr-2" [routerLink]="['/signin']" ></button>
+         </p-menubar>
+     </ng-template>
+ <!-- <div class = "layout-topbar">
+ </div> -->
+

@@ -11,14 +11,19 @@ para escribir codigo moderno javascript     : npm install @babel/polyfill
 Para instalación de babel-node              : npm i -g  @babel/node 
 Genera códigos de verificación aleatorios   : npm install crypto-random-string
 Para emnvío de correos                      : npm install nodemailer
+Para hacer cargas y descargas por http      : npm install file-saver
+Para el tipado de los archivos              : npm install @types/file-saver --save-dev
+Para tratamiento de archivos                : npm install connect-multiparty
+                                                          
 
 Instalación módulos complementarios:
 npm install --save-dev @babel/core @babel/cli @babel/preset-env
 
-reiniciar el código                     : npm install nodemon -D
-                                        : npm install @babel/node -D
-Para instalar la CLI de Sequelize:      : npm install --save-dev sequelize-cli
-Creación de MVC							: npx sequelize-cli init
+reiniciar el código                         : npm install nodemon -D
+                                            : npm install @babel/node -D
+Para instalar la CLI de Sequelize:          : npm install --save-dev sequelize-cli
+Creación de MVC							    : npx sequelize-cli init
+
 
 
 El archivo .bablrc le dice ababel que es lo que va a traducir

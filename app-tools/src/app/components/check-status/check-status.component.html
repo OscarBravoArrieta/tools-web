@@ -3,6 +3,10 @@
      [style]="{width: '100%'}" >
      <ng-template pTemplate="header" >
       <div class="font-title ml-3 mt-2" [ngStyle]="{color:'var(--green-600)'}">Consulta de estado</div>
+      <p>
+          <input type="file" (change)="onUpload($event)" >
+      </p>
+      <!-- https://www.youtube.com/watch?v=-BVrRGrBhBA Subir un archivo con NodeJS, Express & Angular -->
       <p-divider></p-divider>
       <p *ngIf="selectedQuery == 'B' " class="font-content ml-3" style="color: red;">IMPORTANTE: En lo posible, se recomienda hacer la consulta por<strong><em>CÓDIGO DE BENEFICIARIO</em></strong></p>
 

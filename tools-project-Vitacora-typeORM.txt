@@ -1,24 +1,49 @@
+
+CREACIÓN DE UN MENÚ DINÁMICO
+ id
+ label
+ icon
+ routerLink
+ father
+ order
+ created_at
+ updated_at
+
+ROLES
+    READ ONLY / Solo lectura: Solo puede consultar los registros individuales de población.
+    EXPORT / Exportar: Hereda de Read Only y además puede exportar a excel la información d epoblación
+    UPDATE / Acualización: Hereda de Read Only y de de Export, además puede actualizar estados
+    ADMIN : Tiene acceso a todas la opciones
+
 AFILIACIONES Y APORTES
  
 	 - ACTUALIZACIONS
-
-		 - Actualización masiva de formas de pago
-		 - Actualización masiva de estados de trabajadores
-		 - Cambio de empleador
+		 - Actualización estados de empleadores
+       - Actualización estados de trabajadores
+       - Actualización estado de beneficiario
 		 
-	 - INFORMES Y CERTIFICADOS
-	 
-		 - Certificados de afilaición - Trabajadores
-		 - Certificado de aportes - Empresas
-		 - Consulta de novedades de afiliado
+	 - POBLACIÓN
 		 - Listado de empresas
 		 - Listado de afiliados
 		 - Listado de beneficiarios
+       - Consultar empleador
+       - Consultar trabajador
+       - Cosultar beneficiarios
+     
  
 CREDITO Y CARTERA
 
 	 - Construcción de archivo de pagos de pignoración
 	 - Encriptar archivo de pagos por pignoración	
+
+GESTION DE TAJETAS
+	 1. Solicitud de Generación de Tarjetas
+     2. Notificación de Generación de Tarjetas
+     3. Notificación de Rechazos en la Solicitud de Generación de Tarjetas (Error Log)
+     4. Solicitud de Cargue Monetario
+     5. Notificación de Rechazos de Carga de Valores (Error Log)
+     6. Solicitud de Bloqueos o Desbloqueos de Tarjetas
+     7. Notificación de Rechazos de Solicitud de Bloqueos o Desbloqueos de Tarjetas (Error Log)
 	 
 
  Fornt-end ------------------------------------------------------
@@ -158,7 +183,7 @@ id_father
 
 
 
-Crear el perfil básico junto con la creación del usuario
+
 Crear el módulo de acualización de usuarios para asignar/quitar perfiles
 Estandarizar los mensajes de error
 Mostrar los correos con una mascara, asi: O***************A@GMAIL.COM
@@ -166,6 +191,7 @@ Colocar una umagen de fondo, una marca de agua
 Capturar el erorr: http://localhost:4000/api/employees/getEmployeesToCheckStatus/ 401 (Unauthorized)
 Colocar una nota alusiva a la incativación del beneficiario
 --------------------------------------------------------
+Crear el perfil básico junto con la creación del usuario-LISTO-
 Colocar opcionalmente el codigo y/o documento del beneficiario para consultar el estado-LISTO
 Publicar La aplicación-LISTO-
 Establecer de cuales NIT, son los empleados que pueden acceder al aplicativo-LISTO-

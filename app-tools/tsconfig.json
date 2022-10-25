@@ -26,7 +26,7 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
-    "strictDomEventTypes": false,
+    "strictDomEventTypes": false, /*To resolve: Property 'value' does not exist on type 'EventTarget'*/
     "strictPropertyInitialization": false
   }
 }

@@ -1,4 +1,5 @@
  import { Component, OnInit } from '@angular/core';
+ import { saveAs } from 'file-saver';
  import { MessageService } from 'primeng/api'
  import { EmployersService } from 'src/app/services/employers.service'
  import { EmployeesService } from 'src/app/services/employees.service';
@@ -6,7 +7,7 @@
  import { DatePipe } from '@angular/common'
  import { BeneficiariesService } from 'src/app/services/beneficiaries.service';
  import { Router } from '@angular/router';
-
+ import { FilesService } from 'src/app/services/files.service';
 
  @Component({
      selector: 'app-check-status',
@@ -25,6 +26,7 @@
      totalRecords: number = 0
      reportTitle: string = 'Registros'
      showSpinner: boolean = false
+     fileToUpload = ''
 
      constructor(
          public messageService: MessageService,
@@ -33,7 +35,8 @@
          private httpBeneficiaries: BeneficiariesService,
          private authService: AuthService,
          public datepipe: DatePipe,
-         private router: Router
+         private router: Router,
+         private filesService: FilesService
      ) { }
      // -------------------------------------------------------------------------------------------
 
@@ -253,5 +256,19 @@
          var blob = new Blob([csvArray], {type: 'text/csv' })
          saveAs(blob, 'VerificarEstado - ' + this.datepipe.transform(new Date(), 'yyyy-MM-dd') + '-' + new Date().getTime() + ".csv");
          this.showSpinner = false
+     }
+     onUpload(event: Event) {
+
+         const element = event.target as HTMLInputElement
+         console.log(element)
+         const file = element.files?.item(0)
+         if (file) {
+             this.filesService.uploadFile(file)
+             .subscribe(rta => {
+                 this.fileToUpload = rta.location
+                 console.log('Test...',rta)
+
+             })
+         }
      }
 }

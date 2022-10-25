@@ -13,7 +13,7 @@ import * as FileSaver from 'file-saver';
   selector: 'app-grid-employers',
   templateUrl: './grid-employers.component.html',
   styleUrls: ['./grid-employers.component.css'],
-  providers: [ConfirmationService, MessageService, DatePipe, MessageService, DialogService, MessageService]
+  providers: [ConfirmationService, MessageService, DatePipe, DialogService]
 })
 export class GridEmployersComponent implements OnInit {
 

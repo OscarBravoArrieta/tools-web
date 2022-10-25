@@ -9,6 +9,7 @@ import { PrimeNGConfig } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import * as FileSaver from 'file-saver';
+import { saveAs } from 'file-saver';
 
 
 @Component({

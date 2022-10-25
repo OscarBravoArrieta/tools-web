@@ -3,6 +3,7 @@
  import { DatePipe } from '@angular/common'
  import { EmployersService } from 'src/app/services/employers.service';
  import { Router } from '@angular/router';
+ import { saveAs } from 'file-saver';
 
  @Component({
      selector: 'app-payroll-report',
