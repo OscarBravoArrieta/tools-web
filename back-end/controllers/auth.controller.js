@@ -8,7 +8,7 @@
  const nodemailer = require("nodemailer");
  require('dotenv').config()
  const { Op } = require("sequelize")
- const PORT =  process.env.PORT || 3000
+ const PORT =  process.env.ANGULAR_PORT || 4200
  const hostname = process.env.APP_URL || 'localhost';
 
  //-------------------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@
                  service: 'Gmail',
                  auth: {
                      user: 'comfa.edusoft@comfamiliar.org.co',
-                     pass: 'Edusoft2021***'
+                     pass: 'Edus0ft2**'
                  }
               })
               
@@ -221,7 +221,7 @@
                  service: 'Gmail',
                  auth: {
                      user: 'comfa.edusoft@comfamiliar.org.co',
-                     pass: 'Edusoft2021***'
+                     pass: 'Edus0ft2**'
                  }
              })
              

@@ -3,6 +3,7 @@
  const bodyParser = require ( 'body-parser' )
  import morgan from 'morgan'
  const path = require('path')
+ 
   
  
  // Importing Routes
@@ -13,6 +14,7 @@
  import users from './routers/users.routes'
  import roles from './routers/roles.routes'
  import relatedTables from './routers/related-tables.routes'
+ import flat_files from './routers/flat_files.routes'
  
 
  // Initializations
@@ -27,6 +29,7 @@
  app.use(morgan('dev'));
  app.use(json());
 
+
  // routes
 
  app.use('/', express.static('app-tools', {redirect: false}))
@@ -37,6 +40,7 @@
  app.use('/api/auth', authRoutes)
  app.use('/api/users', users)
  app.use('/api/roles', roles)
+ app.use('/api/flat_files', flat_files)
  app.get('*', function(req, res, next){
      return res.sendFile(path.resolve('app-tools/index.html'))
  })
